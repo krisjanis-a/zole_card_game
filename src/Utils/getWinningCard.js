@@ -1,0 +1,1 @@
+function getWinningCard( cardIDs ,cards)
