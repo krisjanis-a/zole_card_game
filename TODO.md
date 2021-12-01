@@ -1,4 +1,14 @@
 ## TODOs
 
-- [ ] Item1
-- [x] Item2
+[I] Not started yet
+
+- [ ] Get React.js working
+  - [ ]
+- [ ]
+
+[II] Started & Not finished
+
+- [ ]
+- [ ]
+
+[III].
