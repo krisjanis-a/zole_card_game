@@ -1,11 +1,17 @@
 # TODOs
 
+---
+
 Not started
 
 - [ ] Get React working
 - [ ] Create UI
 
+---
+
 Started & Not Finished
+
+---
 
 Finished
 
