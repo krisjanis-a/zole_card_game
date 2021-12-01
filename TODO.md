@@ -7,9 +7,8 @@ Not started
 
 Started & Not Finished
 
-- [ ] Webpack configuring
-  - [ ] Resolve extensions => import fix from ".../name.js" to ".../name"
-
 Finished
 
 - [x] Create Cards .json file
+- [x] Webpack basic configuration
+  - [x] Resolve extensions => import fix from ".../name.js" to ".../name"
