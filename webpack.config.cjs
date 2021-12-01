@@ -24,12 +24,14 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: "bundle.js",
+    publicPath: "./dist",
   },
   plugins: [
     new HtmlWebpackPlugin({ template: "./src/SimpleReactUI/index.html" }),
     new webpack.HotModuleReplacementPlugin(),
   ],
   devServer: {
+    static: "./dist",
     contentBase: path.resolve(__dirname, "./dist"),
     hot: true,
   },
