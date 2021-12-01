@@ -9,6 +9,8 @@ Not started
 - [ ] In-Game Display
   - [ ] Card component
   - [ ] Environment & Assets
+- [ ] Animate card dealing process
+- [ ] Animate putting cards on table on top of each other
 
 ---
 
