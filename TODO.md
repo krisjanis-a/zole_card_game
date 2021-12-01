@@ -6,10 +6,15 @@ Not started
 
 - [ ] Get React working
 - [ ] Create UI
+- [ ] In-Game Display
+  - [ ] Card component
+  - [ ] Environment & Assets
 
 ---
 
 Started & Not Finished
+
+`none`
 
 ---
 
