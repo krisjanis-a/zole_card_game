@@ -1,7 +1,11 @@
 import React from "react";
 
 const GameScreen = () => {
-  return <div></div>;
+  return (
+    <div>
+      <h1>This is GameScreen</h1>
+    </div>
+  );
 };
 
 export default GameScreen;

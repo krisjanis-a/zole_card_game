@@ -8,12 +8,10 @@ const MainMenu = () => {
       <Link to="./session">
         <Button buttonName="Start Session" />
       </Link>
-      <Link>
+      <Link to="./settings">
         <Button buttonName="Settings" />
       </Link>
-      <Link>
-        <Button buttonName="Exit Game" />
-      </Link>
+      <Button buttonName="Exit Game" />
     </div>
   );
 };
