@@ -1,4 +1,3 @@
 ## TODOs
 
-[] Item1
-[x] Item2
+-[] Item1 -[x] Item2
