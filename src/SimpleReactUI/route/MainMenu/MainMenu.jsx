@@ -5,15 +5,15 @@ import Button from "../../component/Button/Button";
 const MainMenu = () => {
   return (
     <div className="mainMenu">
-      <Link to="/session">
-        <Button buttonName="Start Session" />
-      </Link>
-      <Link>
-        <Button buttonName="Settings" />
-      </Link>
-      <Link>
-        <Button buttonName="Exit Game" />
-      </Link>
+      {/* <Link to="/session"> */}
+      <Button buttonName="Start Session" />
+      {/* </Link> */}
+      {/* <Link> */}
+      <Button buttonName="Settings" />
+      {/* </Link> */}
+      {/* <Link> */}
+      <Button buttonName="Exit Game" />
+      {/* </Link> */}
     </div>
   );
 };

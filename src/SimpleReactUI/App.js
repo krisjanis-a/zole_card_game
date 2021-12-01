@@ -7,10 +7,11 @@ function App() {
   return (
     <div>
       <h1>Welcome to Zole - Card Game</h1>
+      <MainMenu />
       <Router>
         <Routes>
-          <Route exact={true} path="" element={<MainMenu />} />
-          <Routes path="session" element={<Session />} />
+          <Route path="/" element={<MainMenu />} />
+          <Route path="/session" element={<Session />} />
         </Routes>
       </Router>
     </div>

@@ -44,6 +44,15 @@ User can decide whether to play single player against computer AI players or onl
 
 
 
+	<- TODOs ->
+
+Get React working
+	- router
+	- fix component/file imports from ".../name.js" to ".../name" => resolve extensions <= figure out
+	- 
+
+
+
 	<- Ideas / Brainstorm ->
 
 
