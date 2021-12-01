@@ -1,14 +1,15 @@
-## TODOs
+# TODOs
 
-[I] Not started yet
+Not started
 
-- [ ] Get React.js working
-- - [ ]
-- [ ]
+- [ ] Get React working
+- [ ] Create UI
 
-[II] Started & Not finished
+Started & Not Finished
 
-- [ ]
-- [ ]
+- [ ] Webpack configuring
+  - [ ] Resolve extensions => import fix from ".../name.js" to ".../name"
 
-[III].
+Finished
+
+- [x] Create Cards .json file

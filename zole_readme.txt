@@ -45,12 +45,3 @@ User can decide whether to play single player against computer AI players or onl
 
 
 	<- Ideas / Brainstorm ->
-
-
-Kur taisīt - vienkārši kā modulāru JS vai ar framework (manā gadījumā ar React)?
-
-	- Domāju, ka jātaisa ar React, jo tur modularitāte jau ir integrāla daļa un React ir labi zināt -> būs jāiemācās padziļināti šai procesā.
-
-Kādām platformām tēmēt?
-
-	- Sākumā jāuztaisa browser versija. Vēlāk var domāt par mobilajām un desktop versijām
