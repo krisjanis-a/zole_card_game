@@ -3,6 +3,7 @@
 /**
  * @param {Array} deck Array of card IDs in shuffled form
  * @param {Number} numberOfPlayers number of players (for standard Zole Game === 3)
+ * @summary Deal equal amount of cards to any amount of players and leave remainder of cards to table (last hands array element)
  *  */
 
 function dealCards(deck, numberOfPlayers) {
