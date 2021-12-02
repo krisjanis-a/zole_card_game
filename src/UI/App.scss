@@ -1,0 +1,20 @@
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100vw;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: 0;
+  max-width: 1200px;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}

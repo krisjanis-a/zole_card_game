@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "../../component/Button/Button";
+import "./MainMenu.css";
 
 const MainMenu = () => {
   return (
@@ -11,7 +12,6 @@ const MainMenu = () => {
       <Link to="./settings">
         <Button buttonName="Settings" />
       </Link>
-      <Button buttonName="Exit Game" />
     </div>
   );
 };

@@ -1,11 +1,16 @@
+import "./PlayerHand.css";
 import React from "react";
 import Card from "../Card/Card";
 
 const PlayerHand = ({ playerHand }) => {
   return (
-    <div>
+    <div className="playerHand">
       {playerHand.map((card) => (
-        <Card cardId={card.cardId} />
+        <Card
+          cardId={card}
+          path={`../../src/assets/CardSet/${card}.png`}
+          key={card}
+        />
       ))}
     </div>
   );

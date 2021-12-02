@@ -1,9 +1,10 @@
 import React from "react";
+import PlayerHand from "../PlayerHand/PlayerHand";
 
 const GameScreen = () => {
   return (
     <div>
-      <h1>This is GameScreen</h1>
+      <PlayerHand playerHand={[1, 2, 6, 7]} />
     </div>
   );
 };

@@ -28,5 +28,6 @@ module.exports = merge(common, {
   },
   devServer: {
     static: "./",
+    historyApiFallback: true,
   },
 });
