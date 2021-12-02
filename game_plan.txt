@@ -1,0 +1,137 @@
+
+|==============================================|
+|=			  <= Zole Game Plan =>  		  =|
+|==============================================|
+
+I.I
+
+What are the main parts of the game?
+
+	- Game Logic
+	- Game Visuals / Graphics
+
+|==============================================|
+
+I.II
+
+What tasks are there in each of these parts?
+________________________________________________
+
+-> Game Logic
+
+	--> Objects / Models
+
+		- Player Info
+		- Cards
+		- Decks
+
+	--> Computer Player AI
+
+	--> Code / Scripts
+
+		- Calculate game score
+
+	--> Rules of the game
+
+	--> LeaderBoards & Database
+
+	--> Score keeping
+
+	--> 
+
+	...
+________________________________________________
+
+-- Game Visuals / Graphics
+
+	--> Learn three.js & WebGL & Blender
+
+	--> Create 3D models (.gltf & Blender Files)
+
+	--> Connecting logic with 3D models
+
+	--> Create visualizations & sync them together cohesively
+
+	...
+________________________________________________
+
+-- Random questions / problems / ideas
+
+	--> While developing logic should create simple html/css UI not to have to work in terminal all the time, especially when Flow Testing 
+
+	- How to deal cards?
+
+	- How to randomize Decks
+
+	- How to position objects in the world?
+
+	- How to create global time for different events / animations that need to happen in the game?
+
+	- Where do we need to use three.js/WebGL and where html/css/javascript is sufficient?
+
+	- Dealing with framerate
+
+	- Set the leader of trick / move
+
+	- Should I operate with cardIDs instead of card Objects?
+			-> Pros cardIDs
+				+ smaller array of data => only IDs
+				+ smaller chance of making spelling mistakes due to naming (number vs multi-word name...)
+				+ easier to iterate
+
+			-> Cons cardIDs
+				- lengthier data access process
+				- less data
+
+			-> Pros Card Object
+				+ more data available
+				+ quicker access to all data / less steps
+
+			-> Cons Card Object
+				- need to go through cards object to get to specific card object
+				- using multi-word name as keys makes it prone to errors
+				- harder to iterate
+				- larger data structure
+
+
+			===> Going with cardIDs method for now...
+
+	- ... ?
+
+|==============================================|
+
+I.III Card Strengths
+
+Cards in ascending order of strength ([n] - card count with specific strength)
+
+(0) - 9 of Hearts / Spades / Clubs [3]
+
+(1) - King of Hearts / Spades / Clubs [3]
+
+(2) - 10 of Hearts / Spades / Clubs [3]
+
+(3) - Ace of Hearts / Spades / Clubs [3]
+
+(4) - 7 of Diamonds [1]
+(5) - 8 of Diamonds [1]
+(6) - 9 of Diamonds [1]
+(7) - King of Diamonds [1]
+(8) - 10 of Diamonds [1]
+(9) - Ace of Diamonds [1]
+
+(10) - Jack of Diamonds [1]
+(11) - Jack of Hearts [1]
+(12) - Jack of Spades [1]
+(13) - Jack of Clubs [1]
+ 
+(14) - Queen of Diamonds [1]
+(15) - Queen of Hearts [1]
+(16) - Queen of Spades [1]
+(17) - Queen of Clubs [1] 
+
+|==============================================|
+
+Glossary
+
+	-> trick : move or "gājiens"
+	-> 
