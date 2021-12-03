@@ -3,6 +3,8 @@ import React from "react";
 import Card from "../Card/Card";
 
 const PlayerHand = ({ playerHand }) => {
+  playerHand = playerHand.sort((a, b) => a - b);
+
   return (
     <div className="playerHand">
       {playerHand.map((card) => (

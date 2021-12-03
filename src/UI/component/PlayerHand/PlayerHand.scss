@@ -1,3 +1,14 @@
 .playerHand {
   display: flex;
+  margin: 3rem;
+
+  .card {
+    margin-left: -2.5rem;
+    transform: translateX(1.25rem);
+  }
+  .card:hover {
+    z-index: 10;
+    transform: translateY(-5%);
+    cursor: pointer;
+  }
 }

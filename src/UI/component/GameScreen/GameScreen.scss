@@ -1,9 +1,14 @@
 .gameScreen {
   position: relative;
+  width: 100%;
+  height: 80vh;
+
+  background-color: teal;
 }
 
-.playerHandContainer {
+.playerHand {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translatex(-50%);
+  bottom: 0;
 }

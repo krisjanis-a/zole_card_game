@@ -6,6 +6,7 @@ import "./MainMenu.scss";
 const MainMenu = () => {
   return (
     <div className="mainMenu">
+      <h1>Welcome to Zole - Card Game</h1>
       <Link to="./session">
         <Button buttonName="Start Session" type="main" />
       </Link>

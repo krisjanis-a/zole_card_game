@@ -8,10 +8,10 @@ const Session = () => {
 
   return (
     <div className="session">
+      <GameScreen />
       <Link to="/">
         <Button buttonName="Return to Menu" type="main" />
       </Link>
-      <GameScreen />
     </div>
   );
 };

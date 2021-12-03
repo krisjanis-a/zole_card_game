@@ -10,7 +10,6 @@ import Settings from "./route/Settings/Settings";
 function App() {
   return (
     <div className="app">
-      <h1>Welcome to Zole - Card Game</h1>
       <Router>
         <Routes>
           <Route exact path="/" element={<MainMenu />} />

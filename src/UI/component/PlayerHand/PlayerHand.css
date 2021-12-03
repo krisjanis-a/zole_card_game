@@ -2,5 +2,19 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  margin: 3rem;
+}
+
+.playerHand .card {
+  margin-left: -2.5rem;
+  -webkit-transform: translateX(1.25rem);
+          transform: translateX(1.25rem);
+}
+
+.playerHand .card:hover {
+  z-index: 10;
+  -webkit-transform: translateY(-5%);
+          transform: translateY(-5%);
+  cursor: pointer;
 }
 /*# sourceMappingURL=PlayerHand.css.map */

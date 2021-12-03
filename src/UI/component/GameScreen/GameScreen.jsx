@@ -30,9 +30,9 @@ const GameScreen = () => {
 
   return (
     <div className="gameScreen">
-      <PlayerHand playerHand={playerHand} />
-      <OpponentHand opponentHand={computerHand1} />
-      <OpponentHand opponentHand={computerHand2} />
+      <PlayerHand playerHand={playerHand} seat={1} />
+      <OpponentHand opponentHand={computerHand1} seat={2} />
+      <OpponentHand opponentHand={computerHand2} seat={3} />
       <TableHand tableCards={table} />
       <MoveCards moveCards={moveCards} />
     </div>

@@ -12,6 +12,7 @@ body {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   max-width: 1200px;
+  background-color: grey;
 }
 
 .app {
