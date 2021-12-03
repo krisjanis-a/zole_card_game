@@ -1,0 +1,9 @@
+.gameScreen {
+  position: relative;
+}
+
+.playerHandContainer {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}

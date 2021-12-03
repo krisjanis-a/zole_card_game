@@ -45,3 +45,5 @@ User can decide whether to play single player against computer AI players or onl
 
 
 	<- Ideas / Brainstorm ->
+
+How to handle in game state? Redux...?
