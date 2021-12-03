@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,WAAW,CAAC;EACV,QAAQ,EAAE,QAAQ;EAClB,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;EAEZ,gBAAgB,EAAE,IAAI;CACvB;;AAED,AAAA,WAAW,CAAC;EACV,QAAQ,EAAE,QAAQ;EAClB,IAAI,EAAE,GAAG;EACT,SAAS,EAAE,gBAAgB;EAC3B,MAAM,EAAE,CAAC;CACV",
-    "sources": [
-        "GameScreen.scss"
-    ],
-    "names": [],
-    "file": "GameScreen.css"
-}
