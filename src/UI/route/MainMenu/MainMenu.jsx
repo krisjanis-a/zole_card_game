@@ -7,10 +7,10 @@ const MainMenu = () => {
   return (
     <div className="mainMenu">
       <Link to="./session">
-        <Button buttonName="Start Session" />
+        <Button buttonName="Start Session" type="main" />
       </Link>
       <Link to="./settings">
-        <Button buttonName="Settings" />
+        <Button buttonName="Settings" type="main" />
       </Link>
     </div>
   );

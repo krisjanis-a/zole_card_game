@@ -1,8 +1,9 @@
 import React from "react";
+import "./Button.scss"
 
 const Button = ({ buttonName, type }) => {
   return (
-    <div>
+    <div className={`button-${type}`}>
       <button>{buttonName}</button>
     </div>
   );

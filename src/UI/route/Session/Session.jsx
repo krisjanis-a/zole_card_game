@@ -7,7 +7,7 @@ const Session = () => {
   return (
     <div className="session">
       <Link to="/">
-        <Button buttonName="Return to Menu" />
+        <Button buttonName="Return to Menu" type="main"/>
       </Link>
       <GameScreen />
     </div>

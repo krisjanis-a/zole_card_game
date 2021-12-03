@@ -12,6 +12,8 @@ Not started
 - [ ] Animate card dealing process
 - [ ] Animate putting cards on table on top of each other
 
+- [ ] Connect engine with UI
+
 ---
 
 Started & Not Finished
