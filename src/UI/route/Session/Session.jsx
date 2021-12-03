@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import Button from "../../component/Button/Button";
 
 const Session = () => {
-  const { currentMoveCards, setCurrentMoveCards } = useState([]);
-
   return (
     <div className="session">
       <GameScreen />
