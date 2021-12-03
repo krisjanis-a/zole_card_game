@@ -1,5 +1,5 @@
 html {
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
   width: 100vw;
@@ -8,7 +8,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  box-sizing: 0;
+  box-sizing: border-box;
   max-width: 1200px;
 }
 

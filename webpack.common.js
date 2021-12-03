@@ -6,22 +6,19 @@ module.exports = {
     rules: [
       {
         test: /\.html$/,
-        use: ["html-loader"],
-      },
-      {
-        test: /\.(svg|png|jpg|gif)$/,
-        use: {
-          loader: "file-loader",
-          options: {
-            name: "[name].[hash].[ext]",
-            outputPath: "assets",
+        use: [
+          {
+            loader: "html-loader",
+            options: {
+              minimize: true,
+            },
           },
-        },
+        ],
       },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ["babel-loader", "eslint-loader"],
+        use: ["babel-loader"],
       },
       {
         test: /\.css$/,

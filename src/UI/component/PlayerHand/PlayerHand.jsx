@@ -1,4 +1,4 @@
-import "./PlayerHand.css";
+import "./PlayerHand.scss";
 import React from "react";
 import Card from "../Card/Card";
 

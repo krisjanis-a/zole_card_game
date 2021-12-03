@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "../../component/Button/Button";
-import "./MainMenu.css";
+import "./MainMenu.scss";
 
 const MainMenu = () => {
   return (
