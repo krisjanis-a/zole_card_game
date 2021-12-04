@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useSelector } from "react";
 import "./GameScreen.scss";
 import PlayerHand from "../PlayerHand/PlayerHand";
 import OpponentHand from "../OpponentHand/OpponentHand";
 import TableHand from "../TableHand/TableHand";
 
 import MoveCards from "../MoveCards/MoveCards";
-import Cards from "../../../Engine/Data/Cards";
+import Cards from "../../../engine/Data/Cards";
 
-import createDeck from "../../../Engine/Utils/createDeck";
-import dealCards from "../../../Engine/Utils/dealCards";
+import createDeck from "../../../engine/Utils/createDeck";
+import dealCards from "../../../engine/Utils/dealCards";
 
 const GameScreen = () => {
   const [moveCards, setMoveCards] = useState([]);
@@ -20,6 +20,8 @@ const GameScreen = () => {
 
   const deck = createDeck(Cards);
   const hands = dealCards(deck, 3);
+
+  // const player
 
   useEffect(() => {
     setPlayerHand(hands[0]);

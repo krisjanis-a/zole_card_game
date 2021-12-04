@@ -1,4 +1,8 @@
-const cardReducer = (state = [], action) => {
+const initialState = {
+  moveCards: [],
+};
+
+const cardReducer = (state = initialState, action) => {
   switch (action.type) {
     case "MAKE_MOVE": {
       return;

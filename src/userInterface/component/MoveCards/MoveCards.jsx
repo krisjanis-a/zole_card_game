@@ -1,7 +1,7 @@
 import React from "react";
 
 const MoveCards = ({ moveCards }) => {
-  return <div></div>;
+  return <div className="moveCards"></div>;
 };
 
 export default MoveCards;
