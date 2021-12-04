@@ -1,9 +1,17 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import "./Card.scss";
 
 const Card = ({ cardId, path }) => {
+  const dispatch = useDispatch();
+
   return (
-    <div key={cardId} className={"card cardId" + cardId}>
+    <div
+      key={cardId}
+      className={"card cardId" + cardId}
+      // onClick={() => console.log("clicked card")}
+      onClick={() => dispatch({ type: "ADD_MOVE_CARD", payload: cardId })}
+    >
       <img src={path} alt="" />
     </div>
   );

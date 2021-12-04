@@ -1,5 +1,5 @@
 const initialState = {
-  moveCards: [],
+  cards: [],
 };
 
 const cardReducer = (state = initialState, action) => {
