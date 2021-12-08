@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
-import CardReducer from "./reducers/Card.reducer";
-import GameReducer from "./reducers/Game.reducer";
-import MoveCardsReducer from "./reducers/MoveCards.reducer";
+import MoveCards from "./reducers/MoveCards.reducer";
+import Table from "./reducers/Table.reducer";
+import Players from "./reducers/Players.reducer";
 
 const rootReducer = combineReducers({
-  CardReducer,
-  GameReducer,
-  MoveCardsReducer,
+  MoveCards,
+  Table,
+  Players,
 });
 
 export default rootReducer;

@@ -7,49 +7,69 @@ import OpponentHand from "../OpponentHand/OpponentHand";
 import TableHand from "../TableHand/TableHand";
 import MoveCards from "../MoveCards/MoveCards";
 
+import Player from "../../../engine/Models/Player";
+
 import Cards from "../../../engine/Data/Cards";
 import createDeck from "../../../engine/Utils/createDeck";
 import dealCards from "../../../engine/Utils/dealCards";
 import { useDispatch } from "react-redux";
 
 const GameScreen = () => {
-  const [moveCards, setMoveCards] = useState([]);
-
-  // const moveCardsState = useSelector(
-  //   (state) => state.MoveCardsReducer.moveCards
-  // );
-
   const dispatch = useDispatch();
 
-  // console.log(moveCardsState);
-
-  const [playerHand, setPlayerHand] = useState([]);
-  const [computerHand1, setcomputerHand1] = useState([]);
-  const [computerHand2, setcomputerHand2] = useState([]);
-  const [table, setTable] = useState([]);
+  const sessionRunning = useSelector((state) => state.Game.sessionRunning);
+  const moveCards = useSelector((state) => state.MoveCards);
 
   const deck = createDeck(Cards);
   const hands = dealCards(deck, 3);
 
-  // const player
+  const player1 = new Player();
+  const player2 = new Player();
+  const player3 = new Player();
 
-  useEffect(() => {
-    setPlayerHand(hands[0]);
-    setcomputerHand1(hands[1]);
-    setcomputerHand2(hands[2]);
-    setTable(hands[3]);
-  }, []);
+  player1.setName("Player 1");
+  player2.setName("Player 2");
+  player3.setName("Player 3");
+
+  dispatch({ type: "ADD_PLAYER", payload: player1 });
+  dispatch({ type: "ADD_PLAYER", payload: player2 });
+  dispatch({ type: "ADD_PLAYER", payload: player3 });
+  dispatch({ type: "SET_TABLE", payload: hands[3] });
+
+  const players = useSelector((state) => state.Players);
+  const table = useSelector((state) => state.Table);
+
+  const runGame = () => {
+    while (sessionRunning) {
+      // Initialize players
+      // Set players names, seat numbers etc.
+      // Deal cards
+      // Ask in ascending seat order whether to take table / become the Big One of the game
+      // On card click
+      // Keep count of remaining moves
+      // Determine result
+      // Initialize new game / Deal cards
+    }
+  };
+
+  // Set player hands in state
+  let i = 0;
+
+  Object.keys(players).forEach((player) => {
+    dispatch({
+      type: "SET_PLAYER_HAND",
+      payload: { name: player, newHand: hands[i] },
+    });
+    i++;
+  });
 
   return (
     <div className="gameScreen">
-      <PlayerHand playerHand={playerHand} seat={1} />
-      <OpponentHand opponentHand={computerHand1} seat={2} />
-      <OpponentHand opponentHand={computerHand2} seat={3} />
+      <PlayerHand playerHand={players[player1.name].hand} seat={1} />
+      <OpponentHand opponentHand={player2.hand} seat={2} />
+      <OpponentHand opponentHand={player3.hand} seat={3} />
       <TableHand tableCards={table} />
       <MoveCards moveCards={moveCards} />
-      {/* <button onClick={() => dispatch({ type: "ADD_MOVE_CARD", payload: 69 })}>
-        Add move card
-      </button> */}
     </div>
   );
 };

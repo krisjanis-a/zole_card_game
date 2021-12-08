@@ -7,13 +7,11 @@ const MoveCards = () => {
   // console.log("Movecards");
   // console.log(moveCards);
   // const dispatch = useDispatch();
-
   // useEffect(() => {
   //   if (moveCards.length === 3) {
   //     dispatch(() => ({ type: "RESET_MOVE_CARDS" }));
   //   }
   // }, [moveCards]);
-
   return <div className="moveCards">None</div>;
 };
 

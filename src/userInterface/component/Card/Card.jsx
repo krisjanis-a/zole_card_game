@@ -9,7 +9,6 @@ const Card = ({ cardId, path }) => {
     <div
       key={cardId}
       className={"card cardId" + cardId}
-      // onClick={() => console.log("clicked card")}
       onClick={() => dispatch({ type: "ADD_MOVE_CARD", payload: cardId })}
     >
       <img src={path} alt="" />
