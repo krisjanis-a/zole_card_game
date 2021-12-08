@@ -1,8 +1,25 @@
-.opponentHand {
-  display: flex;
+.opponentHandWrapper {
+  position: relative;
+  .opponentHand {
+    display: flex;
+    flex-direction: row;
+    border: 2px red solid;
 
-  .card {
-    width: 90px;
-    margin-left: -3rem;
+    padding: 1rem;
+
+    transform: rotate(90deg);
+
+    .card {
+      // transform: translateX(0rem) rotate(90deg);
+    }
+  }
+  .seat2 {
+    left: 0;
+    transform: translateX(-30%) rotate(90deg);
+  }
+
+  .seat3 {
+    right: 0;
+    transform: translateX(30%) rotate(90deg);
   }
 }

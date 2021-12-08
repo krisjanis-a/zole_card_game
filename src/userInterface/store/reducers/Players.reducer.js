@@ -13,6 +13,8 @@ export default (state = {}, action) => {
       const { name, newHand } = action.payload;
       state[name].setHand(newHand);
 
+    case "REMOVE_CARD_FROM_HAND":
+
     default:
       return state;
   }

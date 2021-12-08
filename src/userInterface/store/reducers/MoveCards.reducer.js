@@ -1,17 +1,10 @@
-const initialState = {
-  moveCards: [],
-};
-
-export default (state = initialState, action) => {
-  const { moveCards } = state;
-  // console.log(moveCards);
-
+export default (state = [], action) => {
   switch (action.type) {
     case "ADD_MOVE_CARD":
-      if (moveCards.length < 3) {
-        let newState = [...moveCards];
+      if (state.length < 3) {
+        let newState = [...state];
         newState.push(action.payload);
-        state.moveCards = newState;
+        state = newState.map((card) => card);
       }
       return state;
 

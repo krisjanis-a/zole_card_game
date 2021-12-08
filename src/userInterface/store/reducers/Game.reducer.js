@@ -1,25 +1,30 @@
 const initialState = {
-    sessionRunning = Boolean,
-    scoreboard = Array,
-    playerNames = Array,
-    gamesPlayed = Number,
-    currentSeat = Number,
-    gameMode = String,
-    gameScore = Object
-}
+  sessionRunning: false,
+  scoreboard: [],
+  playerNames: [],
+  gamesPlayed: 0,
+  currentSeat: 1,
+  turn: 1,
+  gameMode: "SINGLE_PLAYER",
+  gameScore: {},
+  askingCard: null,
+};
 
 export default (state = initialState, action) => {
-    switch (action.type) {
-
+  switch (action.type) {
     case "INITIALIZE_SESSION":
-        return {
-            sessionRunning = true,
-            scoreboard = [],
-            playerNames = [],
+      return {
+        ...state,
+        sessionRunning: true,
+      };
 
-        }
+    case "END_SESSION":
+      return {
+        ...state,
+        sessionRunning: false,
+      };
 
     default:
-        return state
-    }
-}
+      return state;
+  }
+};
