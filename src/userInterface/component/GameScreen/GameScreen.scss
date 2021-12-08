@@ -1,5 +1,4 @@
 .gameScreen {
-  margin: 2rem;
   position: relative;
   width: 100%;
   height: 90vh;
@@ -9,28 +8,29 @@
   .playerHand {
     position: absolute;
     left: 50%;
-    transform: translatex(-50%);
+    transform: translateX(-50%);
     bottom: 0;
   }
 
-  .opponentHand {
+  .opponentHandWrapper {
     position: absolute;
-    top: 5rem;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .seat2 {
-    left: 5rem;
-    transform: translate(0rem, 3rem) rotateZ(-35deg);
+    left: 0rem;
+    transform: translateY(-50%) /* rotateZ(-90deg) */;
   }
 
   .seat3 {
-    right: 5rem;
-    transform: translate(5rem, 5.5rem) rotateZ(35deg);
+    right: 0rem;
+    transform: translateY(-50%) /*  rotateZ(90deg) */;
   }
 
   .tableHand {
     position: absolute;
-    top: 50%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
   }

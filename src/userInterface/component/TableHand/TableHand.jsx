@@ -1,8 +1,11 @@
 import React from "react";
 import "./TableHand.scss";
 import Card from "../Card/Card";
+import { useSelector } from "react-redux";
 
-const TableHand = ({ tableCards }) => {
+const TableHand = () => {
+  const tableCards = useSelector((state) => state.Table);
+
   return (
     <div className="tableHand">
       {tableCards.map((card) => (
