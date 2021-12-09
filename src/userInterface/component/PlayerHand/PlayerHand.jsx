@@ -3,7 +3,7 @@ import React from "react";
 import Card from "../Card/Card";
 import { useDispatch } from "react-redux";
 
-const PlayerHand = ({ playerHand }) => {
+const PlayerHand = ({ playerHand, seat, active }) => {
   playerHand = playerHand.sort((a, b) => a - b);
 
   return (

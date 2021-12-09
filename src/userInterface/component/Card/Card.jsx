@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./Card.scss";
 
-const Card = ({ cardId, path }) => {
+const Card = ({ cardId, path, active }) => {
   const dispatch = useDispatch();
   const moveCards = useSelector((state) => state.MoveCards);
 

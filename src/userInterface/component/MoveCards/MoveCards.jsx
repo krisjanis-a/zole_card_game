@@ -8,12 +8,6 @@ const MoveCards = () => {
   // const dispatch = useDispatch();
 
   const moveCards = useSelector((state) => state.MoveCards);
-  // console.log(moveCards);
-  // useEffect(() => {
-  //   if (moveCards.length === 3) {
-  //     dispatch(() => ({ type: "RESET_MOVE_CARDS" }));
-  //   }
-  // }, [moveCards]);
 
   return (
     <div className="moveCards">

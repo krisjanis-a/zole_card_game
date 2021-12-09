@@ -4,7 +4,6 @@
 
 Not started
 
-- [ ] Get React working
 - [ ] Create UI
 - [ ] In-Game Display
   - [ ] Card component
@@ -27,3 +26,4 @@ Finished
 - [x] Create Cards .json file
 - [x] Webpack basic configuration
   - [x] Resolve extensions => import fix from ".../name.js" to ".../name"
+- [x] Get React working

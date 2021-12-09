@@ -7,6 +7,7 @@ const initialState = {
   turn: 1,
   gameMode: "SINGLE_PLAYER",
   gameScore: {},
+  chooseBigTurn: null,
   askingCard: null,
 };
 
@@ -22,6 +23,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         sessionRunning: false,
+      };
+
+    case "SET_CHOOSE_BIG_TURN":
+      return {
+        ...state,
+        chooseBigTurn: action.payload,
       };
 
     default:

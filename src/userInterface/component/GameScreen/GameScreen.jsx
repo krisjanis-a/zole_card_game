@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./GameScreen.scss";
 
@@ -12,9 +12,11 @@ import Player from "../../../engine/Models/Player";
 import Cards from "../../../engine/Data/Cards";
 import createDeck from "../../../engine/Utils/createDeck";
 import dealCards from "../../../engine/Utils/dealCards";
+import PromptBig from "../PromptBig/PromptBig";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
+  const { currentSeat } = useSelector((state) => state.Game);
 
   // Initialize players
   const player1 = new Player();
@@ -52,17 +54,34 @@ const GameScreen = () => {
   dispatch({ type: "SET_TABLE", payload: hands[3] });
 
   // Ask in ascending seat order whether to take table / become the Big One of the game
+
+  const [showChooseBigPrompt, setShowChooseBigPrompt] = useState(true);
+  dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
+
   // Keep count of remaining moves
   // Determine result
   // Initialize new game / Deal cards
 
   return (
     <div className="gameScreen">
-      <PlayerHand playerHand={players[player1.name].hand} seat={1} />
-      <OpponentHand opponentHand={players[player2.name].hand} seat={2} />
-      <OpponentHand opponentHand={players[player3.name].hand} seat={3} />
+      <PlayerHand
+        playerHand={players[player1.name].hand}
+        seat={1}
+        active={currentSeat === 1}
+      />
+      <OpponentHand
+        opponentHand={players[player2.name].hand}
+        seat={2}
+        active={currentSeat === 2}
+      />
+      <OpponentHand
+        opponentHand={players[player3.name].hand}
+        seat={3}
+        active={currentSeat === 3}
+      />
       <TableHand />
       <MoveCards />
+      {showChooseBigPrompt ? <PromptBig /> : null}
     </div>
   );
 };

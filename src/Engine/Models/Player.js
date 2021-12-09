@@ -12,6 +12,7 @@ export default class Player {
     this.score = []; // for each session to be populated with scores of rounds
     this.hand = [];
     this.big = false;
+    this.seatNumber = Number;
   }
 
   setName(name) {
@@ -26,5 +27,13 @@ export default class Player {
 
   setHand(hand) {
     this.hand = hand;
+  }
+
+  setBig(big) {
+    this.big = big;
+  }
+
+  setSeat(seatNumber) {
+    this.seatNumber = seatNumber;
   }
 }

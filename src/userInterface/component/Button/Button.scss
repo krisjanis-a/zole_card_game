@@ -1,12 +1,23 @@
 .button-main {
   margin: 1rem 2rem;
   cursor: pointer;
+  width: fit-content;
 
-  button {
-    background-color: darkred;
-    font-size: 1rem;
-    color: white;
-    padding: 1rem 2rem;
-    border-radius: 1rem;
-  }
+  background-color: darkred;
+  font-size: 1rem;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+}
+
+.button-secondary {
+  margin: 0.5rem 1rem;
+  cursor: pointer;
+  width: fit-content;
+
+  background-color: rgb(150, 150, 150);
+  font-size: 1rem;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
 }

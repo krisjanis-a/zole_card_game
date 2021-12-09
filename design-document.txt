@@ -1,0 +1,54 @@
+    Session
+
+Create cards deck
+    - creates a randomized number array corresponding card ID numbers
+
+Deal cars / create hands
+    - takes the previously generated number array and distributes cards into hands that are dealt to player
+
+Set table's cards (2 cards)
+
+Initialize session
+    - create Player objects and add them to store
+
+Add the created hands to each player's object in store
+
+Player 1 prompted to pick up table => become Big One
+
+if Player 1 does not pick up table, Player 2 prompted to pick up table
+
+if Player 2 does not pick up table, Player 3 prompted to pick up table
+
+    - if Player 3 does not pick up table, the Game is canceled, and a "pule" is created or if game mode set to "Galdiņš" then players play against each other
+
+
+-> chooseTableTurn : playerId/name or seat number
+
+=== Gameplay ===
+
+Player chooses a card on his deck
+    - disable opponent decks, not selectable / clickable
+    - if player's turn in move is 1 (i.e. first one to choose a card / initial card in move cards), then all cards should be available
+    - if player's turn in move is not 1 then disable cards that are not valid
+        - if initial card is trump and player has a trump, then only trump cards are available
+        - if initial card is trump and player has only non-trump cards, then all card is available
+        - if initial card is non-trump and player has matching suite card(s), then only a matching suite card(s) is(are) available
+        - if initial card is non-trump and player does not have matching suite card, then all cards are available
+
+    
+
+When player clicks on an available card, the card should be taken of his hand and put in the move cards place
+    - the game tracks which player owned each card in move cards
+
+    -> 
+
+When each player has made a move (i.e. move cards contains 3 cards) the winning card is determined
+    - if winning card belonged to Big One it is placed in Big Ones played cards stack
+    - if winning card belonged to Small One it is placed in Small Ones played cards stack
+
+The initial turn for next move is assigned to player who owned the winning card
+
+After players have ran out of cards, each groups total score is determined
+    - total score is the sum of all card values contained in their stack
+
+Then each player's score is added to individual and global scoreboard
