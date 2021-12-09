@@ -9,7 +9,7 @@ export default (state = [], action) => {
       return state;
 
     case "RESET_MOVE_CARDS":
-      state.moveCards = [];
+      state = [];
 
     default:
       return state;
