@@ -22,7 +22,7 @@ if Player 2 does not pick up table, Player 3 prompted to pick up table
     - if Player 3 does not pick up table, the Game is canceled, and a "pule" is created or if game mode set to "Galdiņš" then players play against each other
 
 
--> chooseTableTurn : playerId/name or seat number
+-> chooseBigTurn : playerId/name or seat number
 
 === Gameplay ===
 

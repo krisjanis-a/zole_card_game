@@ -29,7 +29,7 @@ function createDeck(cards) {
     num.splice(index, 1);
   }
 
-  // Return the newly created card deck for further use
+  // Return the newly created card deck (consists only of card IDs) for further use
   return deckNum;
 }
 

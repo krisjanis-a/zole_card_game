@@ -56,7 +56,13 @@ const GameScreen = () => {
   // Ask in ascending seat order whether to take table / become the Big One of the game
 
   const [showChooseBigPrompt, setShowChooseBigPrompt] = useState(true);
-  dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
+  const chooseBigTurn = useSelector((state) => state.Game);
+
+  useEffect(() => {
+    if (chooseBigTurn === null) {
+      dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
+    }
+  }, []);
 
   // Keep count of remaining moves
   // Determine result
