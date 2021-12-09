@@ -6,7 +6,22 @@ import cardIdToCard from "./Utils/cardIdToCard.js";
 
 console.log("Welcome to Zole!");
 
-// Create players => should be a function
+// Game State
+let sessionRunning = false;
+let scoreboard = [];
+let playerNames = [];
+let gamesPlayed = 0;
+let currentSeat = 1;
+let turn = 1;
+let gameScore = {};
+let chooseBigTurn = null;
+let askingCard = null;
+
+let moveCards = [];
+let table = [];
+let players = [];
+
+// Create players
 const player1 = new Player();
 const player2 = new Player();
 const player3 = new Player();
@@ -16,34 +31,19 @@ player1.setName("Arnold");
 player2.setName("Bob");
 player3.setName("Cornelius");
 
-const players = [player1, player2, player3];
+players = [player1, player2, player3];
 const playersNames = [player1.name, player2.name, player3.name];
 console.log("\nThis session's players:");
 console.log(playersNames);
 
 const newDeck = createDeck(cards);
-// console.log("\nThis session's deck:");
-// console.log(
-//   `${newDeck.map((cardId) => "\n\t" + cardIdToCard(cardId, cards).name)}`
-// );
 
 // Deal cards to players
 const hands = dealCards(newDeck, players.length);
 
 for (let i = 0; i < players.length; i++) {
-  players[i].setHand(hands[i]);
+  const hand = hands[i].map((id) => cardIdToCard(id));
+  players[i].setHand(hand);
 }
 
-const table = hands.at(-1);
-
-// players.forEach((player) => {
-//   console.log(
-//     `\n${player.name}'s hand ${player.hand.map(
-//       (cardId) => "\n\t" + cardIdToCard(cardId, cards).name
-//     )}`
-//   );
-// });
-
-// console.log(
-//   `\nTable ${table.map((cardId) => "\n\t" + cardIdToCard(cardId, cards).name)}`
-// );
+table = hands.at(-1);
