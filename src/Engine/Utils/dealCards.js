@@ -15,13 +15,13 @@ function dealCards(deck, numberOfPlayers) {
 
   //   Deal the cards => fill each player's hand
   for (let i = 0; i < deck.length; ) {
-    if ((deck.length - (i + 1)) / numberOfPlayers > 1) {
+    if ((deck.length - i) / numberOfPlayers > 1) {
       for (let j = 0; j < numberOfPlayers; j++) {
         hands[j].push(deck[i]);
         i++;
       }
     } else {
-      hands.at(-1).push(deck[i]);
+      hands[hands.length - 1].push(deck[i]);
       i++;
     }
   }
