@@ -18,8 +18,9 @@ import PromptBig from "../PromptBig/PromptBig";
 const GameScreen = () => {
   const dispatch = useDispatch();
 
-  const { gameInitialized, currentSeat, chooseBigTurn, playerNames } =
-    useSelector((state) => state.Game);
+  const { gameRunning, currentSeat, chooseBigTurn, playerNames } = useSelector(
+    (state) => state.Game
+  );
 
   const players = useSelector((state) => state.Players);
 
@@ -30,6 +31,8 @@ const GameScreen = () => {
   //! SESSION INITIALIZATION
 
   useEffect(() => {
+    dispatch({ type: "INITIALIZE_SESSION" });
+
     // Initialize players
 
     const player1 = new Player();
@@ -90,7 +93,7 @@ const GameScreen = () => {
         payload: hands[3].map((id) => cardIdToCard(id)),
       });
 
-      dispatch({ type: "SET_GAME_INITIALIZED", payload: true });
+      dispatch({ type: "SET_GAME_RUNNING", payload: true });
     }
   }, [players]);
 
@@ -100,7 +103,7 @@ const GameScreen = () => {
 
   return (
     <div className="gameScreen">
-      {gameInitialized ? (
+      {gameRunning ? (
         <div>
           <PlayerHand
             playerHand={players[playerNames[0]].hand}
@@ -121,7 +124,9 @@ const GameScreen = () => {
           <MoveCards />
         </div>
       ) : null}
-      {showChooseBigPrompt ? <PromptBig /> : null}
+      {showChooseBigPrompt ? (
+        <PromptBig setShowChooseBigPrompt={setShowChooseBigPrompt} />
+      ) : null}
     </div>
   );
 };

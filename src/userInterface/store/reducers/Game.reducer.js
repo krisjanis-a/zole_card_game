@@ -1,6 +1,6 @@
 const initialState = {
   sessionRunning: false,
-  gameInitialized: false,
+  gameRunning: false,
   scoreboard: [],
   playerNames: [],
   gamesPlayed: 0,
@@ -10,6 +10,9 @@ const initialState = {
   gameScore: {},
   chooseBigTurn: null,
   askingCard: null,
+  smallStack: [],
+  bigStack: [],
+  tableStack: [],
 };
 
 export default (state = initialState, action) => {
@@ -32,10 +35,10 @@ export default (state = initialState, action) => {
         chooseBigTurn: action.payload,
       };
 
-    case "SET_GAME_INITIALIZED":
+    case "SET_GAME_RUNNING":
       return {
         ...state,
-        gameInitialized: action.payload,
+        gameRunning: action.payload,
       };
 
     case "SET_PLAYER_NAMES":
@@ -43,6 +46,14 @@ export default (state = initialState, action) => {
         ...state,
         playerNames: action.payload,
       };
+
+    case "ADD_TABLE_TO_SMALL_STACK": {
+      const { table } = action.payload;
+      return {
+        ...state,
+        smallStack: table,
+      };
+    }
 
     default:
       return state;

@@ -3,38 +3,96 @@ import "./PromptBig.scss";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../Button/Button";
 
-const PromptBig = () => {
+const PromptBig = ({ setShowChooseBigPrompt }) => {
   const dispatch = useDispatch();
 
   const { chooseBigTurn } = useSelector((state) => state.Game);
+  const table = useSelector((state) => state.Table);
   const players = useSelector((state) => state.Players);
 
-  const [player, setPlayer] = useState({});
+  const [player, setPlayer] = useState();
+  const [allPlayersPassed, setAllPlayersPassed] = useState(false);
 
+  const playerObj = Object.values(players).filter(
+    (player) => player.seatNumber === chooseBigTurn
+  );
+
+  // Check if all players have passed
   useEffect(() => {
-    setPlayer([
-      Object.entries(players).filter(
-        (player) => player[1].seatNumber === chooseBigTurn
-      ),
-    ]);
-  }, [chooseBigTurn]);
+    if (chooseBigTurn > 3) {
+      setAllPlayersPassed(true);
+    }
+  }, []);
 
+  // Set player
+  useEffect(() => {
+    setPlayer(...playerObj);
+  }, [playerObj]);
+
+  // PLAY ZOLE
+  const handlePlayZole = () => {
+    dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
+    dispatch({
+      type: "SET_PLAY_ZOLE",
+      payload: { name: player.name, playZole: true },
+    });
+    dispatch({
+      type: "ADD_TABLE_TO_SMALL_STACK",
+      payload: { table: table },
+    });
+    dispatch({ type: "CLEAR_TABLE" });
+
+    setShowChooseBigPrompt(false);
+  };
+
+  // PICK TABLE
+  const handlePickTable = () => {
+    dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
+    dispatch({
+      type: "ADD_TABLE_TO_PLAYER_HAND",
+      payload: {
+        name: player.name,
+        table: table,
+      },
+    });
+    dispatch({ type: "CLEAR_TABLE" });
+
+    setShowChooseBigPrompt(false);
+  };
+
+  // PASS
   const chooseBigTurnUpdate = () => {
     dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: chooseBigTurn + 1 });
   };
 
   return (
     <div className="chooseBigPrompt">
-      {/* {player[0] ? (
-        <h4>{`${player ? player[0].name : null}, what is your decision?`}</h4>
-      ) : null} */}
-      <Button buttonName="Zole" type="secondary" />
-      <Button buttonName="Pick Table" type="secondary" />
-      <Button
-        buttonName="Pass"
-        type="secondary"
-        onClick={chooseBigTurnUpdate}
-      />
+      {player && !allPlayersPassed ? (
+        <>
+          <h4>{`${player ? player.name : null}, what is your decision?`}</h4>
+
+          <Button
+            buttonName="Play Zole"
+            type="secondary"
+            onClick={handlePlayZole}
+          />
+          <Button
+            buttonName="Pick Table"
+            type="secondary"
+            onClick={handlePickTable}
+          />
+          <Button
+            buttonName="Pass"
+            type="secondary"
+            onClick={chooseBigTurnUpdate}
+          />
+        </>
+      ) : null}
+      {allPlayersPassed ? (
+        <div>
+          <h3>All players passed</h3>
+        </div>
+      ) : null}
     </div>
   );
 };
