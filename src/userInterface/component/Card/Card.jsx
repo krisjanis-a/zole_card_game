@@ -7,7 +7,7 @@ const Card = ({ cardId, path, active }) => {
   const moveCards = useSelector((state) => state.MoveCards);
 
   const handleClick = () => {
-    console.log(moveCards);
+    // console.log(moveCards);
     // Check if correct card selected if is not asking card
 
     // If valid selection add to move card and remove from player's hand

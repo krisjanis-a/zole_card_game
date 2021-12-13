@@ -10,9 +10,9 @@ const TableHand = () => {
     <div className="tableHand">
       {tableCards.map((card) => (
         <Card
-          cardId={card}
+          cardId={card.id}
           path={`../../src/assets/card-back.png`}
-          key={card}
+          key={card.id}
         />
       ))}
     </div>

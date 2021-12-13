@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./PromptBig.scss";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../Button/Button";
@@ -7,11 +7,17 @@ const PromptBig = () => {
   const dispatch = useDispatch();
 
   const { chooseBigTurn } = useSelector((state) => state.Game);
-  const { currentSeat } = useSelector((state) => state.Game);
-  console.log(chooseBigTurn);
+  const players = useSelector((state) => state.Players);
 
-  const { playerName } = useSelector((state) => state.Players);
-  console.log(playerName);
+  const [player, setPlayer] = useState({});
+
+  useEffect(() => {
+    setPlayer([
+      Object.entries(players).filter(
+        (player) => player[1].seatNumber === chooseBigTurn
+      ),
+    ]);
+  }, [chooseBigTurn]);
 
   const chooseBigTurnUpdate = () => {
     dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: chooseBigTurn + 1 });
@@ -19,7 +25,9 @@ const PromptBig = () => {
 
   return (
     <div className="chooseBigPrompt">
-      <h4>{`Turn ${currentSeat}`}</h4>
+      {/* {player[0] ? (
+        <h4>{`${player ? player[0].name : null}, what is your decision?`}</h4>
+      ) : null} */}
       <Button buttonName="Zole" type="secondary" />
       <Button buttonName="Pick Table" type="secondary" />
       <Button

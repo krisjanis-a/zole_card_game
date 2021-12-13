@@ -4,15 +4,20 @@ import Card from "../Card/Card";
 import { useDispatch } from "react-redux";
 
 const PlayerHand = ({ playerHand, seat, active }) => {
-  playerHand = playerHand.sort((a, b) => a - b);
+  playerHand = playerHand
+    .map((card) => card.id) // Card => id
+    .sort((a, b) => a - b) // sort cards according to id
+    .map((id) => {
+      return playerHand.filter((item) => item.id === id)[0];
+    }); // id => Card
 
   return (
     <div className="playerHand">
       {playerHand.map((card) => (
         <Card
-          cardId={card}
-          path={`../../src/assets/CardSet/${card}.png`}
-          key={card}
+          cardId={card.id}
+          path={`../../src/assets/CardSet/${card.id}.png`}
+          key={card.id}
         />
       ))}
     </div>
