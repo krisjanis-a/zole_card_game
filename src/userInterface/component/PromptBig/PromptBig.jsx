@@ -42,7 +42,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     });
     dispatch({
       type: "ADD_TABLE_TO_SMALL_STACK",
-      payload: { table: table },
+      payload: table,
     });
     dispatch({ type: "CLEAR_TABLE" });
 
@@ -70,6 +70,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
   // PASS
   const chooseBigTurnUpdate = () => {
     dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: chooseBigTurn + 1 });
+    dispatch({ type: "NEXT_SEAT" });
   };
 
   return (

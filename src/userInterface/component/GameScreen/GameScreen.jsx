@@ -22,12 +22,15 @@ const GameScreen = () => {
   const dispatch = useDispatch();
 
   const {
+    initializeGame,
     gameRunning,
     currentSeat,
     chooseBigTurn,
     playerNames,
     buryingCardsPhase,
     choosingBigPhase,
+    makingMovePhase,
+    resultsPhase,
   } = useSelector((state) => state.Game);
 
   const players = useSelector((state) => state.Players);
@@ -70,6 +73,8 @@ const GameScreen = () => {
     if (!chooseBigTurn) {
       dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
     }
+
+    dispatch({ type: "INITIALIZE_GAME", payload: true });
   }, []);
 
   //=======================================================================================
@@ -102,10 +107,27 @@ const GameScreen = () => {
         payload: hands[3].map((id) => cardIdToCard(id)),
       });
 
+      dispatch({ type: "INITIALIZE_GAME", payload: false });
       dispatch({ type: "SET_GAME_RUNNING", payload: true });
       dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: true });
     }
-  }, [players]);
+  }, [initializeGame]);
+
+  // Set game phase
+  useEffect(() => {
+    if (choosingBigPhase) {
+      dispatch({ type: "SET_GAME_PHASE", payload: "CHOOSING_BIG" });
+    }
+    if (buryingCardsPhase) {
+      dispatch({ type: "SET_GAME_PHASE", payload: "BURYING_CARDS" });
+    }
+    if (makingMovePhase) {
+      dispatch({ type: "SET_GAME_PHASE", payload: "MAKING_MOVES" });
+    }
+    if (resultsPhase) {
+      dispatch({ type: "SET_GAME_PHASE", payload: "RESULTS" });
+    }
+  }, [choosingBigPhase, buryingCardsPhase, makingMovePhase, resultsPhase]);
 
   // Show / Hide dialogs according to game phase
   useEffect(() => {
@@ -128,9 +150,9 @@ const GameScreen = () => {
     <div className="gameScreen">
       {gameRunning ? (
         <div>
-          <PlayerHand playerHand={players[playerNames[0]].hand} seat={1} />
-          <OpponentHand opponentHand={players[playerNames[1]].hand} seat={2} />
-          <OpponentHand opponentHand={players[playerNames[2]].hand} seat={3} />
+          <PlayerHand seat={1} />
+          <OpponentHand seat={2} />
+          <OpponentHand seat={3} />
           <TableHand />
           <MoveCards />
           <BigOneCards />

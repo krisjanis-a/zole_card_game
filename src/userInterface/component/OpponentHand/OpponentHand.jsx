@@ -1,13 +1,20 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import Card from "../Card/Card";
 import "./OpponentHand.scss";
 
-const OpponentHand = ({ opponentHand, seat, active }) => {
-  opponentHand = opponentHand
+const OpponentHand = ({ seat }) => {
+  const players = useSelector((state) => state.Players);
+
+  const player = Object.values(players).filter(
+    (player) => player.seatNumber === seat
+  )[0];
+
+  const opponentHand = player.hand
     .map((card) => card.id) // Card => id
     .sort((a, b) => a - b) // sort cards according to id
     .map((id) => {
-      return opponentHand.filter((item) => item.id === id)[0];
+      return player.hand.filter((item) => item.id === id)[0];
     }); // id => Card
 
   return (
@@ -19,6 +26,7 @@ const OpponentHand = ({ opponentHand, seat, active }) => {
             path={`../../src/assets/CardSet/${card.id}.png`}
             // path={`../../src/assets/card-back.png`}
             key={card.id}
+            owner={player}
           />
         ))}
       </div>

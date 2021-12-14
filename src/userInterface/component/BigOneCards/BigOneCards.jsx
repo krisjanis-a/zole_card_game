@@ -1,6 +1,7 @@
 import React from "react";
 import "./BigOneCards.scss";
 import { useSelector } from "react-redux";
+import Card from "../Card/Card";
 
 const BigOneCards = () => {
   const { bigStack } = useSelector((state) => state.Game);
@@ -12,6 +13,7 @@ const BigOneCards = () => {
           cardId={card.id}
           path={`../../src/assets/card-back.png`}
           key={card.id}
+          owner={"none"}
         />
       ))}
     </div>

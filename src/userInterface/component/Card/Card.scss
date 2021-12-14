@@ -1,12 +1,24 @@
 .card {
   width: 50px;
-  cursor: not-allowed;
-
-  .active {
-    cursor: pointer;
-  }
 
   img {
     width: 100%;
+  }
+
+  &.active {
+    cursor: pointer;
+  }
+
+  &.inactive {
+    cursor: not-allowed;
+
+    img {
+      filter: brightness(60%);
+    }
+  }
+
+  &.active:hover {
+    z-index: 10;
+    transform: translateY(-5%);
   }
 }
