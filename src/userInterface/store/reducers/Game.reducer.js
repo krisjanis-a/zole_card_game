@@ -1,24 +1,26 @@
 const initialState = {
-  sessionRunning: false,
-  initializeGame: false,
+  sessionRunning: false, // responsible for clearing any previous session data
+  initializeGame: false, // during session initialization or after each game / round
   gameRunning: false,
+  // GAME PHASES
   choosingBigPhase: false,
   buryingCardsPhase: false,
   makingMovesPhase: false,
   resultsPhase: false,
   currentPhase: null,
+  // GAME PHASES _END
   scoreboard: [],
   playerNames: [],
   gamesPlayed: 0,
-  currentSeat: 1,
-  startingSeat: 1,
+  currentSeat: 1, // current seat that is making active choices (choosing big, burying cards, choosing move card)
+  startingSeat: 1, // starting seat of current game / round; after each round moves +1 seat forward cyclically
   moveTurn: 1,
   gameMode: "SINGLE_PLAYER",
   gameScore: {},
-  chooseBigTurn: null,
-  askingCard: null,
-  smallStack: [],
-  bigStack: [],
+  chooseBigTurn: null, // player who is currently given choice of being big one
+  askingCard: null, // first card placed in single move
+  smallStack: [], // cards collected on rounds won by small ones or in case big one plays Zole
+  bigStack: [], // cards collected on rounds won by and buried by big one
   tableStack: [], // in case all players pass and decide to play "Galdiņš" i.e. Play Table, players play against table and it is possible for table to win first two rounds instead of players. This is a special game mode
 };
 
@@ -30,9 +32,32 @@ export default (state = initialState, action) => {
         sessionRunning: true,
       };
 
-    case "END_SESSION":
-      return initialState;
-
+    case "END_SESSION": {
+      const blankState = {
+        sessionRunning: false,
+        initializeGame: false,
+        gameRunning: false,
+        choosingBigPhase: false,
+        buryingCardsPhase: false,
+        makingMovesPhase: false,
+        resultsPhase: false,
+        currentPhase: null,
+        scoreboard: [],
+        playerNames: [],
+        gamesPlayed: 0,
+        currentSeat: 1,
+        startingSeat: 1,
+        moveTurn: 1,
+        gameMode: "SINGLE_PLAYER",
+        gameScore: {},
+        chooseBigTurn: null,
+        askingCard: null,
+        smallStack: [],
+        bigStack: [],
+        tableStack: [],
+      };
+      return blankState;
+    }
     case "INITIALIZE_GAME":
       return {
         ...state,
@@ -45,12 +70,11 @@ export default (state = initialState, action) => {
         gameRunning: action.payload,
       };
 
-    case "SET_GAME_PHASE": {
+    case "SET_GAME_PHASE":
       return {
         ...state,
         currentPhase: action.payload,
       };
-    }
 
     case "SET_CHOOSING_BIG_PHASE":
       return {
@@ -95,9 +119,14 @@ export default (state = initialState, action) => {
         buryingCardsPhase: action.payload,
       };
 
+    case "SET_MAKING_MOVES_PHASE":
+      return {
+        ...state,
+        makingMovesPhase: action.payload,
+      };
+
     case "NEXT_SEAT": {
       let nextSeat = state.currentSeat + 1;
-      console.log(nextSeat);
       if (nextSeat === 4) {
         nextSeat = 1;
       }
@@ -107,6 +136,12 @@ export default (state = initialState, action) => {
         currentSeat: nextSeat,
       };
     }
+
+    case "SET_CURRENT_SEAT_TO_STARTING_SEAT":
+      return {
+        ...state,
+        currentSeat: state.startingSeat,
+      };
 
     case "NEXT_STARTING_SEAT":
       const nextStartingSeat = state.startingSeat++;

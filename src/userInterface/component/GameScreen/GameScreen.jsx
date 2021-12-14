@@ -29,7 +29,7 @@ const GameScreen = () => {
     playerNames,
     buryingCardsPhase,
     choosingBigPhase,
-    makingMovePhase,
+    makingMovesPhase,
     resultsPhase,
   } = useSelector((state) => state.Game);
 
@@ -121,13 +121,13 @@ const GameScreen = () => {
     if (buryingCardsPhase) {
       dispatch({ type: "SET_GAME_PHASE", payload: "BURYING_CARDS" });
     }
-    if (makingMovePhase) {
+    if (makingMovesPhase) {
       dispatch({ type: "SET_GAME_PHASE", payload: "MAKING_MOVES" });
     }
     if (resultsPhase) {
       dispatch({ type: "SET_GAME_PHASE", payload: "RESULTS" });
     }
-  }, [choosingBigPhase, buryingCardsPhase, makingMovePhase, resultsPhase]);
+  }, [choosingBigPhase, buryingCardsPhase, makingMovesPhase, resultsPhase]);
 
   // Show / Hide dialogs according to game phase
   useEffect(() => {

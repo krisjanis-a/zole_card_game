@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import cardIdToCard from "../../../engine/Utils/cardIdToCard";
 import "./Card.scss";
 
-const Card = ({ cardId, path, owner }) => {
+const Card = ({ cardId, path, owner = "none" }) => {
   const dispatch = useDispatch();
   const moveCards = useSelector((state) => state.MoveCards);
   const {
@@ -27,7 +27,7 @@ const Card = ({ cardId, path, owner }) => {
       setActive(true);
     }
 
-    if (makingMovesPhase) {
+    if (makingMovesPhase && owner.seatNumber === currentSeat) {
     }
 
     if (resultsPhase) setActive(false);
@@ -50,7 +50,7 @@ const Card = ({ cardId, path, owner }) => {
 
   const addMoveCard = () => {
     if (moveCards.every((moveCardsID) => moveCardsID !== cardId)) {
-      dispatch({ type: "ADD_MOVE_CARD", payload: cardId });
+      dispatch({ type: "ADD_MOVE_CARD", payload: card });
       dispatch({
         type: "REMOVE_USER_CARD",
         payload: { name: owner.name, cardId: cardId },

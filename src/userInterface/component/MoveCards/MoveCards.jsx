@@ -12,11 +12,11 @@ const MoveCards = () => {
   return (
     <div className="moveCards">
       {moveCards.map((card, index) => (
-        <div key={card} className={`moveCard${index}`}>
+        <div key={card.id} className={`moveCard${index}`}>
           <Card
-            cardId={card}
-            path={`../../src/assets/CardSet/${card}.png`}
-            key={card}
+            cardId={card.id}
+            path={`../../src/assets/CardSet/${card.id}.png`}
+            key={card.id}
           />
         </div>
       ))}

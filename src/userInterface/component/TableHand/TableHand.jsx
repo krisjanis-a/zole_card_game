@@ -13,7 +13,6 @@ const TableHand = () => {
           cardId={card.id}
           path={`../../src/assets/card-back.png`}
           key={card.id}
-          owner={"table"}
         />
       ))}
     </div>
