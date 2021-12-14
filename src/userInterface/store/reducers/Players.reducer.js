@@ -19,6 +19,8 @@ export default (state = {}, action) => {
     }
 
     case "REMOVE_CARD_FROM_HAND": {
+      const { name, cardId } = action.payload;
+      // state[name].
       return state;
     }
 

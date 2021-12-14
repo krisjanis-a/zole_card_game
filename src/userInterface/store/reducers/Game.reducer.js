@@ -1,6 +1,10 @@
 const initialState = {
   sessionRunning: false,
   gameRunning: false,
+  choosingBigPhase: false,
+  buryingCardsPhase: false,
+  makingMovesPhase: false,
+  resultsPhase: false,
   scoreboard: [],
   playerNames: [],
   gamesPlayed: 0,
@@ -26,16 +30,22 @@ export default (state = initialState, action) => {
     case "END_SESSION":
       return initialState;
 
-    case "SET_CHOOSE_BIG_TURN":
-      return {
-        ...state,
-        chooseBigTurn: action.payload,
-      };
-
     case "SET_GAME_RUNNING":
       return {
         ...state,
         gameRunning: action.payload,
+      };
+
+    case "SET_CHOOSING_BIG_PHASE":
+      return {
+        ...state,
+        choosingBigPhase: action.payload,
+      };
+
+    case "SET_CHOOSE_BIG_TURN":
+      return {
+        ...state,
+        chooseBigTurn: action.payload,
       };
 
     case "SET_PLAYER_NAMES":
@@ -51,6 +61,12 @@ export default (state = initialState, action) => {
         smallStack: table,
       };
     }
+
+    case "SET_BURYING_PHASE":
+      return {
+        ...state,
+        buryingCardsPhase: action.payload,
+      };
 
     default:
       return state;

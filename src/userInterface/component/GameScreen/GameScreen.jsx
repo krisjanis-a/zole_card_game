@@ -16,17 +16,24 @@ import createDeck from "../../../engine/Utils/createDeck";
 import dealCards from "../../../engine/Utils/dealCards";
 import cardIdToCard from "../../../engine/Utils/cardIdToCard";
 import PromptBig from "../PromptBig/PromptBig";
+import PromptBury from "../PromptBury/PromptBury";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
 
-  const { gameRunning, currentSeat, chooseBigTurn, playerNames } = useSelector(
-    (state) => state.Game
-  );
+  const {
+    gameRunning,
+    currentSeat,
+    chooseBigTurn,
+    playerNames,
+    buryingCardsPhase,
+    choosingBigPhase,
+  } = useSelector((state) => state.Game);
 
   const players = useSelector((state) => state.Players);
 
-  const [showChooseBigPrompt, setShowChooseBigPrompt] = useState(true);
+  const [showChooseBigPrompt, setShowChooseBigPrompt] = useState(false);
+  const [showBuryCardsPrompt, setShowBuryCardsPrompt] = useState(false);
 
   //=======================================================================================
 
@@ -96,8 +103,22 @@ const GameScreen = () => {
       });
 
       dispatch({ type: "SET_GAME_RUNNING", payload: true });
+      dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: true });
     }
   }, [players]);
+
+  // Show / Hide dialogs according to game phase
+  useEffect(() => {
+    if (choosingBigPhase) {
+      setShowChooseBigPrompt(true);
+    }
+  }, [choosingBigPhase]);
+
+  useEffect(() => {
+    if (buryingCardsPhase) {
+      setShowBuryCardsPrompt(true);
+    }
+  }, [buryingCardsPhase]);
 
   // Keep count of remaining moves
   // Determine result
@@ -107,21 +128,9 @@ const GameScreen = () => {
     <div className="gameScreen">
       {gameRunning ? (
         <div>
-          <PlayerHand
-            playerHand={players[playerNames[0]].hand}
-            seat={1}
-            active={currentSeat === 1}
-          />
-          <OpponentHand
-            opponentHand={players[playerNames[1]].hand}
-            seat={2}
-            active={currentSeat === 2}
-          />
-          <OpponentHand
-            opponentHand={players[playerNames[2]].hand}
-            seat={3}
-            active={currentSeat === 3}
-          />
+          <PlayerHand playerHand={players[playerNames[0]].hand} seat={1} />
+          <OpponentHand opponentHand={players[playerNames[1]].hand} seat={2} />
+          <OpponentHand opponentHand={players[playerNames[2]].hand} seat={3} />
           <TableHand />
           <MoveCards />
           <BigOneCards />
@@ -130,6 +139,9 @@ const GameScreen = () => {
       ) : null}
       {showChooseBigPrompt ? (
         <PromptBig setShowChooseBigPrompt={setShowChooseBigPrompt} />
+      ) : null}
+      {showBuryCardsPrompt ? (
+        <PromptBury setShowBuryCardsPrompt={setShowBuryCardsPrompt} />
       ) : null}
     </div>
   );

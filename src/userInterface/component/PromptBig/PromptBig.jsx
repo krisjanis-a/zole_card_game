@@ -23,6 +23,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
       setAllPlayersPassed(true);
       setTimeout(() => {
         setShowChooseBigPrompt(false);
+        dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
       }, 3000);
     }
   }, [chooseBigTurn]);
@@ -46,6 +47,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     dispatch({ type: "CLEAR_TABLE" });
 
     setShowChooseBigPrompt(false);
+    dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
   };
 
   // PICK TABLE
@@ -61,6 +63,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     dispatch({ type: "CLEAR_TABLE" });
 
     setShowChooseBigPrompt(false);
+    dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
+    dispatch({ type: "SET_BURYING_PHASE", payload: true });
   };
 
   // PASS
