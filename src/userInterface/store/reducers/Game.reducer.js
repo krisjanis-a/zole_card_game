@@ -12,7 +12,7 @@ const initialState = {
   askingCard: null,
   smallStack: [],
   bigStack: [],
-  tableStack: [],
+  tableStack: [], // in case all players pass and decide to play "Galdiņš" i.e. Play Table, players play against table and it is possible for table to win first two rounds instead of players. This is a special game mode
 };
 
 export default (state = initialState, action) => {
@@ -24,10 +24,7 @@ export default (state = initialState, action) => {
       };
 
     case "END_SESSION":
-      return {
-        ...state,
-        sessionRunning: false,
-      };
+      return initialState;
 
     case "SET_CHOOSE_BIG_TURN":
       return {

@@ -21,8 +21,11 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
   useEffect(() => {
     if (chooseBigTurn > 3) {
       setAllPlayersPassed(true);
+      setTimeout(() => {
+        setShowChooseBigPrompt(false);
+      }, 3000);
     }
-  }, []);
+  }, [chooseBigTurn]);
 
   // Set player
   useEffect(() => {

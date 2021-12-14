@@ -2,11 +2,12 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./Card.scss";
 
-const Card = ({ cardId, path, active }) => {
+const Card = ({ cardId, path, active, owner }) => {
   const dispatch = useDispatch();
   const moveCards = useSelector((state) => state.MoveCards);
 
   const handleClick = () => {
+    // if()
     // console.log(moveCards);
     // Check if correct card selected if is not asking card
 

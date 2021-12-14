@@ -32,6 +32,18 @@
     position: absolute;
     top: 20%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%);
+  }
+
+  .smallOnesCards {
+    position: absolute;
+    top: 10%;
+    left: 20%;
+  }
+
+  .bigOnesCards {
+    position: absolute;
+    top: 10%;
+    right: 20%;
   }
 }

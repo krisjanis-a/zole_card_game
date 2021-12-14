@@ -6,6 +6,8 @@ import PlayerHand from "../PlayerHand/PlayerHand";
 import OpponentHand from "../OpponentHand/OpponentHand";
 import TableHand from "../TableHand/TableHand";
 import MoveCards from "../MoveCards/MoveCards";
+import BigOneCards from "../BigOneCards/BigOneCards";
+import SmallOnesCards from "../SmallOnesCards/SmallOnesCards";
 
 import Player from "../../../engine/Models/Player";
 
@@ -122,6 +124,8 @@ const GameScreen = () => {
           />
           <TableHand />
           <MoveCards />
+          <BigOneCards />
+          <SmallOnesCards />
         </div>
       ) : null}
       {showChooseBigPrompt ? (
