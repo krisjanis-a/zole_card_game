@@ -7,7 +7,7 @@ const Settings = () => {
     <div>
       <h1>Settings</h1>
       <Link to="/">
-        <Button buttonName="Return to Menu" />
+        <Button buttonName="Return to Menu" type="main" />
       </Link>
     </div>
   );

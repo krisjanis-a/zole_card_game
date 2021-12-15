@@ -72,9 +72,9 @@ const GameScreen = () => {
     dispatch({ type: "ADD_PLAYER", payload: player2 });
     dispatch({ type: "ADD_PLAYER", payload: player3 });
 
-    if (!chooseBigTurn) {
-      dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
-    }
+    // if (!chooseBigTurn) {
+    //   dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
+    // }
 
     dispatch({ type: "INITIALIZE_GAME", payload: true });
   }, []);
@@ -112,8 +112,14 @@ const GameScreen = () => {
       dispatch({ type: "INITIALIZE_GAME", payload: false });
       dispatch({ type: "SET_GAME_RUNNING", payload: true });
       dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: true });
+
+      if (!chooseBigTurn) {
+        dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
+      }
     }
   }, [initializeGame]);
+
+  //=======================================================================================
 
   // Set game phase
   useEffect(() => {
@@ -145,13 +151,42 @@ const GameScreen = () => {
   }, [buryingCardsPhase]);
 
   // Finalize move
+
   useEffect(() => {
     if (moveCards.length === 3) {
-      dispatch({ type: "SET_CURRENT_SEAT", payload: null });
-      console.log("Move done, lets get calculating winner");
-      getWinningCard(moveCards);
+      // console.log("Move done, lets get calculating winner");
+      const winningCard = getWinningCard(moveCards);
+
+      addWinningCardsToStack(winningCard.owner, moveCards);
+      setupNextMove(winningCard);
     }
   }, [moveCards]);
+
+  //  Add winning cards to correct stack
+  const addWinningCardsToStack = (winningPlayer, moveCards) => {
+    const cards = moveCards.map((card) => card.card);
+    if (winningPlayer.big) {
+      cards.map((card) =>
+        dispatch({ type: "ADD_CARD_TO_BIG_STACK", payload: card })
+      );
+    }
+    if (!winningPlayer.big) {
+      cards.map((card) =>
+        dispatch({ type: "ADD_CARD_TO_SMALL_STACK", payload: card })
+      );
+    }
+  };
+
+  // Setup next move
+  const setupNextMove = (winningCard) => {
+    dispatch({ type: "SET_CURRENT_SEAT", payload: null });
+    dispatch({ type: "RESET_MOVE_CARDS" });
+    dispatch({ type: "SET_ASKING_CARD", payload: null });
+    dispatch({
+      type: "SET_CURRENT_SEAT",
+      payload: winningCard.owner.seatNumber,
+    });
+  };
 
   // Keep count of remaining moves
   // Determine result

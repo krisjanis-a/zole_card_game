@@ -7,7 +7,9 @@ const PromptBury = ({ setShowBuryCardsPrompt }) => {
   const dispatch = useDispatch();
 
   const players = useSelector((state) => state.Players);
-  const { chooseBigTurn } = useSelector((state) => state.Game);
+  const { chooseBigTurn, buryingCardsPhase } = useSelector(
+    (state) => state.Game
+  );
 
   const player = Object.values(players).filter(
     (player) => player.seatNumber === chooseBigTurn
@@ -20,12 +22,11 @@ const PromptBury = ({ setShowBuryCardsPrompt }) => {
       dispatch({ type: "SET_CURRENT_SEAT_TO_STARTING_SEAT" });
       setShowBuryCardsPrompt(false);
     }
-  }, [player.hand]);
+  }, [player.hand, buryingCardsPhase]);
 
   return (
     <div className="promptBuryCards">
       <h3>{`Bury two cards, ${player.name}`}</h3>
-      <h4>{``}</h4>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
+import "./SmallOnesCards.scss";
 import { useSelector } from "react-redux";
 import Card from "../Card/Card";
-import "./SmallOnesCards.scss";
 
 const SmallOnesCards = () => {
   const { smallStack } = useSelector((state) => state.Game);

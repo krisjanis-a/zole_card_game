@@ -64,6 +64,29 @@ export default (state = initialState, action) => {
         initializeGame: action.payload,
       };
 
+    case "RESET_GAME": {
+      const newGameState = {
+        ...state,
+        initializeGame: true,
+        gameRunning: false,
+        choosingBigPhase: false,
+        buryingCardsPhase: false,
+        makingMovesPhase: false,
+        resultsPhase: false,
+        currentPhase: null,
+        currentSeat: 1,
+        startingSeat: 1,
+        moveTurn: 1,
+        gameScore: {},
+        chooseBigTurn: null,
+        askingCard: null,
+        smallStack: [],
+        bigStack: [],
+        tableStack: [],
+      };
+      return newGameState;
+    }
+
     case "SET_GAME_RUNNING":
       return {
         ...state,
@@ -137,9 +160,13 @@ export default (state = initialState, action) => {
       };
     }
 
-    case "NEXT_MOVE_TURN":
-      return { ...state, moveTurn: state.moveTurn + 1 };
-
+    case "NEXT_MOVE_TURN": {
+      let nextMoveTurn = state.moveTurn + 1;
+      if (nextMoveTurn === 4) {
+        nextMoveTurn = 1;
+      }
+      return { ...state, moveTurn: nextMoveTurn };
+    }
     case "SET_CURRENT_SEAT_TO_STARTING_SEAT":
       return {
         ...state,
