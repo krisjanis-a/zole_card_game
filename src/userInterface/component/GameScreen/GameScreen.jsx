@@ -84,37 +84,40 @@ const GameScreen = () => {
   //! GAME INITIALIZATION
 
   useEffect(() => {
-    if (Object.entries(players).length > 0) {
-      // Deal cards
-      const deck = createDeck(Cards);
-      const hands = dealCards(deck, 3);
+    if (initializeGame) {
+      console.log("Initializing the game");
+      if (Object.values(players).length > 0) {
+        // Deal cards
+        const deck = createDeck(Cards);
+        const hands = dealCards(deck, 3);
 
-      // Set player hands in state <= put in function later
+        // Set player hands in state <= put in function later
 
-      const playersArr = Object.entries(players);
+        const playersArr = Object.entries(players);
 
-      for (let i = 0; i < playersArr.length; i++) {
-        const player = playersArr[i][1].name;
-        const hand = hands[i].map((id) => cardIdToCard(id));
+        for (let i = 0; i < playersArr.length; i++) {
+          const player = playersArr[i][1].name;
+          const hand = hands[i].map((id) => cardIdToCard(id));
 
+          dispatch({
+            type: "SET_PLAYER_HAND",
+            payload: { name: player, newHand: hand },
+          });
+        }
+
+        // Set table
         dispatch({
-          type: "SET_PLAYER_HAND",
-          payload: { name: player, newHand: hand },
+          type: "SET_TABLE",
+          payload: hands[3].map((id) => cardIdToCard(id)),
         });
-      }
 
-      // Set table
-      dispatch({
-        type: "SET_TABLE",
-        payload: hands[3].map((id) => cardIdToCard(id)),
-      });
+        dispatch({ type: "INITIALIZE_GAME", payload: false });
+        dispatch({ type: "SET_GAME_RUNNING", payload: true });
+        dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: true });
 
-      dispatch({ type: "INITIALIZE_GAME", payload: false });
-      dispatch({ type: "SET_GAME_RUNNING", payload: true });
-      dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: true });
-
-      if (!chooseBigTurn) {
-        dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
+        if (!chooseBigTurn) {
+          dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
+        }
       }
     }
   }, [initializeGame]);
@@ -142,11 +145,17 @@ const GameScreen = () => {
     if (choosingBigPhase) {
       setShowChooseBigPrompt(true);
     }
+    if (!choosingBigPhase) {
+      setShowChooseBigPrompt(false);
+    }
   }, [choosingBigPhase]);
 
   useEffect(() => {
     if (buryingCardsPhase) {
       setShowBuryCardsPrompt(true);
+    }
+    if (!buryingCardsPhase) {
+      setShowBuryCardsPrompt(false);
     }
   }, [buryingCardsPhase]);
 
@@ -208,7 +217,7 @@ const GameScreen = () => {
       {showChooseBigPrompt ? (
         <PromptBig setShowChooseBigPrompt={setShowChooseBigPrompt} />
       ) : null}
-      {showBuryCardsPrompt ? (
+      {showBuryCardsPrompt && chooseBigTurn ? (
         <PromptBury setShowBuryCardsPrompt={setShowBuryCardsPrompt} />
       ) : null}
     </div>

@@ -9,6 +9,7 @@ const initialState = {
   resultsPhase: false,
   currentPhase: null,
   // GAME PHASES _END
+  playZole: false,
   scoreboard: [],
   playerNames: [],
   gamesPlayed: 0,
@@ -33,7 +34,7 @@ export default (state = initialState, action) => {
       };
 
     case "END_SESSION": {
-      const blankState = {
+      return {
         sessionRunning: false,
         initializeGame: false,
         gameRunning: false,
@@ -42,6 +43,7 @@ export default (state = initialState, action) => {
         makingMovesPhase: false,
         resultsPhase: false,
         currentPhase: null,
+        playZole: false,
         scoreboard: [],
         playerNames: [],
         gamesPlayed: 0,
@@ -56,7 +58,6 @@ export default (state = initialState, action) => {
         bigStack: [],
         tableStack: [],
       };
-      return blankState;
     }
     case "INITIALIZE_GAME":
       return {
@@ -65,8 +66,8 @@ export default (state = initialState, action) => {
       };
 
     case "RESET_GAME": {
-      const newGameState = {
-        ...state,
+      return {
+        sessionRunning: true,
         initializeGame: true,
         gameRunning: false,
         choosingBigPhase: false,
@@ -74,6 +75,10 @@ export default (state = initialState, action) => {
         makingMovesPhase: false,
         resultsPhase: false,
         currentPhase: null,
+        playZole: false,
+        scoreboard: state.scoreboard,
+        playerNames: state.playerNames,
+        gamesPlayed: state.gamesPlayed,
         currentSeat: 1,
         startingSeat: 1,
         moveTurn: 1,
@@ -84,7 +89,6 @@ export default (state = initialState, action) => {
         bigStack: [],
         tableStack: [],
       };
-      return newGameState;
     }
 
     case "SET_GAME_RUNNING":
