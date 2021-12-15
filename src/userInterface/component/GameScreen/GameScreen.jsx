@@ -17,6 +17,7 @@ import dealCards from "../../../engine/Utils/dealCards";
 import cardIdToCard from "../../../engine/Utils/cardIdToCard";
 import PromptBig from "../PromptBig/PromptBig";
 import PromptBury from "../PromptBury/PromptBury";
+import getWinningCard from "../../../engine/Utils/getWinningCard";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const GameScreen = () => {
   } = useSelector((state) => state.Game);
 
   const players = useSelector((state) => state.Players);
+  const moveCards = useSelector((state) => state.MoveCards);
 
   const [showChooseBigPrompt, setShowChooseBigPrompt] = useState(false);
   const [showBuryCardsPrompt, setShowBuryCardsPrompt] = useState(false);
@@ -141,6 +143,15 @@ const GameScreen = () => {
       setShowBuryCardsPrompt(true);
     }
   }, [buryingCardsPhase]);
+
+  // Finalize move
+  useEffect(() => {
+    if (moveCards.length === 3) {
+      dispatch({ type: "SET_CURRENT_SEAT", payload: null });
+      console.log("Move done, lets get calculating winner");
+      getWinningCard(moveCards);
+    }
+  }, [moveCards]);
 
   // Keep count of remaining moves
   // Determine result

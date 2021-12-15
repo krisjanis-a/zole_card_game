@@ -1,1 +1,5 @@
-function getWinningCard( cardIDs ,cards)
+function getWinningCard(moveCards) {
+  console.log(moveCards);
+}
+
+export default getWinningCard;

@@ -13,6 +13,7 @@ const BigOneCards = () => {
           cardId={card.id}
           path={`../../src/assets/card-back.png`}
           key={card.id}
+          owner={"stack"}
         />
       ))}
     </div>

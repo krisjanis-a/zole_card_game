@@ -16,9 +16,22 @@
       filter: brightness(60%);
     }
   }
+  &.moveCard,
+  &.stack {
+    cursor: default;
+
+    img {
+      filter: brightness(100%);
+    }
+  }
 
   &.active:hover {
     z-index: 10;
     transform: translateY(-5%);
+  }
+
+  &.active.moveCard:hover {
+    cursor: default;
+    transform: translateY(0);
   }
 }

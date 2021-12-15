@@ -8,6 +8,9 @@ const Session = () => {
   const dispatch = useDispatch();
 
   const endSession = () => {
+    dispatch({ type: "RESET_PLAYERS" });
+    dispatch({ type: "CLEAR_TABLE" });
+    dispatch({ type: "RESET_MOVE_CARDS" });
     dispatch({ type: "END_SESSION" });
   };
 

@@ -10,6 +10,10 @@ export default (state = {}, action) => {
       return state;
     }
 
+    case "RESET_PLAYERS": {
+      return {};
+    }
+
     case "SET_PLAYER_HAND": {
       const { name, newHand } = action.payload;
       const newState = { ...state };

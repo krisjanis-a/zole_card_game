@@ -3,7 +3,7 @@
 Create cards deck
     - creates a randomized number array corresponding card ID numbers
 
-Deal cars / create hands
+Deal cards / create hands
     - takes the previously generated number array and distributes cards into hands that are dealt to player
 
 Set table's cards (2 cards)

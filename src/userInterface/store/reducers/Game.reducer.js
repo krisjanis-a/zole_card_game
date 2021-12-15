@@ -137,10 +137,19 @@ export default (state = initialState, action) => {
       };
     }
 
+    case "NEXT_MOVE_TURN":
+      return { ...state, moveTurn: state.moveTurn + 1 };
+
     case "SET_CURRENT_SEAT_TO_STARTING_SEAT":
       return {
         ...state,
         currentSeat: state.startingSeat,
+      };
+
+    case "SET_CURRENT_SEAT":
+      return {
+        ...state,
+        currentSeat: action.payload,
       };
 
     case "NEXT_STARTING_SEAT":
@@ -149,6 +158,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         startingSeat: nextStartingSeat,
+      };
+
+    case "SET_ASKING_CARD":
+      return {
+        ...state,
+        askingCard: action.payload,
       };
 
     default:

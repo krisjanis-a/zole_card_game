@@ -5,18 +5,19 @@ import { useDispatch } from "react-redux";
 import Card from "../Card/Card";
 
 const MoveCards = () => {
-  const dispatch = useDispatch();
-
-  const moveCards = useSelector((state) => state.MoveCards);
+  const moveCards = useSelector((state) => state.MoveCards).map(
+    (moveCard) => moveCard.card
+  );
 
   return (
     <div className="moveCards">
       {moveCards.map((card, index) => (
-        <div key={card.id} className={`moveCard${index}`}>
+        <div key={card.id} className={`moveCard moveCard${index}`}>
           <Card
             cardId={card.id}
             path={`../../src/assets/CardSet/${card.id}.png`}
             key={card.id}
+            owner={"moveCards"}
           />
         </div>
       ))}
