@@ -25,7 +25,6 @@ const PromptBury = ({ setShowBuryCardsPrompt }) => {
   );
 
   useEffect(() => {
-    // Only if choose big turn is set then component looks for a player in players object
     if (playerHand) {
       if (playerHand.length === 8) {
         dispatch({ type: "SET_BURYING_PHASE", payload: false });
@@ -38,7 +37,9 @@ const PromptBury = ({ setShowBuryCardsPrompt }) => {
 
   return (
     <div className="promptBuryCards">
-      <h3>{`Bury two cards, ${playerName ? playerName : null}`}</h3>
+      <h3>{`Bury ${playerHand.length - 8} card${
+        playerHand.length - 8 === 2 ? "s" : ""
+      }, ${playerName ? playerName : null}`}</h3>
     </div>
   );
 };

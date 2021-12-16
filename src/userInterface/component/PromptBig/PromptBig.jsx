@@ -24,7 +24,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
       setTimeout(() => {
         setShowChooseBigPrompt(false);
         dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
-      }, 3000);
+        dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
+      }, 1500);
     }
   }, [chooseBigTurn]);
 
@@ -48,6 +49,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
 
     setShowChooseBigPrompt(false);
     dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
+    dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
   };
 
   // PICK TABLE

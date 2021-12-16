@@ -32,6 +32,9 @@ const GameScreen = () => {
     choosingBigPhase,
     makingMovesPhase,
     resultsPhase,
+    moveCount,
+    bigStack,
+    smallStack,
   } = useSelector((state) => state.Game);
 
   const players = useSelector((state) => state.Players);
@@ -167,9 +170,9 @@ const GameScreen = () => {
       const winningCard = getWinningCard(moveCards);
 
       addWinningCardsToStack(winningCard.owner, moveCards);
-      setupNextMove(winningCard);
+      setupNextMove(winningCard, players);
     }
-  }, [moveCards]);
+  }, [moveCards.length]);
 
   //  Add winning cards to correct stack
   const addWinningCardsToStack = (winningPlayer, moveCards) => {
@@ -187,18 +190,60 @@ const GameScreen = () => {
   };
 
   // Setup next move
-  const setupNextMove = (winningCard) => {
+  const setupNextMove = (winningCard, players) => {
     dispatch({ type: "SET_CURRENT_SEAT", payload: null });
     dispatch({ type: "RESET_MOVE_CARDS" });
+    dispatch({ type: "ADD_MOVE_COUNT" });
     dispatch({ type: "SET_ASKING_CARD", payload: null });
     dispatch({
       type: "SET_CURRENT_SEAT",
       payload: winningCard.owner.seatNumber,
     });
+    checkIfMovesLeft(players);
   };
 
-  // Keep count of remaining moves
-  // Determine result
+  // Keep count of remaining moves => not using this method for now
+  // Check if players do not have any more cards in hand
+  const checkIfMovesLeft = (players) => {
+    if (
+      Object.values(players).every((player) => {
+        return player.hand.length === 0;
+      })
+    ) {
+      dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
+      dispatch({ type: "SET_RESULTS_PHASE", payload: true });
+    }
+  };
+
+  // Result display phase
+  useEffect(() => {
+    if (resultsPhase) {
+      getGameResult(bigStack, smallStack);
+    }
+  }, [resultsPhase]);
+
+  // Get result for each party
+  const getGameResult = (bigOneStack, smallOnesStack) => {
+    const results = {
+      bigOneScore: null,
+      smallOnesScore: null,
+    };
+
+    results.bigOneScore = bigOneStack.reduce(
+      (score, card) => score + card.value,
+      0
+    );
+
+    results.smallOnesScore = smallOnesStack.reduce(
+      (score, card) => score + card.value,
+      0
+    );
+
+    return results;
+  };
+
+  // Update scoreboard for each player depending on rules, party scores and "pules" (if not playing table)
+
   // Initialize new game / Deal cards
 
   return (

@@ -1,7 +1,10 @@
 .card {
   width: 50px;
+  // padding: 0.05rem;
+  padding: 0.5px;
 
   img {
+    // object-fit: contain;
     width: 100%;
   }
 
@@ -19,6 +22,7 @@
   &.moveCard,
   &.stack {
     cursor: default;
+    position: absolute;
 
     img {
       filter: brightness(100%);

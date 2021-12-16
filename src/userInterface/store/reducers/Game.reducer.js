@@ -23,6 +23,7 @@ const initialState = {
   smallStack: [], // cards collected on rounds won by small ones or in case big one plays Zole
   bigStack: [], // cards collected on rounds won by and buried by big one
   tableStack: [], // in case all players pass and decide to play "Galdiņš" i.e. Play Table, players play against table and it is possible for table to win first two rounds instead of players. This is a special game mode
+  moveCount: 0,
 };
 
 export default (state = initialState, action) => {
@@ -57,6 +58,7 @@ export default (state = initialState, action) => {
         smallStack: [],
         bigStack: [],
         tableStack: [],
+        moveCount: 0,
       };
     }
     case "INITIALIZE_GAME":
@@ -88,6 +90,7 @@ export default (state = initialState, action) => {
         smallStack: [],
         bigStack: [],
         tableStack: [],
+        moveCount: 0,
       };
     }
 
@@ -195,6 +198,25 @@ export default (state = initialState, action) => {
       return {
         ...state,
         askingCard: action.payload,
+      };
+
+    case "ADD_MOVE_COUNT":
+      const newMoveCount = state.moveCount + 1;
+      return {
+        ...state,
+        moveCount: newMoveCount,
+      };
+
+    case "RESET_MOVE_COUNT":
+      return {
+        ...state,
+        moveCount: 0,
+      };
+
+    case "SET_RESULTS_PHASE":
+      return {
+        ...state,
+        resultsPhase: action.payload,
       };
 
     default:

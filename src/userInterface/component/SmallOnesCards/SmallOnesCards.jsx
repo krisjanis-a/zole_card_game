@@ -8,12 +8,13 @@ const SmallOnesCards = () => {
 
   return (
     <div className="smallOnesCards">
-      {smallStack.map((card) => (
+      {smallStack.map((card, index) => (
         <Card
           cardId={card.id}
           path={`../../src/assets/card-back.png`}
           key={card.id}
           owner={"stack"}
+          stackIndex={index}
         />
       ))}
     </div>

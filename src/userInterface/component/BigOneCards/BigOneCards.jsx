@@ -8,12 +8,13 @@ const BigOneCards = () => {
 
   return (
     <div className="bigOnesCards">
-      {bigStack.map((card) => (
+      {bigStack.map((card, index) => (
         <Card
           cardId={card.id}
           path={`../../src/assets/card-back.png`}
           key={card.id}
           owner={"stack"}
+          stackIndex={index}
         />
       ))}
     </div>

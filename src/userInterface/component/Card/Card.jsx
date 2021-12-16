@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import cardIdToCard from "../../../engine/Utils/cardIdToCard";
 import "./Card.scss";
 
-const Card = ({ cardId, path, owner = "none" }) => {
+const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
   const dispatch = useDispatch();
   const moveCards = useSelector((state) => state.MoveCards);
   const {
@@ -51,7 +51,7 @@ const Card = ({ cardId, path, owner = "none" }) => {
         return;
       }
     }
-  }, [currentPhase, currentSeat]);
+  }, [currentPhase, currentSeat, askingCard]);
 
   // Another version for above switch statement (older && unfinished && not as good)
   /* useEffect(() => {
@@ -144,9 +144,10 @@ const Card = ({ cardId, path, owner = "none" }) => {
   return (
     <div
       key={cardId}
-      className={`card cardId${cardId} ${active ? "active" : "inactive"} ${
+      className={`card cardId${cardId} ${
         owner === "moveCards" ? "moveCard" : ""
-      } ${owner === "stack" ? "stack" : ""}`}
+      } ${owner === "stack" ? "stack" : ""}
+      ${stackIndex} ${active ? "active" : "inactive"}`}
       onClick={() => handleClick()}
     >
       <img src={path} alt="" />

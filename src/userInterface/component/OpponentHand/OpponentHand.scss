@@ -1,11 +1,16 @@
 .opponentHandWrapper {
   position: relative;
+  width: 100px;
+  height: 100px;
+
   .opponentHand {
+    position: absolute;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: row;
     // border: 2px red solid;
 
-    padding: 1rem;
+    // padding: 1rem;
 
     transform: rotate(90deg);
 

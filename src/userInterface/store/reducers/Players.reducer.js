@@ -45,10 +45,6 @@ export default (state = {}, action) => {
       return newState;
     }
 
-    case "BURY_CARD": {
-      return state;
-    }
-
     case "SET_PLAY_ZOLE": {
       const { name, playZole } = action.payload;
       const newState = { ...state };
