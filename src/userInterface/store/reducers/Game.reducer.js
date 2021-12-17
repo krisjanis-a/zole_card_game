@@ -219,6 +219,15 @@ export default (state = initialState, action) => {
         resultsPhase: action.payload,
       };
 
+    case "SET_GAME_RESULT":
+      return {
+        ...state,
+        gameScore: action.payload,
+      };
+
+    case "ADD_GAME_RESULT_TO_SCOREBOARD":
+      return state;
+
     default:
       return state;
   }

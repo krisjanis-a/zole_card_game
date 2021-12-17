@@ -18,6 +18,7 @@ import cardIdToCard from "../../../engine/Utils/cardIdToCard";
 import PromptBig from "../PromptBig/PromptBig";
 import PromptBury from "../PromptBury/PromptBury";
 import getWinningCard from "../../../engine/Utils/getWinningCard";
+import GameResult from "../GameResult/GameResult";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ const GameScreen = () => {
 
   const [showChooseBigPrompt, setShowChooseBigPrompt] = useState(false);
   const [showBuryCardsPrompt, setShowBuryCardsPrompt] = useState(false);
+  const [showGameResult, setShowGameResult] = useState(false);
 
   //=======================================================================================
 
@@ -88,7 +90,7 @@ const GameScreen = () => {
 
   useEffect(() => {
     if (initializeGame) {
-      console.log("Initializing the game");
+      // console.log("Initializing the game");
       if (Object.values(players).length > 0) {
         // Deal cards
         const deck = createDeck(Cards);
@@ -162,6 +164,15 @@ const GameScreen = () => {
     }
   }, [buryingCardsPhase]);
 
+  useEffect(() => {
+    if (resultsPhase) {
+      setShowGameResult(true);
+    }
+    if (!resultsPhase) {
+      setShowGameResult(false);
+    }
+  }, [resultsPhase]);
+
   // Finalize move
 
   useEffect(() => {
@@ -218,7 +229,8 @@ const GameScreen = () => {
   // Result display phase
   useEffect(() => {
     if (resultsPhase) {
-      getGameResult(bigStack, smallStack);
+      const gameResult = getGameResult(bigStack, smallStack);
+      dispatch({ type: "SET_GAME_RESULT", payload: gameResult });
     }
   }, [resultsPhase]);
 
@@ -264,6 +276,9 @@ const GameScreen = () => {
       ) : null}
       {showBuryCardsPrompt && chooseBigTurn ? (
         <PromptBury setShowBuryCardsPrompt={setShowBuryCardsPrompt} />
+      ) : null}
+      {showGameResult ? (
+        <GameResult setShowGameResult={setShowGameResult} />
       ) : null}
     </div>
   );

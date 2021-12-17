@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 const Session = () => {
   const dispatch = useDispatch();
   const players = useSelector((state) => state.Players);
+  const gamePhase = useSelector((state) => state.Game.currentPhase);
 
   const endSession = () => {
     dispatch({ type: "RESET_PLAYERS" });
@@ -24,6 +25,18 @@ const Session = () => {
     });
   };
 
+  const toResultPhase = () => {
+    if (gamePhase === "MAKING_MOVES") {
+      dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
+      dispatch({ type: "SET_RESULTS_PHASE", payload: true });
+    }
+
+    if (gamePhase === "RESULTS") {
+      dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
+      dispatch({ type: "SET_RESULTS_PHASE", payload: false });
+    }
+  };
+
   return (
     <div className="session">
       <GameScreen />
@@ -31,6 +44,11 @@ const Session = () => {
         <Button buttonName="Return to Menu" type="main" onClick={endSession} />
       </Link>
       <Button buttonName="Reset game" type="secondary" onClick={resetGame} />
+      <Button
+        buttonName="Results phase"
+        type="secondary"
+        onClick={toResultPhase}
+      />
     </div>
   );
 };
