@@ -1,0 +1,30 @@
+.sessionSetup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+
+  width: fit-content;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background-color: brown;
+  border: 2px solid goldenrod;
+  border-radius: 1rem;
+
+  .modeOptions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .modeOption {
+    color: white;
+    padding: 0.5rem 0;
+  }
+}

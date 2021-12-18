@@ -29,6 +29,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     }
   }, [chooseBigTurn]);
 
+  // Set game mode
+
   // Set player
   useEffect(() => {
     setPlayer(...playerObj);

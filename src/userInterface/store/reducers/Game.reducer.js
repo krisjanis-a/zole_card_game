@@ -24,6 +24,12 @@ const initialState = {
   bigStack: [], // cards collected on rounds won by and buried by big one
   tableStack: [], // in case all players pass and decide to play "Galdiņš" i.e. Play Table, players play against table and it is possible for table to win first two rounds instead of players. This is a special game mode
   moveCount: 0,
+  smallZole: false,
+  playTable: false,
+  // GAME MODE => must be set on session initialization
+  normalMode: true, // play the game with remnants ("pules") if all players pass
+  tableMode: false, // play against table if all players pass
+  smallZoleMode: false, // small Zole option
 };
 
 export default (state = initialState, action) => {
@@ -59,6 +65,11 @@ export default (state = initialState, action) => {
         bigStack: [],
         tableStack: [],
         moveCount: 0,
+        smallZole: false,
+        playTable: false,
+        normalMode: true,
+        tableMode: false,
+        smallZoleMode: false,
       };
     }
     case "INITIALIZE_GAME":
@@ -91,8 +102,29 @@ export default (state = initialState, action) => {
         bigStack: [],
         tableStack: [],
         moveCount: 0,
+        smallZole: false,
+        playTable: false,
+        normalMode: state.normalMode,
+        tableMode: state.tableMode,
+        smallZoleMode: state.smallZoleMode,
       };
     }
+
+    case "SET_NORMAL_MODE":
+      return {
+        ...state,
+        normalMode: action.payload,
+      };
+    case "SET_TABLE_MODE":
+      return {
+        ...state,
+        tableMode: action.payload,
+      };
+    case "SET_SMALL_ZOLE_MODE":
+      return {
+        ...state,
+        smallZoleMode: action.payload,
+      };
 
     case "SET_GAME_RUNNING":
       return {

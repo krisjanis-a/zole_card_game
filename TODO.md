@@ -11,7 +11,7 @@ Not started
 - [ ] Animate card dealing process
 - [ ] Animate putting cards on table on top of each other
 
-- [ ] Connect engine with UI
+- [ ] <s>Connect</s> Separate engine / logic from React UI
 
 ---
 
