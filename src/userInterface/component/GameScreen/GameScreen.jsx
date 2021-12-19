@@ -39,6 +39,8 @@ const GameScreen = () => {
     normalMode,
     tableMode,
     smallZoleMode,
+    playTable,
+    smallZole,
   } = useSelector((state) => state.Game);
 
   const players = useSelector((state) => state.Players);
@@ -178,13 +180,14 @@ const GameScreen = () => {
     }
   }, [resultsPhase]);
 
+  //=======================================================================================
+
   //! MANAGE MOVES & TURNS
 
   // Finalize move
 
   useEffect(() => {
     if (moveCards.length === 3) {
-      // console.log("Move done, lets get calculating winner");
       const winningCard = getWinningCard(moveCards);
 
       addWinningCardsToStack(winningCard.owner, moveCards);
@@ -208,7 +211,14 @@ const GameScreen = () => {
       }
     }
 
-    if (tableMode) {
+    // All players pass and playing table
+    if (tableMode && playTable) {
+      cards.map((card) => {
+        dispatch({
+          type: "ADD_CARDS_TO_STACK",
+          payload: { name: winningPlayer.name, card: card },
+        });
+      });
     }
   };
 
@@ -237,6 +247,8 @@ const GameScreen = () => {
       dispatch({ type: "SET_RESULTS_PHASE", payload: true });
     }
   };
+
+  //=======================================================================================
 
   //! RESULT CALCULATION & DISPLAY
 

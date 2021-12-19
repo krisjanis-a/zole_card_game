@@ -136,13 +136,13 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
       {allPlayersPassed && normalMode ? (
         <div>
           <h3>All players passed</h3>
-          <h4>Common remnant will be added to players</h4>
+          <h4>Collective due will be added</h4>
         </div>
       ) : null}
       {allPlayersPassed && tableMode ? (
         <div>
           <h3>All players passed</h3>
-          <h4>Playing against table</h4>
+          <h4>Playing the table</h4>
         </div>
       ) : null}
     </div>

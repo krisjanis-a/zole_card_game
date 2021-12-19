@@ -24,6 +24,7 @@ const Session = () => {
     dispatch({ type: "RESET_GAME" });
     Object.values(players).forEach((player) => {
       dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
+      dispatch({ type: "RESET_STACK", payload: player.name });
     });
   };
 
