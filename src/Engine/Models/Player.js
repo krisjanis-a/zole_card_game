@@ -14,6 +14,7 @@ export default class Player {
     this.big = false;
     this.playZole = false;
     this.seatNumber = Number;
+    this.stack = [];
   }
 
   setName(name) {
@@ -40,5 +41,11 @@ export default class Player {
 
   setSeat(seatNumber) {
     this.seatNumber = seatNumber;
+  }
+
+  setStack(card) {
+    const newStack = this.stack;
+    newStack.push(card);
+    this.stack = newStack;
   }
 }

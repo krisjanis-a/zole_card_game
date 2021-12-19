@@ -187,6 +187,12 @@ export default (state = initialState, action) => {
       return newState;
     }
 
+    case "ADD_CARD_TO_TABLE_STACK": {
+      const newState = { ...state };
+      newState.tableStack.push(action.payload);
+      return newState;
+    }
+
     case "SET_BURYING_PHASE":
       return {
         ...state,

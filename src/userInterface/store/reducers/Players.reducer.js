@@ -52,6 +52,12 @@ export default (state = {}, action) => {
       return newState;
     }
 
+    case "ADD_CARDS_TO_STACK": {
+      const { name, stack } = action.payload;
+      const newState = { ...state };
+      newState[name].setStack(...stack);
+    }
+
     default:
       return state;
   }

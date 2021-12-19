@@ -36,6 +36,9 @@ const GameScreen = () => {
     moveCount,
     bigStack,
     smallStack,
+    normalMode,
+    tableMode,
+    smallZoleMode,
   } = useSelector((state) => state.Game);
 
   const players = useSelector((state) => state.Players);
@@ -192,15 +195,20 @@ const GameScreen = () => {
   //  Add winning cards to correct stack
   const addWinningCardsToStack = (winningPlayer, moveCards) => {
     const cards = moveCards.map((card) => card.card);
-    if (winningPlayer.big) {
-      cards.map((card) =>
-        dispatch({ type: "ADD_CARD_TO_BIG_STACK", payload: card })
-      );
+    if (normalMode) {
+      if (winningPlayer.big) {
+        cards.map((card) =>
+          dispatch({ type: "ADD_CARD_TO_BIG_STACK", payload: card })
+        );
+      }
+      if (!winningPlayer.big) {
+        cards.map((card) =>
+          dispatch({ type: "ADD_CARD_TO_SMALL_STACK", payload: card })
+        );
+      }
     }
-    if (!winningPlayer.big) {
-      cards.map((card) =>
-        dispatch({ type: "ADD_CARD_TO_SMALL_STACK", payload: card })
-      );
+
+    if (tableMode) {
     }
   };
 
