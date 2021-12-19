@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import cardIdToCard from "../../../engine/Utils/cardIdToCard";
+import cardIdToCard from "../../../engine/utils/cardIdToCard";
 import "./Card.scss";
 
 const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {

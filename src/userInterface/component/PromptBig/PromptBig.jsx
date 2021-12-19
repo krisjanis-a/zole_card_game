@@ -6,7 +6,9 @@ import Button from "../Button/Button";
 const PromptBig = ({ setShowChooseBigPrompt }) => {
   const dispatch = useDispatch();
 
-  const { chooseBigTurn } = useSelector((state) => state.Game);
+  const { chooseBigTurn, normalMode, tableMode, smallZoleMode } = useSelector(
+    (state) => state.Game
+  );
   const table = useSelector((state) => state.Table);
   const players = useSelector((state) => state.Players);
 
@@ -25,9 +27,27 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
         setShowChooseBigPrompt(false);
         dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
         dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
+
+        if (normalMode) {
+          resetGame();
+        }
+
+        if (tableMode) {
+          dispatch({ type: "SET_PLAY_TABLE", payload: true });
+        }
       }, 1500);
     }
   }, [chooseBigTurn]);
+
+  // Reset game
+  const resetGame = () => {
+    dispatch({ type: "CLEAR_TABLE" });
+    dispatch({ type: "RESET_MOVE_CARDS" });
+    dispatch({ type: "RESET_GAME" });
+    Object.values(players).forEach((player) => {
+      dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
+    });
+  };
 
   // Set game mode
 
@@ -71,6 +91,12 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     dispatch({ type: "SET_BURYING_PHASE", payload: true });
   };
 
+  // PLAY SMALL ZOLE
+  const handlePlaySmallZole = () => {
+    dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
+    dispatch({ type: "SET_PLAY_SMALL_ZOLE", payload: true });
+  };
+
   // PASS
   const chooseBigTurnUpdate = () => {
     dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: chooseBigTurn + 1 });
@@ -93,6 +119,13 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
             type="secondary"
             onClick={handlePickTable}
           />
+          {smallZoleMode ? (
+            <Button
+              buttonName="Small Zole"
+              type="secondary"
+              onClick={handlePlaySmallZole}
+            />
+          ) : null}
           <Button
             buttonName="Pass"
             type="secondary"
@@ -100,9 +133,16 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
           />
         </>
       ) : null}
-      {allPlayersPassed ? (
+      {allPlayersPassed && normalMode ? (
         <div>
           <h3>All players passed</h3>
+          <h4>Common remnant will be added to players</h4>
+        </div>
+      ) : null}
+      {allPlayersPassed && tableMode ? (
+        <div>
+          <h3>All players passed</h3>
+          <h4>Playing against table</h4>
         </div>
       ) : null}
     </div>

@@ -150,6 +150,18 @@ export default (state = initialState, action) => {
         chooseBigTurn: action.payload,
       };
 
+    case "SET_PLAY_SMALL_ZOLE":
+      return {
+        ...state,
+        smallZole: action.payload,
+      };
+
+    case "SET_PLAY_TABLE":
+      return {
+        ...state,
+        playTable: action.payload,
+      };
+
     case "SET_PLAYER_NAMES":
       return {
         ...state,

@@ -1,6 +1,6 @@
 // Converts card's id to Card object
-import cards from "../Data/Cards.js";
-import Card from "../Models/Card.js";
+import cards from "../data/Cards.js";
+import Card from "../models/Card.js";
 
 /**
  * @param id Playing card's id inside cards object

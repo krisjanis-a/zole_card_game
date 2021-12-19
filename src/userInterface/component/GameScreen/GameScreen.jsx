@@ -9,15 +9,15 @@ import MoveCards from "../MoveCards/MoveCards";
 import BigOneCards from "../BigOneCards/BigOneCards";
 import SmallOnesCards from "../SmallOnesCards/SmallOnesCards";
 
-import Player from "../../../engine/Models/Player";
+import Player from "../../../engine/models/Player";
 
-import Cards from "../../../engine/Data/Cards";
-import createDeck from "../../../engine/Utils/createDeck";
-import dealCards from "../../../engine/Utils/dealCards";
-import cardIdToCard from "../../../engine/Utils/cardIdToCard";
+import Cards from "../../../engine/data/Cards";
+import createDeck from "../../../engine/utils/createDeck";
+import dealCards from "../../../engine/utils/dealCards";
+import cardIdToCard from "../../../engine/utils/cardIdToCard";
 import PromptBig from "../PromptBig/PromptBig";
 import PromptBury from "../PromptBury/PromptBury";
-import getWinningCard from "../../../engine/Utils/getWinningCard";
+import getWinningCard from "../../../engine/utils/getWinningCard";
 import GameResult from "../GameResult/GameResult";
 
 const GameScreen = () => {
@@ -129,6 +129,8 @@ const GameScreen = () => {
 
   //=======================================================================================
 
+  //! GAME PHASES
+
   // Set game phase
   useEffect(() => {
     if (choosingBigPhase) {
@@ -172,6 +174,8 @@ const GameScreen = () => {
       setShowGameResult(false);
     }
   }, [resultsPhase]);
+
+  //! MANAGE MOVES & TURNS
 
   // Finalize move
 
@@ -225,6 +229,8 @@ const GameScreen = () => {
       dispatch({ type: "SET_RESULTS_PHASE", payload: true });
     }
   };
+
+  //! RESULT CALCULATION & DISPLAY
 
   // Result display phase
   useEffect(() => {
