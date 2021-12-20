@@ -33,6 +33,8 @@ const initialState = {
   bigOneWinsSmallZole: false,
   collectiveDue: 0,
   personalDues: {},
+  smallTrickCount: 0,
+  bigTrickCount: 0,
 };
 
 export default (state = initialState, action) => {
@@ -76,6 +78,8 @@ export default (state = initialState, action) => {
         bigOneWinsSmallZole: false,
         collectiveDue: state.collectiveDue,
         personalDues: state.personalDues,
+        smallTrickCount: 0,
+        bigTrickCount: 0,
       };
     }
     case "INITIALIZE_GAME":
@@ -116,6 +120,8 @@ export default (state = initialState, action) => {
         bigOneWinsSmallZole: false,
         collectiveDue: state.collectiveDue,
         personalDues: state.personalDues,
+        smallTrickCount: 0,
+        bigTrickCount: 0,
       };
     }
 
@@ -157,6 +163,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         chooseBigTurn: action.payload,
+      };
+
+    case "SET_PLAY_ZOLE":
+      return {
+        ...state,
+        playZole: action.payload,
       };
 
     case "SET_PLAY_SMALL_ZOLE":
@@ -304,6 +316,34 @@ export default (state = initialState, action) => {
         ...state,
         collectiveDue: 0,
       };
+
+    case "ADD_SMALL_TRICK_COUNT":
+      return {
+        ...state,
+        smallTrickCount: state.smallTrickCount + 1,
+      };
+
+    case "ADD_BIG_TRICK_COUNT":
+      return {
+        ...state,
+        bigTrickCount: state.bigTrickCount + 1,
+      };
+
+    case "RESET_TRICK_COUNTS":
+      return {
+        ...state,
+        smallTrickCount: 0,
+        bigTrickCount: 0,
+      };
+
+    case "UPDATE_SCOREBOARD": {
+      const updatedScoreboard = state.scoreboard;
+      updatedScoreboard.push(action.payload);
+      return {
+        ...state,
+        scoreboard: updatedScoreboard,
+      };
+    }
 
     default:
       return state;

@@ -62,7 +62,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
     dispatch({
       type: "SET_PLAY_ZOLE",
-      payload: { name: player.name, playZole: true },
+      payload: true,
     });
     dispatch({
       type: "ADD_TABLE_TO_SMALL_STACK",

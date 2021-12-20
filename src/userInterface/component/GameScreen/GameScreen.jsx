@@ -44,6 +44,8 @@ const GameScreen = () => {
     playTable,
     smallZole,
     gameScore,
+    smallTrickCount,
+    bigTrickCount,
   } = useSelector((state) => state.Game);
 
   const players = useSelector((state) => state.Players);
@@ -202,16 +204,18 @@ const GameScreen = () => {
   //  Add winning cards to correct stack
   const addWinningCardsToStack = (winningPlayer, moveCards) => {
     const cards = moveCards.map((card) => card.card);
-    if (normalMode) {
+    if (!playTable && !smallZole) {
       if (winningPlayer.big) {
         cards.map((card) =>
           dispatch({ type: "ADD_CARD_TO_BIG_STACK", payload: card })
         );
+        dispatch({ type: "ADD_BIG_TRICK_COUNT" });
       }
       if (!winningPlayer.big) {
         cards.map((card) =>
           dispatch({ type: "ADD_CARD_TO_SMALL_STACK", payload: card })
         );
+        dispatch({ type: "ADD_SMALL_TRICK_COUNT" });
       }
     }
 
@@ -294,12 +298,18 @@ const GameScreen = () => {
 
   // Update scoreboard for each player depending on rules, party scores and "pules" (if not playing table)
 
-  const updateScoreboard = (players, gameScore) => {
+  const updateScoreboard = (
+    players,
+    gameScore,
+    bigOneTrickCount,
+    smallOnesTrickCount
+  ) => {
     const playerScores = {};
     const bigOneScore = gameScore.bigOneScore;
     const smallOnesScore = gameScore.smallOnesScore;
     Object.values(players).forEach((player) => {
-      if (!playTable) {
+      // Normal mode not playing zole
+      if (!playTable && !smallZole && !playZole) {
         // Winning cases
         if (bigOneScore >= 61 && bigOneScore <= 90) {
           if (player.big) {
@@ -311,6 +321,8 @@ const GameScreen = () => {
             playerScores[name] = -1;
           }
         }
+
+        // "Jaņi" for small ones
         if (bigOneScore >= 91 && smallOnesScore !== 0) {
           if (player.big) {
             const name = player.name;
@@ -321,7 +333,9 @@ const GameScreen = () => {
             playerScores[name] = -2;
           }
         }
-        if (bigOneScore >= 91 && smallOnesScore === 0) {
+
+        // No tricks for small ones - "Bezstiķis"
+        if (smallOnesTrickCount === 0) {
           if (player.big) {
             const name = player.name;
             playerScores[name] = +6;
@@ -331,6 +345,7 @@ const GameScreen = () => {
             playerScores[name] = -3;
           }
         }
+
         // Losing cases
         if (bigOneScore >= 31 && bigOneScore <= 60) {
           if (player.big) {
@@ -352,7 +367,9 @@ const GameScreen = () => {
             playerScores[name] = +3;
           }
         }
-        if (bigOneScore === 0) {
+
+        // No tricks for big one - "Bezstiķis"
+        if (bigOneTrickCount === 0) {
           if (player.big) {
             const name = player.name;
             playerScores[name] = -8;
@@ -363,6 +380,81 @@ const GameScreen = () => {
           }
         }
       }
+
+      // Normal mode playing zole
+      if (!playTable && !smallZole && playZole) {
+        // Winning cases
+        if (bigOneScore >= 61 && bigOneScore <= 90) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = +10;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = -5;
+          }
+        }
+
+        // "Jaņi" for small ones
+        if (bigOneScore >= 91) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = +12;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = -6;
+          }
+        }
+
+        // No tricks for small ones - "Bezstiķis"
+        if (smallOnesTrickCount === 0) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = +14;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = -7;
+          }
+        }
+        // Losing cases
+        if (bigOneScore >= 31 && bigOneScore <= 60) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = -12;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = +6;
+          }
+        }
+
+        // "Jaņi" for big one
+        if (bigOneScore <= 30) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = -14;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = +7;
+          }
+        }
+        // No tricks for big one - "Bezstiķis"
+        if (bigOneTrickCount === 0) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = -16;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = +8;
+          }
+        }
+      }
+
+      // Small Zole
       if (smallZole) {
         // Winning case
         if (bigOneWinsSmallZole) {
@@ -389,6 +481,7 @@ const GameScreen = () => {
       }
     });
 
+    // Playing Table
     if (playTable) {
       let maxTricks = 0;
       let tableLoser;
@@ -396,7 +489,6 @@ const GameScreen = () => {
       // Get losing player
       Object.values(players).forEach((player) => {
         const tricks = player.stack.length / 3;
-        // console.log(player.stack.length);
 
         // In case two players have same amount of tricks
         if (tricks === maxTricks && tricks !== 0) {
@@ -434,8 +526,14 @@ const GameScreen = () => {
   };
 
   useEffect(() => {
-    updateScoreboard(players, gameScore);
-  }, [gameScore]);
+    const roundScore = updateScoreboard(
+      players,
+      gameScore,
+      bigTrickCount,
+      smallTrickCount
+    );
+    dispatch({ type: "UPDATE_SCOREBOARD", payload: roundScore });
+  }, [resultsPhase]);
 
   // Initialize new game / Deal cards
 

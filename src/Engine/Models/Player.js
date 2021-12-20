@@ -12,7 +12,6 @@ export default class Player {
     this.score = []; // for each session to be populated with scores of rounds
     this.hand = [];
     this.big = false;
-    this.playZole = false;
     this.seatNumber = Number;
     this.stack = [];
   }
@@ -33,10 +32,6 @@ export default class Player {
 
   setBig(big) {
     this.big = big;
-  }
-
-  setPlayZole(playZole) {
-    this.playZole = playZole;
   }
 
   setSeat(seatNumber) {
