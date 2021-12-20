@@ -39,8 +39,10 @@ const GameScreen = () => {
     normalMode,
     tableMode,
     smallZoleMode,
+    playZole,
     playTable,
     smallZole,
+    gameScore,
   } = useSelector((state) => state.Game);
 
   const players = useSelector((state) => state.Players);
@@ -81,10 +83,6 @@ const GameScreen = () => {
     dispatch({ type: "ADD_PLAYER", payload: player1 });
     dispatch({ type: "ADD_PLAYER", payload: player2 });
     dispatch({ type: "ADD_PLAYER", payload: player3 });
-
-    // if (!chooseBigTurn) {
-    //   dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
-    // }
 
     dispatch({ type: "INITIALIZE_GAME", payload: true });
   }, []);
@@ -190,6 +188,12 @@ const GameScreen = () => {
     if (moveCards.length === 3) {
       const winningCard = getWinningCard(moveCards);
 
+      if (smallZoleMode && smallZole && winningCard.owner.big) {
+        // console.log(`GG, ${winningCard.owner.name}`);
+        dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
+        dispatch({ type: "SET_RESULTS_PHASE", payload: true });
+      }
+
       addWinningCardsToStack(winningCard.owner, moveCards);
       setupNextMove(winningCard, players);
     }
@@ -280,7 +284,39 @@ const GameScreen = () => {
     return results;
   };
 
+  //=======================================================================================
+
+  //! SCOREBOARD UPDATING
+
   // Update scoreboard for each player depending on rules, party scores and "pules" (if not playing table)
+
+  const updateScoreboard = (players, gameScore) => {
+    const playerScores = {};
+    const bigOneScore = gameScore.bigOneScore;
+    const smallOnesScore = gameScore.smallOnesScore;
+    Object.values(players).forEach((player) => {
+      if (!playZole) {
+        // Winning cases
+        if (bigOneScore >= 61 && bigOneScore <= 90) {
+        }
+        if (bigOneScore >= 91 && smallOnesScore !== 0) {
+        }
+        if (bigOneScore >= 91 && smallOnesScore === 0) {
+        }
+        // Losing cases
+        if (bigOneScore >= 31 && bigOneScore <= 60) {
+        }
+        if (bigOneScore <= 30) {
+        }
+        if (bigOneScore === 0) {
+        }
+      }
+      if (playSmallZole) {
+      }
+      if (playTable) {
+      }
+    });
+  };
 
   // Initialize new game / Deal cards
 

@@ -30,6 +30,7 @@ const initialState = {
   normalMode: true, // play the game with remnants ("pules") if all players pass
   tableMode: false, // play against table if all players pass
   smallZoleMode: false, // small Zole option
+  dues: [],
 };
 
 export default (state = initialState, action) => {

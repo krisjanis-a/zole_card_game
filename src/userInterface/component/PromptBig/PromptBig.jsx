@@ -95,6 +95,10 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
   const handlePlaySmallZole = () => {
     dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
     dispatch({ type: "SET_PLAY_SMALL_ZOLE", payload: true });
+
+    setShowChooseBigPrompt(false);
+    dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
+    dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
   };
 
   // PASS
