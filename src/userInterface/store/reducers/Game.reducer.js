@@ -30,7 +30,9 @@ const initialState = {
   normalMode: true, // play the game with remnants ("pules") if all players pass
   tableMode: false, // play against table if all players pass
   smallZoleMode: false, // small Zole option
-  dues: [],
+  bigOneWinsSmallZole: false,
+  collectiveDue: 0,
+  personalDues: {},
 };
 
 export default (state = initialState, action) => {
@@ -71,6 +73,9 @@ export default (state = initialState, action) => {
         normalMode: true,
         tableMode: false,
         smallZoleMode: false,
+        bigOneWinsSmallZole: false,
+        collectiveDue: state.collectiveDue,
+        personalDues: state.personalDues,
       };
     }
     case "INITIALIZE_GAME":
@@ -108,6 +113,9 @@ export default (state = initialState, action) => {
         normalMode: state.normalMode,
         tableMode: state.tableMode,
         smallZoleMode: state.smallZoleMode,
+        bigOneWinsSmallZole: false,
+        collectiveDue: state.collectiveDue,
+        personalDues: state.personalDues,
       };
     }
 
@@ -155,6 +163,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         smallZole: action.payload,
+      };
+
+    case "SET_BIG_WINS_SMALL_ZOLE":
+      return {
+        ...state,
+        bigOneWinsSmallZole: action.payload,
       };
 
     case "SET_PLAY_TABLE":
@@ -278,6 +292,18 @@ export default (state = initialState, action) => {
 
     case "ADD_GAME_RESULT_TO_SCOREBOARD":
       return state;
+
+    case "ADD_COLLECTIVE_DUE":
+      return {
+        ...state,
+        collectiveDue: 1,
+      };
+
+    case "REMOVE_COLLECTIVE_DUE":
+      return {
+        ...state,
+        collectiveDue: 0,
+      };
 
     default:
       return state;

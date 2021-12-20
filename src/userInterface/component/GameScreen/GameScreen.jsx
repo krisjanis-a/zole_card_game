@@ -39,6 +39,7 @@ const GameScreen = () => {
     normalMode,
     tableMode,
     smallZoleMode,
+    bigOneWinsSmallZole,
     playZole,
     playTable,
     smallZole,
@@ -189,7 +190,6 @@ const GameScreen = () => {
       const winningCard = getWinningCard(moveCards);
 
       if (smallZoleMode && smallZole && winningCard.owner.big) {
-        // console.log(`GG, ${winningCard.owner.name}`);
         dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
         dispatch({ type: "SET_RESULTS_PHASE", payload: true });
       }
@@ -249,6 +249,10 @@ const GameScreen = () => {
     ) {
       dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
       dispatch({ type: "SET_RESULTS_PHASE", payload: true });
+
+      if (smallZole) {
+        dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: true });
+      }
     }
   };
 
@@ -295,28 +299,143 @@ const GameScreen = () => {
     const bigOneScore = gameScore.bigOneScore;
     const smallOnesScore = gameScore.smallOnesScore;
     Object.values(players).forEach((player) => {
-      if (!playZole) {
+      if (!playTable) {
         // Winning cases
         if (bigOneScore >= 61 && bigOneScore <= 90) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = +2;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = -1;
+          }
         }
         if (bigOneScore >= 91 && smallOnesScore !== 0) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = +4;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = -2;
+          }
         }
         if (bigOneScore >= 91 && smallOnesScore === 0) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = +6;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = -3;
+          }
         }
         // Losing cases
         if (bigOneScore >= 31 && bigOneScore <= 60) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = -4;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = +2;
+          }
         }
         if (bigOneScore <= 30) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = -6;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = +3;
+          }
         }
         if (bigOneScore === 0) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = -8;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = +4;
+          }
         }
       }
-      if (playSmallZole) {
-      }
-      if (playTable) {
+      if (smallZole) {
+        // Winning case
+        if (bigOneWinsSmallZole) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = +12;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = -6;
+          }
+        }
+        // Losing case
+        if (!bigOneWinsSmallZole) {
+          if (player.big) {
+            const name = player.name;
+            playerScores[name] = -14;
+          }
+          if (!player.big) {
+            const name = player.name;
+            playerScores[name] = +7;
+          }
+        }
       }
     });
+
+    if (playTable) {
+      let maxTricks = 0;
+      let tableLoser;
+
+      // Get losing player
+      Object.values(players).forEach((player) => {
+        const tricks = player.stack.length / 3;
+        // console.log(player.stack.length);
+
+        // In case two players have same amount of tricks
+        if (tricks === maxTricks && tricks !== 0) {
+          // Player has larger score than the current losing player
+          if (
+            player.stack.reduce((score, card) => score + card.value, 0) >
+            players[tableLoser].stack.reduce(
+              (score, card) => score + card.value,
+              0
+            )
+          ) {
+            tableLoser = player.name;
+          }
+        }
+
+        if (tricks > maxTricks) {
+          maxTricks = tricks;
+          tableLoser = player.name;
+        }
+      });
+
+      Object.values(players).forEach((player) => {
+        if (player.name === tableLoser) {
+          playerScores[player.name] = -4;
+        }
+        if (player.name !== tableLoser) {
+          playerScores[player.name] = +2;
+        }
+      });
+    }
+
+    console.log(playerScores);
+
+    return playerScores;
   };
+
+  useEffect(() => {
+    updateScoreboard(players, gameScore);
+  }, [gameScore]);
 
   // Initialize new game / Deal cards
 

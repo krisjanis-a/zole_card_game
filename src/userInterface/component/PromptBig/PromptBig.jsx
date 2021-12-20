@@ -27,6 +27,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
         setShowChooseBigPrompt(false);
         dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
         dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
+        dispatch({ type: "ADD_COLLECTIVE_DUE" });
 
         if (normalMode) {
           resetGame();
