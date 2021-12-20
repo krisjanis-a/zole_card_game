@@ -1,0 +1,164 @@
+-- Create snippets from popular songs and add as background music (e.g. Limp Bizkit - Behind Blue Eyes Interlude Part)
+
+-- Add card sound effects when dealing and making a move
+
+|=====|
+
+- Get cards displayed on the game screen
+- Make cards clickable with specific actions
+
+
+|=====|
+
+TODOs 7.12
+
+- Create data structures in redux state
+- Add hands to state
+- Make cards appear on correct positions on screen depending on state
+
+
+|=====|
+
+Create game initialization function that asynchronously goes through steps: 
+    - assigns turns depending on previous round's winner / winning seat
+    - prompts choosing big beginning next to previous initial chooser
+    - assigns big, adds table to big one's handle
+    - waits for big one to drop two cards to his stack
+
+Create game function that asynchronously
+    - checks if there are still moves to be made
+    - asks current turn / seat player to choose move card (add to current move cards)
+    - asks following seats to choose move cards (add to current move cards)
+    - determines winning card, winning card's owner
+    - add card to corresponding stack (big/small)
+    - assigns current turn to winning player
+    - repeat
+
+    - if no more moves can be made determine results of big and small ones
+
+
+|=====|
+
+Current progress:
+    - game can be played
+    - correct players are selected after choosing big & making moves
+    - game results can be calculated & and displayed
+
+
+TODOs
+
+|I|
+- create the rules / logic for all game modes
+
+    - normal mode (parastā zole) [N]
+        Options for normal mode if all players pass:
+        - table (galdiņš - no one picks up table) [T]
+        - dues (pules (couldn't think of better word in english) - special way of counting points, game is not played, new game started)
+    
+    - small zole (mazā zole - one who chooses this cannot pick up any move card stack or he loses) [S]
+
+    * Overall there are 4 modes in which to player
+        1. Normal game [N] with dues
+        2. Play Table [T] - game with option to play without table participation
+        3. Small Zole [S] - mode which adds option to play small zole ("mazā zole") (no play table option, with dues)
+        4. Small Zole + Table [TS] - game mode where there is option to play small zole and table ( no dues)
+
+
+
+|===================================================|
+
+- create scoreboard accounting logic / functionality
+
+Data needed to determine score for each player:
+    - is player big / small?
+    - what type of game was played:
+        - normal
+        - zole
+        - small zole
+        - table
+    - big one's score & small ones' score
+    
+Determining and assigning scores to players logic / function
+
+
+|================================================================================|
+|=========================      SCORING TABLE      ==============================|
+|================================================================================|
+
++-------------+---------------------------------+----------+----------+----------+
+|    Type     |             Score               |   Big    |  Small 1 |  Small 2 |
++-------------+---------------------------------+----------+----------+----------+
+|             |Wins 61-90                       |    +2    |    -1    |    -1    |
+|             +---------------------------------+----------+----------+----------+
+|             |Wins 91 or more                  |    +4    |    -2    |    -2    |
+|             +---------------------------------+----------+----------+----------+
+|             |Wins all tricks                  |    +6    |    -3    |    -3    |
+|             +---------------------------------+----------+----------+----------+
+|             |Wins 61-90 + collective due      |    +4    |    -2    |    -2    |
+|             +---------------------------------+----------+----------+----------+
+|             |Wins 91 or more + collective due |    +6    |    -3    |    -3    |
+|             +---------------------------------+----------+----------+----------+
+|    Normal   |Wins all tricks + collective due |    +8    |    -4    |    -4    |
+|             +---------------------------------+----------+----------+----------+
+|             |Wins 61-90 + private due         |    +5    |    -4    |    -1    |
+|             +---------------------------------+----------+----------+----------+
+|             |Wins 91 or more + private due    |    +7    |    -5    |    -2    |
+|             +---------------------------------+----------+----------+----------+
+|             |Wins all tricks + private due    |    +9    |    -6    |    -3    |
+|             +---------------------------------+----------+----------+----------+
+|             |Loss with 31-60                  |    -4    |    +2    |    +2    |
+|             +---------------------------------+----------+----------+----------+
+|             |Loss with 30 or less             |    -6    |    +3    |    +3    |
+|             +---------------------------------+----------+----------+----------+
+|             |Loss with no tricks              |    -8    |    +4    |    +4    |
++-------------+---------------------------------+----------+----------+----------+
+|             |Wins 61-90                       |   +10    |    -5    |    -5    |
++             +---------------------------------+----------+----------+----------+
+|             |Wins 91 or more                  |   +12    |    -6    |    -6    |
++             +---------------------------------+----------+----------+----------+
+|             |Wins all tricks                  |   +14    |    -7    |    -7    |
++    Zole     +---------------------------------+----------+----------+----------+
+|             |Loses with 31-60                 |   -12    |    +6    |    +6    |
++             +---------------------------------+----------+----------+----------+
+|             |Loses with 30 or less            |   -14    |    +7    |    +7    |
++             +---------------------------------+----------+----------+----------+
+|             |Loses with no tricks             |   -16    |    +8    |    +8    |
++-------------+---------------------------------+----------+----------+----------+
+|             |Big one wins                     |   +12    |    +6    |    +6    |
++  SmallZole  +---------------------------------+----------+----------+----------+
+|             |Big one loses                    |   -14    |    +7    |    +7    |
++-------------+---------------------------------+----------+----------+----------+
+|    Table    |Player who loses                 |    -4    |    +2    |    +2    |
++-------------+---------------------------------+----------+----------+----------+
+
+|===================================================|
+
+- create auto-play option for development (or better yet - create simple opponent AI)
+
+- refactor game reducers, state management, components & other things that need to be refactored
+
+- card stacks display in "messy" way
+
+- show loaders / icons one player during their move / choosing turn and other information badges
+
+- add permanent scoreboard to display
+
+- 3d-ize all the environment before using WebGL (maybe...)
+
+- develop opponent AI
+
+- game settings
+
+- save users on database
+
+- in game currency
+
+- session history
+
+- game tutorials
+
+- instructions
+
+- description
+
+- live playing online (web sockets, live server etc.)
