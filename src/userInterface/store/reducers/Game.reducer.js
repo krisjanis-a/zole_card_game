@@ -8,6 +8,7 @@ const initialState = {
   makingMovesPhase: false,
   resultsPhase: false,
   currentPhase: null,
+  gameFinished: false,
   // GAME PHASES _END
   playZole: false,
   scoreboard: [],
@@ -27,7 +28,7 @@ const initialState = {
   smallZole: false,
   playTable: false,
   // GAME MODE => must be set on session initialization
-  normalMode: true, // play the game with remnants ("pules") if all players pass
+  normalMode: true, // play the game with dues ("pules") if all players pass
   tableMode: false, // play against table if all players pass
   smallZoleMode: false, // small Zole option
   bigOneWinsSmallZole: false,
@@ -55,6 +56,7 @@ export default (state = initialState, action) => {
         makingMovesPhase: false,
         resultsPhase: false,
         currentPhase: null,
+        gameFinished: false,
         playZole: false,
         scoreboard: [],
         playerNames: [],
@@ -98,6 +100,7 @@ export default (state = initialState, action) => {
         makingMovesPhase: false,
         resultsPhase: false,
         currentPhase: null,
+        gameFinished: false,
         playZole: false,
         scoreboard: state.scoreboard,
         playerNames: state.playerNames,
@@ -344,6 +347,12 @@ export default (state = initialState, action) => {
         scoreboard: updatedScoreboard,
       };
     }
+
+    case "SET_GAME_FINISHED":
+      return {
+        ...state,
+        gameFinished: action.payload,
+      };
 
     default:
       return state;

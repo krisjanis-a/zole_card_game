@@ -46,6 +46,7 @@ const GameScreen = () => {
     gameScore,
     smallTrickCount,
     bigTrickCount,
+    gameFinished,
   } = useSelector((state) => state.Game);
 
   const players = useSelector((state) => state.Players);
@@ -194,6 +195,7 @@ const GameScreen = () => {
       if (smallZoleMode && smallZole && winningCard.owner.big) {
         dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
         dispatch({ type: "SET_RESULTS_PHASE", payload: true });
+        dispatch({ type: "SET_GAME_FINISHED", payload: true });
       }
 
       addWinningCardsToStack(winningCard.owner, moveCards);
@@ -253,6 +255,7 @@ const GameScreen = () => {
     ) {
       dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
       dispatch({ type: "SET_RESULTS_PHASE", payload: true });
+      dispatch({ type: "SET_GAME_FINISHED", payload: true });
 
       if (smallZole) {
         dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: true });
@@ -308,7 +311,7 @@ const GameScreen = () => {
     const bigOneScore = gameScore.bigOneScore;
     const smallOnesScore = gameScore.smallOnesScore;
     Object.values(players).forEach((player) => {
-      // Normal mode not playing zole
+      // Normal mode not playing zole & using collective / personal dues
       if (!playTable && !smallZole && !playZole) {
         // Winning cases
         if (bigOneScore >= 61 && bigOneScore <= 90) {
@@ -526,6 +529,8 @@ const GameScreen = () => {
   };
 
   useEffect(() => {
+    // if (gameFinished) {
+    console.log(gameScore);
     const roundScore = updateScoreboard(
       players,
       gameScore,
@@ -533,9 +538,20 @@ const GameScreen = () => {
       smallTrickCount
     );
     dispatch({ type: "UPDATE_SCOREBOARD", payload: roundScore });
-  }, [resultsPhase]);
+    // dispatch({ type: "SET_GAME_FINISHED", payload: false });
+    // }
+  }, [gameFinished]);
 
   // Initialize new game / Deal cards
+
+  useEffect(() => {
+    if (gameFinished) {
+      setTimeout(() => {
+        dispatch({ type: "INITIALIZE_GAME", payload: true });
+        dispatch({ type: "RESET_GAME" });
+      }, 2000);
+    }
+  }, [gameFinished]);
 
   return (
     <div className="gameScreen">

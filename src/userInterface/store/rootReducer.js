@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import Game from "./reducers/Game.reducer";
-import MoveCards from "./reducers/MoveCards.reducer";
-import Table from "./reducers/Table.reducer";
-import Players from "./reducers/Players.reducer";
+import MoveCards from "./MoveCards/MoveCards.reducer";
+import Table from "./TableCards/Table.reducer";
+import Players from "./Players/Players.reducer";
 
 const rootReducer = combineReducers({
   Game,
