@@ -1,41 +1,41 @@
 const initialState = {
-  sessionRunning: false, // responsible for clearing any previous session data
-  initializeGame: false, // during session initialization or after each game / round
-  gameRunning: false,
+  // sessionRunning: false, // responsible for clearing any previous session data
+  // initializeGame: false, // during session initialization or after each game / round
+  // gameRunning: false,
   // GAME PHASES
-  choosingBigPhase: false,
-  buryingCardsPhase: false,
-  makingMovesPhase: false,
-  resultsPhase: false,
-  currentPhase: null,
-  gameFinished: false,
+  // choosingBigPhase: false,
+  // buryingCardsPhase: false,
+  // makingMovesPhase: false,
+  // resultsPhase: false,
+  // currentPhase: null,
+  // gameFinished: false,
   // GAME PHASES _END
-  playZole: false,
-  scoreboard: [],
-  playerNames: [],
-  gamesPlayed: 0,
-  currentSeat: 1, // current seat that is making active choices (choosing big, burying cards, choosing move card)
-  startingSeat: 1, // starting seat of current game / round; after each round moves +1 seat forward cyclically
-  moveTurn: 1,
+  // playZole: false,
+  // scoreboard: [],
+  // playerNames: [],
+  // gamesPlayed: 0,
+  // currentSeat: 1, // current seat that is making active choices (choosing big, burying cards, choosing move card)
+  // startingSeat: 1, // starting seat of current game / round; after each round moves +1 seat forward cyclically
+  // moveTurn: 1,
   gameMode: "SINGLE_PLAYER",
-  gameScore: {},
-  chooseBigTurn: null, // player who is currently given choice of being big one
-  askingCard: null, // first card placed in single move
-  smallStack: [], // cards collected on rounds won by small ones or in case big one plays Zole
-  bigStack: [], // cards collected on rounds won by and buried by big one
-  tableStack: [], // in case all players pass and decide to play "Galdiņš" i.e. Play Table, players play against table and it is possible for table to win first two rounds instead of players. This is a special game mode
-  moveCount: 0,
-  smallZole: false,
-  playTable: false,
+  // gameScore: {},
+  // chooseBigTurn: null, // player who is currently given choice of being big one
+  // askingCard: null, // first card placed in single move
+  // smallStack: [], // cards collected on rounds won by small ones or in case big one plays Zole
+  // bigStack: [], // cards collected on rounds won by and buried by big one
+  // tableStack: [], // in case all players pass and decide to play "Galdiņš" i.e. Play Table, players play against table and it is possible for table to win first two rounds instead of players. This is a special game mode
+  // moveCount: 0,
+  // smallZole: false,
+  // playTable: false,
   // GAME MODE => must be set on session initialization
   // normalMode: true, // play the game with dues ("pules") if all players pass
   // tableMode: false, // play against table if all players pass
   // smallZoleMode: false, // small Zole option
-  bigOneWinsSmallZole: false,
-  collectiveDue: 0,
-  personalDues: {},
-  smallTrickCount: 0,
-  bigTrickCount: 0,
+  // bigOneWinsSmallZole: false,
+  // collectiveDue: 0,
+  // personalDues: {},
+  // smallTrickCount: 0,
+  // bigTrickCount: 0,
 };
 
 export default (state = initialState, action) => {
@@ -84,11 +84,11 @@ export default (state = initialState, action) => {
         bigTrickCount: 0,
       };
     }
-    case "INITIALIZE_GAME":
-      return {
-        ...state,
-        initializeGame: action.payload,
-      };
+    // case "INITIALIZE_GAME":
+    //   return {
+    //     ...state,
+    //     initializeGame: action.payload,
+    //   };
 
     case "RESET_GAME": {
       return {
@@ -144,215 +144,215 @@ export default (state = initialState, action) => {
     //     smallZoleMode: action.payload,
     //   };
 
-    case "SET_GAME_RUNNING":
-      return {
-        ...state,
-        gameRunning: action.payload,
-      };
+    // case "SET_GAME_RUNNING":
+    //   return {
+    //     ...state,
+    //     gameRunning: action.payload,
+    //   };
 
-    case "SET_GAME_PHASE":
-      return {
-        ...state,
-        currentPhase: action.payload,
-      };
+    // case "SET_GAME_PHASE":
+    //   return {
+    //     ...state,
+    //     currentPhase: action.payload,
+    //   };
 
-    case "SET_CHOOSING_BIG_PHASE":
-      return {
-        ...state,
-        choosingBigPhase: action.payload,
-      };
+    // case "SET_CHOOSING_BIG_PHASE":
+    //   return {
+    //     ...state,
+    //     choosingBigPhase: action.payload,
+    //   };
 
-    case "SET_CHOOSE_BIG_TURN":
-      return {
-        ...state,
-        chooseBigTurn: action.payload,
-      };
+    // case "SET_CHOOSE_BIG_TURN":
+    //   return {
+    //     ...state,
+    //     chooseBigTurn: action.payload,
+    //   };
 
-    case "SET_PLAY_ZOLE":
-      return {
-        ...state,
-        playZole: action.payload,
-      };
+    // case "SET_PLAY_ZOLE":
+    //   return {
+    //     ...state,
+    //     playZole: action.payload,
+    //   };
 
-    case "SET_PLAY_SMALL_ZOLE":
-      return {
-        ...state,
-        smallZole: action.payload,
-      };
+    // case "SET_PLAY_SMALL_ZOLE":
+    //   return {
+    //     ...state,
+    //     smallZole: action.payload,
+    //   };
 
-    case "SET_BIG_WINS_SMALL_ZOLE":
-      return {
-        ...state,
-        bigOneWinsSmallZole: action.payload,
-      };
+    // case "SET_BIG_WINS_SMALL_ZOLE":
+    //   return {
+    //     ...state,
+    //     bigOneWinsSmallZole: action.payload,
+    //   };
 
-    case "SET_PLAY_TABLE":
-      return {
-        ...state,
-        playTable: action.payload,
-      };
+    // case "SET_PLAY_TABLE":
+    //   return {
+    //     ...state,
+    //     playTable: action.payload,
+    //   };
 
-    case "SET_PLAYER_NAMES":
-      return {
-        ...state,
-        playerNames: action.payload,
-      };
+    // case "SET_PLAYER_NAMES":
+    //   return {
+    //     ...state,
+    //     playerNames: action.payload,
+    //   };
 
-    case "ADD_TABLE_TO_SMALL_STACK": {
-      return {
-        ...state,
-        smallStack: action.payload,
-      };
-    }
+    // case "ADD_TABLE_TO_SMALL_STACK": {
+    //   return {
+    //     ...state,
+    //     smallStack: action.payload,
+    //   };
+    // }
 
-    case "ADD_CARD_TO_SMALL_STACK": {
-      const newState = { ...state };
-      newState.smallStack.push(action.payload);
-      return newState;
-    }
+    // case "ADD_CARD_TO_SMALL_STACK": {
+    //   const newState = { ...state };
+    //   newState.smallStack.push(action.payload);
+    //   return newState;
+    // }
 
-    case "ADD_CARD_TO_BIG_STACK": {
-      const newState = { ...state };
-      newState.bigStack.push(action.payload);
-      return newState;
-    }
+    // case "ADD_CARD_TO_BIG_STACK": {
+    //   const newState = { ...state };
+    //   newState.bigStack.push(action.payload);
+    //   return newState;
+    // }
 
-    case "ADD_CARD_TO_TABLE_STACK": {
-      const newState = { ...state };
-      newState.tableStack.push(action.payload);
-      return newState;
-    }
+    // case "ADD_CARD_TO_TABLE_STACK": {
+    //   const newState = { ...state };
+    //   newState.tableStack.push(action.payload);
+    //   return newState;
+    // }
 
-    case "SET_BURYING_PHASE":
-      return {
-        ...state,
-        buryingCardsPhase: action.payload,
-      };
+    // case "SET_BURYING_PHASE":
+    //   return {
+    //     ...state,
+    //     buryingCardsPhase: action.payload,
+    //   };
 
-    case "SET_MAKING_MOVES_PHASE":
-      return {
-        ...state,
-        makingMovesPhase: action.payload,
-      };
+    // case "SET_MAKING_MOVES_PHASE":
+    //   return {
+    //     ...state,
+    //     makingMovesPhase: action.payload,
+    //   };
 
-    case "NEXT_SEAT": {
-      let nextSeat = state.currentSeat + 1;
-      if (nextSeat === 4) {
-        nextSeat = 1;
-      }
+    // case "NEXT_SEAT": {
+    //   let nextSeat = state.currentSeat + 1;
+    //   if (nextSeat === 4) {
+    //     nextSeat = 1;
+    //   }
 
-      return {
-        ...state,
-        currentSeat: nextSeat,
-      };
-    }
+    //   return {
+    //     ...state,
+    //     currentSeat: nextSeat,
+    //   };
+    // }
 
-    case "NEXT_MOVE_TURN": {
-      let nextMoveTurn = state.moveTurn + 1;
-      if (nextMoveTurn === 4) {
-        nextMoveTurn = 1;
-      }
-      return { ...state, moveTurn: nextMoveTurn };
-    }
-    case "SET_CURRENT_SEAT_TO_STARTING_SEAT":
-      return {
-        ...state,
-        currentSeat: state.startingSeat,
-      };
+    // case "NEXT_MOVE_TURN": {
+    //   let nextMoveTurn = state.moveTurn + 1;
+    //   if (nextMoveTurn === 4) {
+    //     nextMoveTurn = 1;
+    //   }
+    //   return { ...state, moveTurn: nextMoveTurn };
+    // }
+    // case "SET_CURRENT_SEAT_TO_STARTING_SEAT":
+    //   return {
+    //     ...state,
+    //     currentSeat: state.startingSeat,
+    //   };
 
-    case "SET_CURRENT_SEAT":
-      return {
-        ...state,
-        currentSeat: action.payload,
-      };
+    // case "SET_CURRENT_SEAT":
+    //   return {
+    //     ...state,
+    //     currentSeat: action.payload,
+    //   };
 
-    case "NEXT_STARTING_SEAT":
-      const nextStartingSeat = state.startingSeat++;
+    // case "NEXT_STARTING_SEAT":
+    //   const nextStartingSeat = state.startingSeat++;
 
-      return {
-        ...state,
-        startingSeat: nextStartingSeat,
-      };
+    //   return {
+    //     ...state,
+    //     startingSeat: nextStartingSeat,
+    //   };
 
-    case "SET_ASKING_CARD":
-      return {
-        ...state,
-        askingCard: action.payload,
-      };
+    // case "SET_ASKING_CARD":
+    //   return {
+    //     ...state,
+    //     askingCard: action.payload,
+    //   };
 
-    case "ADD_MOVE_COUNT":
-      const newMoveCount = state.moveCount + 1;
-      return {
-        ...state,
-        moveCount: newMoveCount,
-      };
+    // case "ADD_MOVE_COUNT":
+    //   const newMoveCount = state.moveCount + 1;
+    //   return {
+    //     ...state,
+    //     moveCount: newMoveCount,
+    //   };
 
-    case "RESET_MOVE_COUNT":
-      return {
-        ...state,
-        moveCount: 0,
-      };
+    // case "RESET_MOVE_COUNT":
+    //   return {
+    //     ...state,
+    //     moveCount: 0,
+    //   };
 
-    case "SET_RESULTS_PHASE":
-      return {
-        ...state,
-        resultsPhase: action.payload,
-      };
+    // case "SET_RESULTS_PHASE":
+    //   return {
+    //     ...state,
+    //     resultsPhase: action.payload,
+    //   };
 
-    case "SET_GAME_RESULT":
-      return {
-        ...state,
-        gameScore: action.payload,
-      };
+    // case "SET_GAME_RESULT":
+    //   return {
+    //     ...state,
+    //     gameScore: action.payload,
+    //   };
 
-    case "ADD_GAME_RESULT_TO_SCOREBOARD":
-      return state;
+    // case "ADD_GAME_RESULT_TO_SCOREBOARD":
+    //   return state;
 
-    case "ADD_COLLECTIVE_DUE":
-      return {
-        ...state,
-        collectiveDue: 1,
-      };
+    // case "ADD_COLLECTIVE_DUE":
+    //   return {
+    //     ...state,
+    //     collectiveDue: 1,
+    //   };
 
-    case "REMOVE_COLLECTIVE_DUE":
-      return {
-        ...state,
-        collectiveDue: 0,
-      };
+    // case "REMOVE_COLLECTIVE_DUE":
+    //   return {
+    //     ...state,
+    //     collectiveDue: 0,
+    //   };
 
-    case "ADD_SMALL_TRICK_COUNT":
-      return {
-        ...state,
-        smallTrickCount: state.smallTrickCount + 1,
-      };
+    // case "ADD_SMALL_TRICK_COUNT":
+    //   return {
+    //     ...state,
+    //     smallTrickCount: state.smallTrickCount + 1,
+    //   };
 
-    case "ADD_BIG_TRICK_COUNT":
-      return {
-        ...state,
-        bigTrickCount: state.bigTrickCount + 1,
-      };
+    // case "ADD_BIG_TRICK_COUNT":
+    //   return {
+    //     ...state,
+    //     bigTrickCount: state.bigTrickCount + 1,
+    //   };
 
-    case "RESET_TRICK_COUNTS":
-      return {
-        ...state,
-        smallTrickCount: 0,
-        bigTrickCount: 0,
-      };
+    // case "RESET_TRICK_COUNTS":
+    //   return {
+    //     ...state,
+    //     smallTrickCount: 0,
+    //     bigTrickCount: 0,
+    //   };
 
-    case "UPDATE_SCOREBOARD": {
-      const updatedScoreboard = state.scoreboard;
-      updatedScoreboard.push(action.payload);
-      return {
-        ...state,
-        scoreboard: updatedScoreboard,
-      };
-    }
+    // case "UPDATE_SCOREBOARD": {
+    //   const updatedScoreboard = state.scoreboard;
+    //   updatedScoreboard.push(action.payload);
+    //   return {
+    //     ...state,
+    //     scoreboard: updatedScoreboard,
+    //   };
+    // }
 
-    case "SET_GAME_FINISHED":
-      return {
-        ...state,
-        gameFinished: action.payload,
-      };
+    // case "SET_GAME_FINISHED":
+    //   return {
+    //     ...state,
+    //     gameFinished: action.payload,
+    //   };
 
     default:
       return state;

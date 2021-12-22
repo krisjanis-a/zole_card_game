@@ -4,8 +4,8 @@ export const getInitialState = () => ({
   smallZoleMode: false, // small Zole option
 });
 
-export default (state = getInitialState(), { type, payload }) => {
-  switch (type) {
+export default (state = getInitialState(), action) => {
+  switch (action.type) {
     case "SET_NORMAL_MODE":
       return {
         ...state,
