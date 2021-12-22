@@ -2,7 +2,7 @@ const getInitialState = () => ({
   initializeRound: false, // during session initialization or after each game / round
   roundRunning: false,
   roundFinished: false,
-  moveCount: 0,
+  moveCount: 0, // in case === 8 => round is finished
   startingSeat: 1, // starting seat of current round; after each round moves +1 seat forward cyclically
   currentSeat: 1, // current seat that is making active choices (choosing big, burying cards, choosing move card)
   chooseBigTurn: null, // player who is currently given choice of being big one
