@@ -1,4 +1,6 @@
-export default (state = [], action) => {
+export const getInitialState = () => [];
+
+export default (state = getInitialState(), action) => {
   switch (action.type) {
     case "ADD_MOVE_CARD": {
       if (state.length < 3) {
@@ -10,7 +12,7 @@ export default (state = [], action) => {
     }
 
     case "RESET_MOVE_CARDS":
-      state = [];
+      getInitialState();
 
     default:
       return state;

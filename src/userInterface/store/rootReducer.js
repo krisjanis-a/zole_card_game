@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import Game from "./reducers/Game.reducer";
+import Game from "./GameReducer/Game.reducer";
 import MoveCards from "./MoveCards/MoveCards.reducer";
 import Table from "./TableCards/Table.reducer";
 import Players from "./Players/Players.reducer";
