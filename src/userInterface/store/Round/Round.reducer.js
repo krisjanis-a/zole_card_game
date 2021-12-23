@@ -1,12 +1,12 @@
 const getInitialState = () => ({
   initializeRound: false, // during session initialization or after each game / round
-  roundRunning: false,
-  roundFinished: false,
+  roundRunning: false, // while round running
+  roundFinished: false, // for setting up next round
   moveCount: 0, // in case === 8 => round is finished
   startingSeat: 1, // starting seat of current round; after each round moves +1 seat forward cyclically
   currentSeat: 1, // current seat that is making active choices (choosing big, burying cards, choosing move card)
   chooseBigTurn: null, // player who is currently given choice of being big one
-  bigOneWinsSmallZole: false,
+  bigOneWinsSmallZole: false, // in case small zole is played & big one wins
 });
 
 export default (state = getInitialState(), action) => {
@@ -84,6 +84,9 @@ export default (state = getInitialState(), action) => {
         ...state,
         startingSeat: nextStartingSeat,
       };
+
+    case "RESET_ROUND":
+      return getInitialState();
 
     default:
       return state;

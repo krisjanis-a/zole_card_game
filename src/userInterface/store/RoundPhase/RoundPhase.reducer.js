@@ -1,4 +1,4 @@
-export const getInitialState = () => ({
+const getInitialState = () => ({
   choosingBigPhase: false,
   buryingCardsPhase: false,
   makingMovesPhase: false,
@@ -8,7 +8,7 @@ export const getInitialState = () => ({
 
 export default (state = getInitialState(), action) => {
   switch (action.type) {
-    case "SET_GAME_PHASE":
+    case "SET_ROUND_PHASE":
       return {
         ...state,
         currentPhase: action.payload,
@@ -37,6 +37,9 @@ export default (state = getInitialState(), action) => {
         ...state,
         resultsPhase: action.payload,
       };
+
+    case "RESET_ROUND_PHASE":
+      return getInitialState();
 
     default:
       return state;

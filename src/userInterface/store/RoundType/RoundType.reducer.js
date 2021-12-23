@@ -1,4 +1,4 @@
-export const getInitialState = () => ({
+const getInitialState = () => ({
   playZole: false,
   playSmallZole: false,
   playTable: false,
@@ -23,6 +23,9 @@ export default (state = getInitialState(), action) => {
         ...state,
         playTable: action.payload,
       };
+
+    case "RESET_ROUND_TYPE":
+      return getInitialState();
 
     default:
       return state;

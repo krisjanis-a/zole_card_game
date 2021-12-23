@@ -1,4 +1,6 @@
-export default (state = {}, action) => {
+const getInitialState = () => ({});
+
+export default (state = getInitialState(), action) => {
   switch (action.type) {
     case "ADD_PLAYER": {
       const { name } = action.payload;
@@ -11,7 +13,7 @@ export default (state = {}, action) => {
     }
 
     case "RESET_PLAYERS": {
-      return {};
+      return getInitialState();
     }
 
     case "SET_PLAYER_HAND": {

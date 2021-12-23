@@ -1,4 +1,4 @@
-export const getInitialState = () => ({
+const getInitialState = () => ({
   normalMode: true, // play the game with dues ("pules") if all players pass
   tableMode: false, // play against table if all players pass
   smallZoleMode: false, // small Zole option
@@ -21,6 +21,9 @@ export default (state = getInitialState(), action) => {
         ...state,
         smallZoleMode: action.payload,
       };
+
+    case "RESET_SESSION_MODE":
+      return getInitialState();
 
     default:
       return state;

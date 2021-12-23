@@ -18,10 +18,7 @@ export default (state = getInitialState(), action) => {
       };
 
     case "RESET_TRICK_COUNTS":
-      return {
-        smallTrickCount: 0,
-        bigTrickCount: 0,
-      };
+      return getInitialState();
 
     default:
       return state;

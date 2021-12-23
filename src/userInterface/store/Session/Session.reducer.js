@@ -18,6 +18,9 @@ export default (state = getInitialState(), action) => {
         playerNames: action.payload,
       };
 
+    case "RESET_SESSION":
+      return getInitialState();
+
     default:
       return state;
   }

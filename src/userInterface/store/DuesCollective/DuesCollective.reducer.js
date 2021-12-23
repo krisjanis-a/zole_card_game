@@ -14,6 +14,9 @@ export default (state = getInitialState(), action) => {
         collectiveDue: state.collectiveDue - 1,
       };
 
+    case "RESET_COLLECTIVE_DUES":
+      return getInitialState();
+
     default:
       return state;
   }

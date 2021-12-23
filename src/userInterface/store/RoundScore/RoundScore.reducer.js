@@ -8,6 +8,9 @@ export default (state = getInitialState(), action) => {
         gameScore: action.payload,
       };
 
+    case "RESET_ROUND_SCORE":
+      return getInitialState();
+
     default:
       return state;
   }

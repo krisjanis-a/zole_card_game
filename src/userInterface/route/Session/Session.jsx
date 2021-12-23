@@ -13,19 +13,69 @@ const Session = () => {
   const { sessionRunning } = useSelector((state) => state.Session);
 
   const endSession = () => {
+    // Reset dues
+    dispatch({ type: "RESET_COLLECTIVE_DUES" });
+    dispatch({ type: "RESET_PERSONAL_DUES" });
+
+    // Reset move & move cards
+    dispatch({ type: "RESET_MOVE" });
+    dispatch({ type: "RESET_MOVE_CARDS" });
+
+    // Reset players
     dispatch({ type: "RESET_PLAYERS" });
+
+    // Reset round
+    dispatch({ type: "RESET_ROUND" });
+    dispatch({ type: "RESET_ROUND_PHASE" });
+    dispatch({ type: "RESET_ROUND_SCORE" });
+    dispatch({ type: "RESET_ROUND_TYPE" });
+
+    // Reset scoreboard
+    dispatch({ type: "RESET_SCOREBOARD" });
+
+    // Reset session
+    dispatch({ type: "RESET_SESSION" });
+    dispatch({ type: "RESET_SESSION_MODE" });
+
+    // Reset table, stacks & tricks
     dispatch({ type: "CLEAR_TABLE" });
-    dispatch({ type: "RESET_MOVE_CARDS" });
-    dispatch({ type: "END_SESSION" }); //! CORRECT THIS - CURRENTLY IN GAME REDUCER => BROKEN!!!
+    dispatch({ type: "RESET_BIG_STACK" });
+    dispatch({ type: "RESET_SMALL_STACK" });
+    dispatch({ type: "RESET_TABLE_STACK" });
+    dispatch({ type: "RESET_TRICK_COUNTS" });
   };
-  const resetGame = () => {
-    dispatch({ type: "CLEAR_TABLE" });
+
+  const resetRound = () => {
+    // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
+    dispatch({ type: "SET_ROUND_RUNNING", payload: false });
+    dispatch({ type: "SET_ROUND_FINISHED", payload: false });
+    dispatch({ type: "RESET_MOVE_COUNT" });
+    dispatch({ type: "SET_CURRENT_SEAT_TO_STARTING_SEAT" });
+    dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
+    dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
+
+    // Reset round phase, score & type
+    dispatch({ type: "RESET_ROUND_PHASE" });
+    dispatch({ type: "RESET_ROUND_SCORE" });
+    dispatch({ type: "RESET_ROUND_TYPE" });
+    dispatch({ type: "RESET_MOVE" });
     dispatch({ type: "RESET_MOVE_CARDS" });
-    dispatch({ type: "RESET_GAME" }); //! CORRECT THIS - CURRENTLY IN GAME REDUCER => BROKEN!!!
+
+    // Reset table, stacks & tricks
+    dispatch({ type: "CLEAR_TABLE" });
+    dispatch({ type: "RESET_BIG_STACK" });
+    dispatch({ type: "RESET_SMALL_STACK" });
+    dispatch({ type: "RESET_TABLE_STACK" });
+    dispatch({ type: "RESET_TRICK_COUNTS" });
+
+    // Reset player's stack and big one parameter
     Object.values(players).forEach((player) => {
       dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
       dispatch({ type: "RESET_STACK", payload: player.name });
     });
+
+    // Initialize new round
+    dispatch({ type: "INITIALIZE_ROUND", payload: true });
   };
 
   const toResultPhase = () => {
@@ -55,7 +105,7 @@ const Session = () => {
           <Button
             buttonName="Reset game"
             type="secondary"
-            onClick={resetGame}
+            onClick={resetRound}
           />
           <Button
             buttonName="Results phase"

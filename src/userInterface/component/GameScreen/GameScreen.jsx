@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./GameScreen.scss";
 
+// Game components
 import PlayerHand from "../PlayerHand/PlayerHand";
 import OpponentHand from "../OpponentHand/OpponentHand";
 import TableHand from "../TableHand/TableHand";
@@ -9,15 +10,17 @@ import MoveCards from "../MoveCards/MoveCards";
 import BigOneCards from "../BigOneCards/BigOneCards";
 import SmallOnesCards from "../SmallOnesCards/SmallOnesCards";
 
+// Engine functionality
 import Player from "../../../engine/models/Player";
-
 import Cards from "../../../engine/data/Cards";
 import createDeck from "../../../engine/utils/createDeck";
 import dealCards from "../../../engine/utils/dealCards";
 import cardIdToCard from "../../../engine/utils/cardIdToCard";
+import getWinningCard from "../../../engine/utils/getWinningCard";
+
+// Prompts / Information displays
 import PromptBig from "../PromptBig/PromptBig";
 import PromptBury from "../PromptBury/PromptBury";
-import getWinningCard from "../../../engine/utils/getWinningCard";
 import GameResult from "../GameResult/GameResult";
 
 const GameScreen = () => {
@@ -99,7 +102,7 @@ const GameScreen = () => {
 
   //=======================================================================================
 
-  //! GAME INITIALIZATION
+  //! ROUND INITIALIZATION
 
   useEffect(() => {
     if (initializeRound) {
@@ -142,21 +145,21 @@ const GameScreen = () => {
 
   //=======================================================================================
 
-  //! GAME PHASES
+  //! ROUND PHASES
 
-  // Set game phase
+  // Set round phase
   useEffect(() => {
     if (choosingBigPhase) {
-      dispatch({ type: "SET_GAME_PHASE", payload: "CHOOSING_BIG" });
+      dispatch({ type: "SET_ROUND_PHASE", payload: "CHOOSING_BIG" });
     }
     if (buryingCardsPhase) {
-      dispatch({ type: "SET_GAME_PHASE", payload: "BURYING_CARDS" });
+      dispatch({ type: "SET_ROUND_PHASE", payload: "BURYING_CARDS" });
     }
     if (makingMovesPhase) {
-      dispatch({ type: "SET_GAME_PHASE", payload: "MAKING_MOVES" });
+      dispatch({ type: "SET_ROUND_PHASE", payload: "MAKING_MOVES" });
     }
     if (resultsPhase) {
-      dispatch({ type: "SET_GAME_PHASE", payload: "RESULTS" });
+      dispatch({ type: "SET_ROUND_PHASE", payload: "RESULTS" });
     }
   }, [choosingBigPhase, buryingCardsPhase, makingMovesPhase, resultsPhase]);
 
@@ -201,7 +204,7 @@ const GameScreen = () => {
       if (smallZoleMode && playSmallZole && winningCard.owner.big) {
         dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
         dispatch({ type: "SET_RESULTS_PHASE", payload: true });
-        dispatch({ type: "SET_GAME_FINISHED", payload: true });
+        dispatch({ type: "SET_ROUND_FINISHED", payload: true });
       }
 
       addWinningCardsToStack(winningCard.owner, moveCards);
@@ -277,6 +280,7 @@ const GameScreen = () => {
   useEffect(() => {
     if (resultsPhase) {
       const gameResult = getGameResult(bigStack, smallStack);
+      console.log(gameResult);
       dispatch({ type: "SET_GAME_RESULT", payload: gameResult });
     }
   }, [resultsPhase]);
@@ -536,13 +540,13 @@ const GameScreen = () => {
 
   useEffect(() => {
     if (roundFinished) {
-      console.log(roundScore);
       const roundScore = updateScoreboard(
         players,
         roundScore,
         bigTrickCount,
         smallTrickCount
       );
+      console.log(roundScore);
       dispatch({ type: "UPDATE_SCOREBOARD", payload: roundScore });
       // dispatch({ type: "SET_GAME_FINISHED", payload: false });
     }
@@ -553,8 +557,8 @@ const GameScreen = () => {
   useEffect(() => {
     if (roundFinished) {
       setTimeout(() => {
-        dispatch({ type: "INITIALIZE_ROUND", payload: true });
         dispatch({ type: "RESET_ROUND" });
+        dispatch({ type: "INITIALIZE_ROUND", payload: true });
       }, 2000);
     }
   }, [roundFinished]);

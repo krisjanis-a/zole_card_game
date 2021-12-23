@@ -6,8 +6,6 @@ const GameResult = () => {
   const result = useSelector((state) => state.RoundScore);
   const players = useSelector((state) => state.Players);
 
-  console.log(result);
-
   const { playTable } = useSelector((state) => state.RoundType);
   const { tableMode } = useSelector((state) => state.SessionMode);
 

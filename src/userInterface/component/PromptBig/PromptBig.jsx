@@ -29,10 +29,10 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
         setShowChooseBigPrompt(false);
         dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
         dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
-        dispatch({ type: "ADD_COLLECTIVE_DUE" });
 
         if (normalMode) {
-          resetGame();
+          dispatch({ type: "ADD_COLLECTIVE_DUE" });
+          resetRound();
         }
 
         if (tableMode) {
@@ -42,22 +42,45 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     }
   }, [chooseBigTurn]);
 
-  // Reset game
-  const resetGame = () => {
-    dispatch({ type: "CLEAR_TABLE" });
+  // Reset round
+  const resetRound = () => {
+    // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
+    dispatch({ type: "SET_ROUND_RUNNING", payload: false });
+    dispatch({ type: "SET_ROUND_FINISHED", payload: false });
+    dispatch({ type: "RESET_MOVE_COUNT" });
+    dispatch({ type: "SET_CURRENT_SEAT_TO_STARTING_SEAT" });
+    dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
+    dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
+
+    // Reset round phase, score & type
+    dispatch({ type: "RESET_ROUND_PHASE" });
+    dispatch({ type: "RESET_ROUND_SCORE" });
+    dispatch({ type: "RESET_ROUND_TYPE" });
+    dispatch({ type: "RESET_MOVE" });
     dispatch({ type: "RESET_MOVE_CARDS" });
-    dispatch({ type: "RESET_ROUND" }); //! CORRECT THIS - CURRENTLY IN GAME REDUCER => BROKEN!!!
+
+    // Reset table, stacks & tricks
+    dispatch({ type: "CLEAR_TABLE" });
+    dispatch({ type: "RESET_BIG_STACK" });
+    dispatch({ type: "RESET_SMALL_STACK" });
+    dispatch({ type: "RESET_TABLE_STACK" });
+    dispatch({ type: "RESET_TRICK_COUNTS" });
+
+    // Reset player's big one parameter
     Object.values(players).forEach((player) => {
       dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
     });
-  };
 
-  // Set game mode
+    // Initialize new round
+    dispatch({ type: "INITIALIZE_ROUND", payload: true });
+  };
 
   // Set player
   useEffect(() => {
     setPlayer(...playerObj);
   }, [playerObj]);
+
+  // Set game mode
 
   // PLAY ZOLE
   const handlePlayZole = () => {

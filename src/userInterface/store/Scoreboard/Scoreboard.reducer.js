@@ -14,6 +14,9 @@ export default (state = getInitialState(), action) => {
       };
     }
 
+    case "RESET_SCOREBOARD":
+      return getInitialState();
+
     default:
       return state;
   }
