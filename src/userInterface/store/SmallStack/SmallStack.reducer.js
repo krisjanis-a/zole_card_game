@@ -4,12 +4,12 @@ export default (state = getInitialState(), action) => {
   switch (action.type) {
     case "ADD_TABLE_TO_SMALL_STACK": {
       const newState = state.map((card) => card);
-      newState.push(action.payload);
+      newState.push(...action.payload);
       return newState;
     }
 
     case "ADD_CARD_TO_SMALL_STACK": {
-      const newState = [...state];
+      const newState = state.map((card) => card);
       newState.push(action.payload);
       return newState;
     }

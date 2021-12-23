@@ -3,10 +3,13 @@ import "./GameResults.scss";
 import { useSelector } from "react-redux";
 
 const GameResult = () => {
-  const result = useSelector((state) => state.Game.gameScore);
+  const result = useSelector((state) => state.RoundScore);
   const players = useSelector((state) => state.Players);
 
-  const { playTable, tableMode } = useSelector((state) => state.Game);
+  console.log(result);
+
+  const { playTable } = useSelector((state) => state.RoundType);
+  const { tableMode } = useSelector((state) => state.SessionMode);
 
   return (
     <div className="gameResult">

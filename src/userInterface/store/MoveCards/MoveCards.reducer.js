@@ -12,7 +12,7 @@ export default (state = getInitialState(), action) => {
     }
 
     case "RESET_MOVE_CARDS":
-      getInitialState();
+      return getInitialState();
 
     default:
       return state;

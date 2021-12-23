@@ -5,7 +5,6 @@ import Card from "../Card/Card";
 
 const SmallOnesCards = () => {
   const smallStack = useSelector((state) => state.SmallStack);
-  console.log(smallStack);
 
   return (
     <div className="smallOnesCards">
