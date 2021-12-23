@@ -23,34 +23,40 @@ import GameResult from "../GameResult/GameResult";
 const GameScreen = () => {
   const dispatch = useDispatch();
 
+  const { normalMode, smallZoleMode, tableMode } = useSelector(
+    (state) => state.SessionMode
+  );
+
   const {
-    initializeGame,
-    gameRunning,
-    currentSeat,
-    chooseBigTurn,
-    playerNames,
     buryingCardsPhase,
     choosingBigPhase,
     makingMovesPhase,
     resultsPhase,
-    moveCount,
-    bigStack,
-    smallStack,
-    normalMode,
-    tableMode,
-    smallZoleMode,
+  } = useSelector((state) => state.RoundPhase);
+
+  const { playZole, playTable, playSmallZole } = useSelector(
+    (state) => state.RoundType
+  );
+
+  const roundScore = useSelector((state) => state.RoundScore);
+
+  const {
+    initializeRound,
+    roundRunning,
+    roundFinished,
+    chooseBigTurn,
     bigOneWinsSmallZole,
-    playZole,
-    playTable,
-    smallZole,
-    gameScore,
-    smallTrickCount,
-    bigTrickCount,
-    gameFinished,
-  } = useSelector((state) => state.Game);
+  } = useSelector((state) => state.Round);
 
   const players = useSelector((state) => state.Players);
   const moveCards = useSelector((state) => state.MoveCards);
+
+  const bigStack = useSelector((state) => state.BigStack);
+  const smallStack = useSelector((state) => state.SmallStack);
+
+  const { smallTrickCount, bigTrickCount } = useSelector(
+    (state) => state.Tricks
+  );
 
   const [showChooseBigPrompt, setShowChooseBigPrompt] = useState(false);
   const [showBuryCardsPrompt, setShowBuryCardsPrompt] = useState(false);
@@ -96,7 +102,7 @@ const GameScreen = () => {
   //! GAME INITIALIZATION
 
   useEffect(() => {
-    if (initializeGame) {
+    if (initializeRound) {
       // console.log("Initializing the game");
       if (Object.values(players).length > 0) {
         // Deal cards
@@ -132,7 +138,7 @@ const GameScreen = () => {
         }
       }
     }
-  }, [initializeGame]);
+  }, [initializeRound]);
 
   //=======================================================================================
 
@@ -192,7 +198,7 @@ const GameScreen = () => {
     if (moveCards.length === 3) {
       const winningCard = getWinningCard(moveCards);
 
-      if (smallZoleMode && smallZole && winningCard.owner.big) {
+      if (smallZoleMode && playSmallZole && winningCard.owner.big) {
         dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
         dispatch({ type: "SET_RESULTS_PHASE", payload: true });
         dispatch({ type: "SET_GAME_FINISHED", payload: true });
@@ -206,7 +212,7 @@ const GameScreen = () => {
   //  Add winning cards to correct stack
   const addWinningCardsToStack = (winningPlayer, moveCards) => {
     const cards = moveCards.map((card) => card.card);
-    if (!playTable && !smallZole) {
+    if (!playTable && !playSmallZole) {
       if (winningPlayer.big) {
         cards.map((card) =>
           dispatch({ type: "ADD_CARD_TO_BIG_STACK", payload: card })
@@ -257,7 +263,7 @@ const GameScreen = () => {
       dispatch({ type: "SET_RESULTS_PHASE", payload: true });
       dispatch({ type: "SET_GAME_FINISHED", payload: true });
 
-      if (smallZole) {
+      if (playSmallZole) {
         dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: true });
       }
     }
@@ -303,16 +309,16 @@ const GameScreen = () => {
 
   const updateScoreboard = (
     players,
-    gameScore,
+    roundScore,
     bigOneTrickCount,
     smallOnesTrickCount
   ) => {
     const playerScores = {};
-    const bigOneScore = gameScore.bigOneScore;
-    const smallOnesScore = gameScore.smallOnesScore;
+    const bigOneScore = roundScore.bigOneScore;
+    const smallOnesScore = roundScore.smallOnesScore;
     Object.values(players).forEach((player) => {
       // Normal mode not playing zole & using collective / personal dues
-      if (!playTable && !smallZole && !playZole) {
+      if (!playTable && !playSmallZole && !playZole) {
         // Winning cases
         if (bigOneScore >= 61 && bigOneScore <= 90) {
           if (player.big) {
@@ -385,7 +391,7 @@ const GameScreen = () => {
       }
 
       // Normal mode playing zole
-      if (!playTable && !smallZole && playZole) {
+      if (!playTable && !playSmallZole && playZole) {
         // Winning cases
         if (bigOneScore >= 61 && bigOneScore <= 90) {
           if (player.big) {
@@ -458,7 +464,7 @@ const GameScreen = () => {
       }
 
       // Small Zole
-      if (smallZole) {
+      if (playSmallZole) {
         // Winning case
         if (bigOneWinsSmallZole) {
           if (player.big) {
@@ -529,33 +535,33 @@ const GameScreen = () => {
   };
 
   useEffect(() => {
-    // if (gameFinished) {
-    console.log(gameScore);
+    // if (roundFinished) {
+    console.log(roundScore);
     const roundScore = updateScoreboard(
       players,
-      gameScore,
+      roundScore,
       bigTrickCount,
       smallTrickCount
     );
     dispatch({ type: "UPDATE_SCOREBOARD", payload: roundScore });
     // dispatch({ type: "SET_GAME_FINISHED", payload: false });
     // }
-  }, [gameFinished]);
+  }, [roundFinished]);
 
   // Initialize new game / Deal cards
 
   useEffect(() => {
-    if (gameFinished) {
+    if (roundFinished) {
       setTimeout(() => {
         dispatch({ type: "INITIALIZE_GAME", payload: true });
         dispatch({ type: "RESET_GAME" });
       }, 2000);
     }
-  }, [gameFinished]);
+  }, [roundFinished]);
 
   return (
     <div className="gameScreen">
-      {gameRunning ? (
+      {roundRunning ? (
         <div>
           <PlayerHand seat={1} />
           <OpponentHand seat={2} />
