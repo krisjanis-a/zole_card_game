@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Card from "../Card/Card";
 
 const BigOneCards = () => {
-  const { bigStack } = useSelector((state) => state.Game);
+  const bigStack = useSelector((state) => state.BigStack);
 
   return (
     <div className="bigOnesCards">

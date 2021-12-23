@@ -9,8 +9,8 @@ const getInitialState = () => ({
   bigOneWinsSmallZole: false,
 });
 
-export default (state = getInitialState(), { type, payload }) => {
-  switch (type) {
+export default (state = getInitialState(), action) => {
+  switch (action.type) {
     case "INITIALIZE_ROUND":
       return {
         ...state,
@@ -20,12 +20,12 @@ export default (state = getInitialState(), { type, payload }) => {
     case "SET_ROUND_RUNNING":
       return {
         ...state,
-        gameRunning: action.payload,
+        roundRunning: action.payload,
       };
     case "SET_ROUND_FINISHED":
       return {
         ...state,
-        gameFinished: action.payload,
+        roundFinished: action.payload,
       };
 
     case "SET_CHOOSE_BIG_TURN":

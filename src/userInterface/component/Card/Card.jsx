@@ -11,11 +11,11 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
     buryingCardsPhase,
     makingMovesPhase,
     resultsPhase,
-    currentSeat,
-    askingCard,
     currentPhase,
-    moveTurn,
-  } = useSelector((state) => state.Game);
+  } = useSelector((state) => state.RoundPhase);
+
+  const { askingCard, moveTurn } = useSelector((state) => state.Move);
+  const { currentSeat } = useSelector((state) => state.Round);
 
   const card = cardIdToCard(cardId);
 

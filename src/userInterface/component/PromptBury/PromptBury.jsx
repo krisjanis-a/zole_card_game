@@ -6,9 +6,9 @@ import "./PromptBury.scss";
 const PromptBury = ({ setShowBuryCardsPrompt }) => {
   const dispatch = useDispatch();
 
-  const { chooseBigTurn, buryingCardsPhase } = useSelector(
-    (state) => state.Game
-  );
+  const { chooseBigTurn } = useSelector((state) => state.Round);
+
+  const { buryingCardsPhase } = useSelector((state) => state.RoundPhase);
 
   const playerName = useSelector(
     (state) =>

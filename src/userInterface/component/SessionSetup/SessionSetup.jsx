@@ -8,7 +8,7 @@ const SessionSetup = () => {
   const dispatch = useDispatch();
 
   const { normalMode, tableMode, smallZoleMode } = useSelector(
-    (state) => state.Game
+    (state) => state.SessionMode
   );
 
   const setNormalMode = () => {

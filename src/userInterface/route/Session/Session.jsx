@@ -9,19 +9,19 @@ import SessionSetup from "../../component/SessionSetup/SessionSetup";
 const Session = () => {
   const dispatch = useDispatch();
   const players = useSelector((state) => state.Players);
-  const gamePhase = useSelector((state) => state.Game.currentPhase);
-  const { sessionRunning } = useSelector((state) => state.Game);
+  const gamePhase = useSelector((state) => state.RoundPhase.currentPhase);
+  const { sessionRunning } = useSelector((state) => state.Session);
 
   const endSession = () => {
     dispatch({ type: "RESET_PLAYERS" });
     dispatch({ type: "CLEAR_TABLE" });
     dispatch({ type: "RESET_MOVE_CARDS" });
-    dispatch({ type: "END_SESSION" });
+    dispatch({ type: "END_SESSION" }); //! CORRECT THIS - CURRENTLY IN GAME REDUCER => BROKEN!!!
   };
   const resetGame = () => {
     dispatch({ type: "CLEAR_TABLE" });
     dispatch({ type: "RESET_MOVE_CARDS" });
-    dispatch({ type: "RESET_GAME" });
+    dispatch({ type: "RESET_GAME" }); //! CORRECT THIS - CURRENTLY IN GAME REDUCER => BROKEN!!!
     Object.values(players).forEach((player) => {
       dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
       dispatch({ type: "RESET_STACK", payload: player.name });

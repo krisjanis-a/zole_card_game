@@ -3,7 +3,7 @@ const getInitialState = () => ({
   askingCard: null, // first card placed in single move
 });
 
-export default (state = initialState, action) => {
+export default (state = getInitialState(), action) => {
   switch (action.type) {
     case "SET_ASKING_CARD":
       return {
@@ -18,6 +18,11 @@ export default (state = initialState, action) => {
       }
       return { ...state, moveTurn: nextMoveTurn };
     }
+
+    case "RESET_MOVE": {
+      return getInitialState();
+    }
+
     default:
       return state;
   }

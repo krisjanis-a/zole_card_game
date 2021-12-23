@@ -6,11 +6,13 @@ import Button from "../Button/Button";
 const PromptBig = ({ setShowChooseBigPrompt }) => {
   const dispatch = useDispatch();
 
-  const { chooseBigTurn, normalMode, tableMode, smallZoleMode } = useSelector(
-    (state) => state.Game
+  const { normalMode, tableMode, smallZoleMode } = useSelector(
+    (state) => state.SessionMode
   );
   const table = useSelector((state) => state.Table);
   const players = useSelector((state) => state.Players);
+
+  const { chooseBigTurn } = useSelector((state) => state.Round);
 
   const [player, setPlayer] = useState();
   const [allPlayersPassed, setAllPlayersPassed] = useState(false);
@@ -44,7 +46,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
   const resetGame = () => {
     dispatch({ type: "CLEAR_TABLE" });
     dispatch({ type: "RESET_MOVE_CARDS" });
-    dispatch({ type: "RESET_GAME" });
+    dispatch({ type: "RESET_ROUND" }); //! CORRECT THIS - CURRENTLY IN GAME REDUCER => BROKEN!!!
     Object.values(players).forEach((player) => {
       dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
     });

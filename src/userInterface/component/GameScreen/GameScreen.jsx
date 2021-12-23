@@ -94,7 +94,7 @@ const GameScreen = () => {
     dispatch({ type: "ADD_PLAYER", payload: player2 });
     dispatch({ type: "ADD_PLAYER", payload: player3 });
 
-    dispatch({ type: "INITIALIZE_GAME", payload: true });
+    dispatch({ type: "INITIALIZE_ROUND", payload: true });
   }, []);
 
   //=======================================================================================
@@ -129,8 +129,8 @@ const GameScreen = () => {
           payload: hands[3].map((id) => cardIdToCard(id)),
         });
 
-        dispatch({ type: "INITIALIZE_GAME", payload: false });
-        dispatch({ type: "SET_GAME_RUNNING", payload: true });
+        dispatch({ type: "INITIALIZE_ROUND", payload: false });
+        dispatch({ type: "SET_ROUND_RUNNING", payload: true });
         dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: true });
 
         if (!chooseBigTurn) {
@@ -535,17 +535,17 @@ const GameScreen = () => {
   };
 
   useEffect(() => {
-    // if (roundFinished) {
-    console.log(roundScore);
-    const roundScore = updateScoreboard(
-      players,
-      roundScore,
-      bigTrickCount,
-      smallTrickCount
-    );
-    dispatch({ type: "UPDATE_SCOREBOARD", payload: roundScore });
-    // dispatch({ type: "SET_GAME_FINISHED", payload: false });
-    // }
+    if (roundFinished) {
+      console.log(roundScore);
+      const roundScore = updateScoreboard(
+        players,
+        roundScore,
+        bigTrickCount,
+        smallTrickCount
+      );
+      dispatch({ type: "UPDATE_SCOREBOARD", payload: roundScore });
+      // dispatch({ type: "SET_GAME_FINISHED", payload: false });
+    }
   }, [roundFinished]);
 
   // Initialize new game / Deal cards
@@ -553,8 +553,8 @@ const GameScreen = () => {
   useEffect(() => {
     if (roundFinished) {
       setTimeout(() => {
-        dispatch({ type: "INITIALIZE_GAME", payload: true });
-        dispatch({ type: "RESET_GAME" });
+        dispatch({ type: "INITIALIZE_ROUND", payload: true });
+        dispatch({ type: "RESET_ROUND" });
       }, 2000);
     }
   }, [roundFinished]);
