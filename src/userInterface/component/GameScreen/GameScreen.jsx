@@ -276,17 +276,17 @@ const GameScreen = () => {
 
   //! RESULT CALCULATION & DISPLAY
 
-  // Result display phase
+  // Round result display phase
   useEffect(() => {
     if (resultsPhase) {
-      const gameResult = getGameResult(bigStack, smallStack);
-      console.log(gameResult);
-      dispatch({ type: "SET_GAME_RESULT", payload: gameResult });
+      const roundResult = getRoundResult(bigStack, smallStack);
+      console.log(roundResult);
+      dispatch({ type: "SET_ROUND_RESULT", payload: roundResult });
     }
   }, [resultsPhase]);
 
   // Get result for each party
-  const getGameResult = (bigOneStack, smallOnesStack) => {
+  const getRoundResult = (bigOneStack, smallOnesStack) => {
     const results = {
       bigOneScore: null,
       smallOnesScore: null,

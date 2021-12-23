@@ -4,8 +4,7 @@ export default (state = getInitialState(), action) => {
   switch (action.type) {
     case "SET_ROUND_RESULT":
       return {
-        ...state,
-        gameScore: action.payload,
+        ...action.payload,
       };
 
     case "RESET_ROUND_SCORE":
