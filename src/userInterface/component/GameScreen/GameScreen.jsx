@@ -264,7 +264,7 @@ const GameScreen = () => {
     ) {
       dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
       dispatch({ type: "SET_RESULTS_PHASE", payload: true });
-      dispatch({ type: "SET_GAME_FINISHED", payload: true });
+      dispatch({ type: "SET_ROUND_FINISHED", payload: true });
 
       if (playSmallZole) {
         dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: true });
@@ -540,28 +540,18 @@ const GameScreen = () => {
 
   useEffect(() => {
     if (roundFinished) {
-      const roundScore = updateScoreboard(
+      const score = updateScoreboard(
         players,
         roundScore,
         bigTrickCount,
         smallTrickCount
       );
-      console.log(roundScore);
-      dispatch({ type: "UPDATE_SCOREBOARD", payload: roundScore });
+      dispatch({ type: "UPDATE_SCOREBOARD", payload: score });
       // dispatch({ type: "SET_GAME_FINISHED", payload: false });
     }
   }, [roundFinished]);
 
   // Initialize new game / Deal cards
-
-  useEffect(() => {
-    if (roundFinished) {
-      setTimeout(() => {
-        dispatch({ type: "RESET_ROUND" });
-        dispatch({ type: "INITIALIZE_ROUND", payload: true });
-      }, 2000);
-    }
-  }, [roundFinished]);
 
   return (
     <div className="gameScreen">

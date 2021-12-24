@@ -8,6 +8,8 @@ import SessionSetup from "../../component/SessionSetup/SessionSetup";
 
 const Session = () => {
   const dispatch = useDispatch();
+
+  const { startingSeat } = useSelector((state) => state.Session);
   const players = useSelector((state) => state.Players);
   const gamePhase = useSelector((state) => state.RoundPhase.currentPhase);
   const { sessionRunning } = useSelector((state) => state.Session);
@@ -50,7 +52,10 @@ const Session = () => {
     dispatch({ type: "SET_ROUND_RUNNING", payload: false });
     dispatch({ type: "SET_ROUND_FINISHED", payload: false });
     dispatch({ type: "RESET_MOVE_COUNT" });
-    dispatch({ type: "SET_CURRENT_SEAT_TO_STARTING_SEAT" });
+    dispatch({
+      type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
+      payload: startingSeat,
+    });
     dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
     dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
 

@@ -6,6 +6,8 @@ import Button from "../Button/Button";
 const PromptBig = ({ setShowChooseBigPrompt }) => {
   const dispatch = useDispatch();
 
+  const { startingSeat } = useSelector((state) => state.Session);
+
   const { normalMode, tableMode, smallZoleMode } = useSelector(
     (state) => state.SessionMode
   );
@@ -48,7 +50,10 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     dispatch({ type: "SET_ROUND_RUNNING", payload: false });
     dispatch({ type: "SET_ROUND_FINISHED", payload: false });
     dispatch({ type: "RESET_MOVE_COUNT" });
-    dispatch({ type: "SET_CURRENT_SEAT_TO_STARTING_SEAT" });
+    dispatch({
+      type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
+      payload: startingSeat,
+    });
     dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
     dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
 

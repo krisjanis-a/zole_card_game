@@ -7,6 +7,7 @@ const PromptBury = ({ setShowBuryCardsPrompt }) => {
   const dispatch = useDispatch();
 
   const { chooseBigTurn } = useSelector((state) => state.Round);
+  const { startingSeat } = useSelector((state) => state.Session);
 
   const { buryingCardsPhase } = useSelector((state) => state.RoundPhase);
 
@@ -29,7 +30,10 @@ const PromptBury = ({ setShowBuryCardsPrompt }) => {
       if (playerHand.length === 8) {
         dispatch({ type: "SET_BURYING_PHASE", payload: false });
         dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
-        dispatch({ type: "SET_CURRENT_SEAT_TO_STARTING_SEAT" });
+        dispatch({
+          type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
+          payload: startingSeat,
+        });
         setShowBuryCardsPrompt(false);
       }
     }

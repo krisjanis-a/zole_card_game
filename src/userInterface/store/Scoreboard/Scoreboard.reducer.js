@@ -1,4 +1,4 @@
-export const getInitialState = () => ({});
+export const getInitialState = () => [];
 
 export default (state = getInitialState(), action) => {
   switch (action.type) {
@@ -6,12 +6,11 @@ export default (state = getInitialState(), action) => {
       return state;
 
     case "UPDATE_SCOREBOARD": {
-      const updatedScoreboard = state.scoreboard;
+      const updatedScoreboard = state;
+      console.log(updatedScoreboard);
+      console.log(action.payload);
       updatedScoreboard.push(action.payload);
-      return {
-        ...state,
-        scoreboard: updatedScoreboard,
-      };
+      return updatedScoreboard;
     }
 
     case "RESET_SCOREBOARD":
