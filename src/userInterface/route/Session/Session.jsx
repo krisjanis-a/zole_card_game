@@ -29,7 +29,7 @@ const Session = () => {
     // Reset round
     dispatch({ type: "RESET_ROUND" });
     dispatch({ type: "RESET_ROUND_PHASE" });
-    dispatch({ type: "RESET_ROUND_SCORE" });
+    dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
 
     // Reset scoreboard
@@ -61,7 +61,7 @@ const Session = () => {
 
     // Reset round phase, score & type
     dispatch({ type: "RESET_ROUND_PHASE" });
-    dispatch({ type: "RESET_ROUND_SCORE" });
+    dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch({ type: "RESET_MOVE" });
     dispatch({ type: "RESET_MOVE_CARDS" });

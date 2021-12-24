@@ -57,9 +57,9 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
     dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
 
-    // Reset round phase, score & type
+    // Reset round phase, result & type
     dispatch({ type: "RESET_ROUND_PHASE" });
-    dispatch({ type: "RESET_ROUND_SCORE" });
+    dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch({ type: "RESET_MOVE" });
     dispatch({ type: "RESET_MOVE_CARDS" });

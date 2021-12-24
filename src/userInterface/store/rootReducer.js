@@ -8,7 +8,7 @@ import DuesCollective from "./DuesCollective/DuesCollective.reducer";
 import DuesPersonal from "./DuesPersonal/DuesPersonal.reducer";
 import Round from "./Round/Round.reducer";
 import RoundPhase from "./RoundPhase/RoundPhase.reducer";
-import RoundScore from "./RoundScore/RoundScore.reducer";
+import RoundResult from "./RoundResult/RoundResult.reducer";
 import RoundType from "./RoundType/RoundType.reducer";
 import Move from "./Move/Move.reducer";
 import MoveCards from "./MoveCards/MoveCards.reducer";
@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
   Session,
   Round,
   RoundPhase,
-  RoundScore,
+  RoundResult,
   RoundType,
   Move,
   MoveCards,

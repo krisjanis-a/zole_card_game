@@ -133,6 +133,13 @@ Determining and assigning scores to players logic / function
 
 |===================================================|
 
+conditions when game is finished:
+    - all players have 0 cards in hands
+    - big one plays small zole and collects move cards stack
+    - all players pass (dues)
+
+|===================================================|
+
 - create auto-play option for development (or better yet - create simple opponent AI)
 
 - refactor game reducers, state management, components & other things that need to be refactored

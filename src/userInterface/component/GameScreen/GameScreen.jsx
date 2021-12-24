@@ -41,7 +41,7 @@ const GameScreen = () => {
     (state) => state.RoundType
   );
 
-  const roundScore = useSelector((state) => state.RoundScore);
+  const roundResult = useSelector((state) => state.RoundResult);
 
   const {
     initializeRound,
@@ -274,16 +274,7 @@ const GameScreen = () => {
 
   //=======================================================================================
 
-  //! RESULT CALCULATION & DISPLAY
-
-  // Round result display phase
-  useEffect(() => {
-    if (resultsPhase) {
-      const roundResult = getRoundResult(bigStack, smallStack);
-      console.log(roundResult);
-      dispatch({ type: "SET_ROUND_RESULT", payload: roundResult });
-    }
-  }, [resultsPhase]);
+  //! ROUND RESULT CALCULATION
 
   // Get result for each party
   const getRoundResult = (bigOneStack, smallOnesStack) => {
@@ -307,19 +298,19 @@ const GameScreen = () => {
 
   //=======================================================================================
 
-  //! SCOREBOARD UPDATING
+  //! DETERMINE PLAYER SCORE
 
   // Update scoreboard for each player depending on rules, party scores and "pules" (if not playing table)
 
-  const updateScoreboard = (
+  const getPlayerScores = (
     players,
-    roundScore,
+    roundResult,
     bigOneTrickCount,
     smallOnesTrickCount
   ) => {
     const playerScores = {};
-    const bigOneScore = roundScore.bigOneScore;
-    const smallOnesScore = roundScore.smallOnesScore;
+    const bigOneScore = roundResult.bigOneScore;
+    const smallOnesScore = roundResult.smallOnesScore;
     Object.values(players).forEach((player) => {
       // Normal mode not playing zole & using collective / personal dues
       if (!playTable && !playSmallZole && !playZole) {
@@ -533,16 +524,26 @@ const GameScreen = () => {
       });
     }
 
-    console.log(playerScores);
+    // console.log(playerScores);
 
     return playerScores;
   };
 
+  //! FINALIZE ROUND - UPDATE SCOREBOARD & DISPLAY RESULTS
+
+  // Round result display phase
+  useEffect(() => {
+    if (resultsPhase) {
+      const roundResult = getRoundResult(bigStack, smallStack);
+      dispatch({ type: "SET_ROUND_RESULT", payload: roundResult });
+    }
+  }, [resultsPhase]);
+
   useEffect(() => {
     if (roundFinished) {
-      const score = updateScoreboard(
+      const score = getPlayerScores(
         players,
-        roundScore,
+        roundResult,
         bigTrickCount,
         smallTrickCount
       );
@@ -550,8 +551,6 @@ const GameScreen = () => {
       // dispatch({ type: "SET_GAME_FINISHED", payload: false });
     }
   }, [roundFinished]);
-
-  // Initialize new game / Deal cards
 
   return (
     <div className="gameScreen">

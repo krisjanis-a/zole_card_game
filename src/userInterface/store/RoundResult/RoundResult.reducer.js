@@ -7,7 +7,7 @@ export default (state = getInitialState(), action) => {
         ...action.payload,
       };
 
-    case "RESET_ROUND_SCORE":
+    case "RESET_ROUND_RESULT":
       return getInitialState();
 
     default:
