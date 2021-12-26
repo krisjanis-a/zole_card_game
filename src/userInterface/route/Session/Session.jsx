@@ -113,7 +113,7 @@ const Session = () => {
             onClick={resetRound}
           />
           <Button
-            buttonName="Results phase"
+            buttonName="Results phase / Next Round"
             type="secondary"
             onClick={toResultPhase}
           />

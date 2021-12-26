@@ -1,9 +1,9 @@
-const getInitialState = () => ({});
+const getInitialState = () => [];
 
 export default (state = getInitialState(), action) => {
   switch (action.type) {
     case "ADD_CARD_TO_TABLE_STACK": {
-      const newState = { ...state };
+      const newState = [...state];
       newState.tableStack.push(action.payload);
       return newState;
     }

@@ -34,6 +34,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
 
         if (normalMode) {
           dispatch({ type: "ADD_COLLECTIVE_DUE" });
+          dispatch({ type: "UPDATE_SCOREBOARD", payload: "Collective Due" });
+          dispatch({ type: "ADD_ROUND_PLAYED" });
           dispatch({ type: "NEXT_STARTING_SEAT" });
           resetRound();
         }
@@ -104,6 +106,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     setShowChooseBigPrompt(false);
     dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
     dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
+    dispatch({ type: "SET_CURRENT_SEAT", payload: startingSeat });
   };
 
   // PICK TABLE

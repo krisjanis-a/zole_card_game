@@ -89,13 +89,14 @@ conditions when game is finished:
 
 |===================================================|
 
+Current progress 26.12.2021
 
+- Round can be played in all modes
+- Results can be calculated and added to scoreboard (no dues implementation yet)
 
 |===================================================|
 
 - create auto-play option for development (or better yet - create simple opponent AI)
-
-- refactor game reducers, state management, components & other things that need to be refactored
 
 - card stacks display in "messy" way
 
