@@ -74,8 +74,6 @@ const GameScreen = () => {
   //! SESSION INITIALIZATION
 
   useEffect(() => {
-    dispatch({ type: "INITIALIZE_SESSION" });
-
     // Initialize players
 
     const player1 = new Player();
@@ -205,6 +203,21 @@ const GameScreen = () => {
   //=======================================================================================
 
   //! MANAGE MOVES & TURNS
+
+  // Active player (depending on current seat)
+  const setActivePlayer = () => {
+    const player = Object.values(players).filter(
+      (player) => player.seatNumber === currentSeat
+    )[0];
+
+    dispatch({ type: "SET_ACTIVE_PLAYER", payload: player });
+  };
+
+  useEffect(() => {
+    if (roundRunning) {
+      setActivePlayer();
+    }
+  }, [currentSeat, roundRunning]);
 
   // Finalize move
   useEffect(() => {

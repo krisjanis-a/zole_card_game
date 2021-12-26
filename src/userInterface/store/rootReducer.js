@@ -16,8 +16,10 @@ import BigStack from "./BigStack/BigStack.reducer";
 import SmallStack from "./SmallStack/SmallStack.reducer";
 import TableStack from "./TableStack/TableStack.reducer";
 import Scoreboard from "./Scoreboard/Scoreboard.reducer";
+import ActivePlayer from "./ActivePlayer/ActivePlayer.reducer";
 
 const rootReducer = combineReducers({
+  ActivePlayer,
   SessionMode,
   Session,
   Round,

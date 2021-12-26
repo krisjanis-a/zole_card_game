@@ -3,7 +3,7 @@ const getInitialState = () => ({
   roundRunning: false, // while round running
   roundFinished: false, // for setting up next round
   moveCount: 0, // in case === 8 => round is finished
-  currentSeat: 1, // current seat that is making active choices (choosing big, burying cards, choosing move card)
+  currentSeat: null, // current seat that is making active choices (choosing big, burying cards, choosing move card)
   chooseBigTurn: null, // player who is currently given choice of being big one
   bigOneWinsSmallZole: false, // in case small zole is played & big one wins
 });
