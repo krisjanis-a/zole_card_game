@@ -38,4 +38,11 @@
     cursor: default;
     transform: translateY(0);
   }
+
+  &.nonPlayable {
+    cursor: default;
+    img {
+      filter: brightness(100%);
+    }
+  }
 }

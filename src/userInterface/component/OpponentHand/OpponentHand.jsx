@@ -23,8 +23,8 @@ const OpponentHand = ({ seat }) => {
         {opponentHand.map((card) => (
           <Card
             cardId={card.id}
-            path={`../../src/assets/CardSet/${card.id}.png`}
-            // path={`../../src/assets/card-back.png`}
+            // path={`../../src/assets/CardSet/${card.id}.png`}
+            path={`../../src/assets/card-back.png`}
             key={card.id}
             owner={player}
           />

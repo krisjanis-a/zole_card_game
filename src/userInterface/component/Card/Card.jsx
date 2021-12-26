@@ -20,6 +20,13 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
   const card = cardIdToCard(cardId);
 
   const [active, setActive] = useState(false);
+  const [nonPlayable, setNonPlayable] = useState(true);
+
+  useEffect(() => {
+    if (owner.isComputer === false) {
+      setNonPlayable(false);
+    }
+  }, []);
 
   // Determine whether card should be active / inactive
   useEffect(() => {
@@ -29,15 +36,18 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
         return;
       }
       case "BURYING_CARDS": {
-        if (!owner.isComputer) {
-          owner.seatNumber === currentSeat && setActive(true);
-          owner.seatNumber !== currentSeat && setActive(false);
+        if (owner.isComputer) {
+          setActive(false);
+          return;
         }
+
+        owner.seatNumber === currentSeat && setActive(true);
+        owner.seatNumber !== currentSeat && setActive(false);
         return;
       }
 
       case "MAKING_MOVES": {
-        if (owner === "moveCards" || owner === "stack") {
+        if (owner === "moveCards" || owner === "stack" || owner.isComputer) {
           setActive(false);
           return;
         }
@@ -149,7 +159,9 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
       className={`card cardId${cardId} ${
         owner === "moveCards" ? "moveCard" : ""
       } ${owner === "stack" ? "stack" : ""}
-      ${stackIndex} ${active ? "active" : "inactive"}`}
+      ${stackIndex} ${active ? "active" : "inactive"} ${
+        nonPlayable ? "nonPlayable" : ""
+      }`}
       onClick={() => handleClick()}
     >
       <img src={path} alt="" />

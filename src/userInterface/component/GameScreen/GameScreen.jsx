@@ -37,6 +37,7 @@ const GameScreen = () => {
     choosingBigPhase,
     makingMovesPhase,
     resultsPhase,
+    currentPhase,
   } = useSelector((state) => state.RoundPhase);
 
   const { playZole, playTable, playSmallZole } = useSelector(
@@ -49,6 +50,7 @@ const GameScreen = () => {
     initializeRound,
     roundRunning,
     roundFinished,
+    currentSeat,
     chooseBigTurn,
     bigOneWinsSmallZole,
   } = useSelector((state) => state.Round);
@@ -602,6 +604,28 @@ const GameScreen = () => {
     // Initialize new round
     dispatch({ type: "INITIALIZE_ROUND", payload: true });
   };
+
+  //=======================================================================================
+
+  //! COMPUTER PLAYER LOGIC
+
+  useEffect(() => {
+    const player = Object.values(players).filter(
+      (player) => player.seatNumber === currentSeat
+    )[0];
+    if (player) {
+      if (!player.isComputer) {
+        console.log(player.isComputer);
+        console.log("Real player");
+        return;
+      }
+
+      console.log("NPC");
+
+      if (player.isComputer) {
+      }
+    }
+  }, [currentSeat, currentPhase]);
 
   //=======================================================================================
 
