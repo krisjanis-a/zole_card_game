@@ -26,6 +26,8 @@ import GameResult from "../GameResult/GameResult";
 const GameScreen = () => {
   const dispatch = useDispatch();
 
+  const { startingSeat } = useSelector((state) => state.Session);
+
   const { normalMode, smallZoleMode, tableMode } = useSelector(
     (state) => state.SessionMode
   );
@@ -196,7 +198,6 @@ const GameScreen = () => {
   //! MANAGE MOVES & TURNS
 
   // Finalize move
-
   useEffect(() => {
     if (moveCards.length === 3) {
       const winningCard = getWinningCard(moveCards);
@@ -204,7 +205,6 @@ const GameScreen = () => {
       if (smallZoleMode && playSmallZole && winningCard.owner.big) {
         dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
         dispatch({ type: "SET_RESULTS_PHASE", payload: true });
-        dispatch({ type: "SET_ROUND_FINISHED", payload: true });
       }
 
       addWinningCardsToStack(winningCard.owner, moveCards);
@@ -264,8 +264,6 @@ const GameScreen = () => {
     ) {
       dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
       dispatch({ type: "SET_RESULTS_PHASE", payload: true });
-      dispatch({ type: "SET_ROUND_FINISHED", payload: true });
-
       if (playSmallZole) {
         dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: true });
       }
@@ -311,6 +309,9 @@ const GameScreen = () => {
     const playerScores = {};
     const bigOneScore = roundResult.bigOneScore;
     const smallOnesScore = roundResult.smallOnesScore;
+
+    console.log(roundResult);
+
     Object.values(players).forEach((player) => {
       // Normal mode not playing zole & using collective / personal dues
       if (!playTable && !playSmallZole && !playZole) {
@@ -524,10 +525,12 @@ const GameScreen = () => {
       });
     }
 
-    // console.log(playerScores);
+    console.log(playerScores);
 
     return playerScores;
   };
+
+  //=======================================================================================
 
   //! FINALIZE ROUND - UPDATE SCOREBOARD & DISPLAY RESULTS
 
@@ -536,11 +539,13 @@ const GameScreen = () => {
     if (resultsPhase) {
       const roundResult = getRoundResult(bigStack, smallStack);
       dispatch({ type: "SET_ROUND_RESULT", payload: roundResult });
+      dispatch({ type: "SET_ROUND_RUNNING", payload: false });
+      dispatch({ type: "SET_ROUND_FINISHED", payload: true });
     }
   }, [resultsPhase]);
 
   useEffect(() => {
-    if (roundFinished) {
+    if (roundFinished && Object.keys(roundResult).length) {
       const score = getPlayerScores(
         players,
         roundResult,
@@ -548,9 +553,54 @@ const GameScreen = () => {
         smallTrickCount
       );
       dispatch({ type: "UPDATE_SCOREBOARD", payload: score });
-      // dispatch({ type: "SET_GAME_FINISHED", payload: false });
+
+      setTimeout(() => {
+        setupNextRound();
+      }, 2000);
     }
   }, [roundFinished]);
+
+  // Setup everything for next round
+  const setupNextRound = () => {
+    // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
+    dispatch({ type: "SET_ROUND_FINISHED", payload: false });
+    dispatch({ type: "ADD_ROUND_PLAYED" });
+    dispatch({ type: "RESET_MOVE_COUNT" });
+    dispatch({ type: "NEXT_STARTING_SEAT" });
+    dispatch({
+      type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
+      payload: startingSeat,
+    });
+    dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
+    dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
+
+    // Reset round phase, score & type
+    dispatch({ type: "RESET_ROUND_PHASE" });
+    dispatch({ type: "RESET_ROUND_RESULT" });
+    dispatch({ type: "RESET_ROUND_TYPE" });
+    dispatch({ type: "RESET_MOVE" });
+    dispatch({ type: "RESET_MOVE_CARDS" });
+
+    // Reset table, stacks & tricks
+    dispatch({ type: "CLEAR_TABLE" });
+    dispatch({ type: "RESET_BIG_STACK" });
+    dispatch({ type: "RESET_SMALL_STACK" });
+    dispatch({ type: "RESET_TABLE_STACK" });
+    dispatch({ type: "RESET_TRICK_COUNTS" });
+
+    // Reset player's stack and big one parameter
+    Object.values(players).forEach((player) => {
+      dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
+      dispatch({ type: "RESET_STACK", payload: player.name });
+    });
+
+    // Initialize new round
+    dispatch({ type: "INITIALIZE_ROUND", payload: true });
+  };
+
+  //=======================================================================================
+
+  //! RENDER
 
   return (
     <div className="gameScreen">

@@ -20,7 +20,7 @@ export default (state = getInitialState(), action) => {
       };
 
     case "NEXT_STARTING_SEAT":
-      let nextStartingSeat = state.startingSeat++;
+      let nextStartingSeat = state.startingSeat + 1;
       if (nextStartingSeat === 4) {
         nextStartingSeat = 1;
       }
@@ -28,6 +28,12 @@ export default (state = getInitialState(), action) => {
       return {
         ...state,
         startingSeat: nextStartingSeat,
+      };
+
+    case "ADD_ROUND_PLAYED":
+      return {
+        ...state,
+        roundsPlayed: state.roundsPlayed + 1,
       };
 
     case "RESET_SESSION":
