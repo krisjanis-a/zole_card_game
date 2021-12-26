@@ -96,6 +96,8 @@ Current progress 26.12.2021
 
 |===================================================|
 
+Things to do / implement:
+
 - create auto-play option for development (or better yet - create simple opponent AI)
 
 - card stacks display in "messy" way

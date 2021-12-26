@@ -14,6 +14,7 @@ export default class Player {
     this.big = false;
     this.seatNumber = Number;
     this.stack = [];
+    this.isComputer = false;
   }
 
   setName(name) {
@@ -42,5 +43,9 @@ export default class Player {
     const newStack = this.stack;
     newStack.push(card);
     this.stack = newStack;
+  }
+
+  setIsComputer(isComputer) {
+    this.isComputer = isComputer;
   }
 }

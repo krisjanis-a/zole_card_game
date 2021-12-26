@@ -29,8 +29,10 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
         return;
       }
       case "BURYING_CARDS": {
-        owner.seatNumber === currentSeat && setActive(true);
-        owner.seatNumber !== currentSeat && setActive(false);
+        if (!owner.isComputer) {
+          owner.seatNumber === currentSeat && setActive(true);
+          owner.seatNumber !== currentSeat && setActive(false);
+        }
         return;
       }
 

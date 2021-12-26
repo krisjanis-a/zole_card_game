@@ -85,6 +85,9 @@ const GameScreen = () => {
     player2.setName("Bob");
     player3.setName("Cornelius");
 
+    player2.setIsComputer(true);
+    player3.setIsComputer(true);
+
     dispatch({
       type: "SET_PLAYER_NAMES",
       payload: [player1.name, player2.name, player3.name],
