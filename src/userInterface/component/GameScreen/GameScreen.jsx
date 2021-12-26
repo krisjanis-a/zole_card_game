@@ -137,6 +137,10 @@ const GameScreen = () => {
         dispatch({ type: "INITIALIZE_ROUND", payload: false });
         dispatch({ type: "SET_ROUND_RUNNING", payload: true });
         dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: true });
+        dispatch({
+          type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
+          payload: startingSeat,
+        });
 
         if (!chooseBigTurn) {
           dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
@@ -309,8 +313,6 @@ const GameScreen = () => {
     const playerScores = {};
     const bigOneScore = roundResult.bigOneScore;
     const smallOnesScore = roundResult.smallOnesScore;
-
-    console.log(roundResult);
 
     Object.values(players).forEach((player) => {
       // Normal mode not playing zole & using collective / personal dues
@@ -525,7 +527,7 @@ const GameScreen = () => {
       });
     }
 
-    console.log(playerScores);
+    // console.log(playerScores);
 
     return playerScores;
   };

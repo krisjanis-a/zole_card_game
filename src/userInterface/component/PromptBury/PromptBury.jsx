@@ -6,7 +6,7 @@ import "./PromptBury.scss";
 const PromptBury = ({ setShowBuryCardsPrompt }) => {
   const dispatch = useDispatch();
 
-  const { chooseBigTurn } = useSelector((state) => state.Round);
+  const { currentSeat } = useSelector((state) => state.Round);
   const { startingSeat } = useSelector((state) => state.Session);
 
   const { buryingCardsPhase } = useSelector((state) => state.RoundPhase);
@@ -14,14 +14,14 @@ const PromptBury = ({ setShowBuryCardsPrompt }) => {
   const playerName = useSelector(
     (state) =>
       Object.values(state.Players).filter(
-        (player) => player.seatNumber === chooseBigTurn
+        (player) => player.seatNumber === currentSeat
       )[0].name
   );
 
   const playerHand = useSelector(
     (state) =>
       Object.values(state.Players).filter(
-        (player) => player.seatNumber === chooseBigTurn
+        (player) => player.seatNumber === currentSeat
       )[0].hand
   );
 

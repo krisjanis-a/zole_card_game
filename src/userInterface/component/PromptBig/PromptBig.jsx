@@ -14,13 +14,13 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
   const table = useSelector((state) => state.Table);
   const players = useSelector((state) => state.Players);
 
-  const { chooseBigTurn } = useSelector((state) => state.Round);
+  const { currentSeat, chooseBigTurn } = useSelector((state) => state.Round);
 
   const [player, setPlayer] = useState();
   const [allPlayersPassed, setAllPlayersPassed] = useState(false);
 
   const playerObj = Object.values(players).filter(
-    (player) => player.seatNumber === chooseBigTurn
+    (player) => player.seatNumber === currentSeat
   );
 
   // Check if all players have passed
@@ -34,6 +34,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
 
         if (normalMode) {
           dispatch({ type: "ADD_COLLECTIVE_DUE" });
+          dispatch({ type: "NEXT_STARTING_SEAT" });
           resetRound();
         }
 
@@ -42,7 +43,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
         }
       }, 1500);
     }
-  }, [chooseBigTurn]);
+  }, [chooseBigTurn, startingSeat]);
 
   // Reset round
   const resetRound = () => {
@@ -130,6 +131,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     setShowChooseBigPrompt(false);
     dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
     dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
+    dispatch({ type: "SET_CURRENT_SEAT", payload: startingSeat });
   };
 
   // PASS
