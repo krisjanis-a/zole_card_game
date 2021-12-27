@@ -22,6 +22,7 @@ import getWinningCard from "../../../engine/utils/getWinningCard";
 import PromptBig from "../PromptBig/PromptBig";
 import PromptBury from "../PromptBury/PromptBury";
 import GameResult from "../GameResult/GameResult";
+import { current } from "@reduxjs/toolkit";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -55,9 +56,11 @@ const GameScreen = () => {
     currentSeat,
     chooseBigTurn,
     bigOneWinsSmallZole,
+    computerPerformAction,
   } = useSelector((state) => state.Round);
 
   const players = useSelector((state) => state.Players);
+  const { askingCard, moveTurn } = useSelector((state) => state.Move);
   const moveCards = useSelector((state) => state.MoveCards);
 
   const bigStack = useSelector((state) => state.BigStack);
@@ -324,7 +327,7 @@ const GameScreen = () => {
 
   //! DETERMINE PLAYER SCORE
 
-  // Update scoreboard for each player depending on rules, party scores and "pules" (if not playing table)
+  // Deteremine points / score for each player depending on rules, party scores and "pules" (if not playing table)
 
   const getPlayerScores = (
     players,
@@ -568,6 +571,7 @@ const GameScreen = () => {
     }
   }, [resultsPhase]);
 
+  // Update scoreboard
   useEffect(() => {
     if (roundFinished && Object.keys(roundResult).length) {
       const score = getPlayerScores(
@@ -627,64 +631,103 @@ const GameScreen = () => {
   //! COMPUTER PLAYER LOGIC
 
   useEffect(() => {
-    // If active player is not computer
-    if (!activePlayer.isComputer) return;
-
-    // If active player is computer
     if (activePlayer.isComputer) {
-      // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
-      if (choosingBigPhase) {
-        const becomeBig = decideBecomeBig(activePlayer.hand);
-        // console.log(`${activePlayer.name} choice to pick table: ${becomeBig}`);
+      dispatch({ type: "SET_COMPUTER_PERFORM_ACTION", payload: true });
+    }
+  }, [activePlayer, currentPhase]);
 
-        if (becomeBig) {
-          // Set big and add table to hand
-          dispatch({
-            type: "SET_BIG",
-            payload: { name: activePlayer.name, big: true },
-          });
-          dispatch({
-            type: "ADD_TABLE_TO_PLAYER_HAND",
-            payload: {
-              name: activePlayer.name,
-              table: table,
-            },
-          });
-          dispatch({ type: "CLEAR_TABLE" });
-          dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
-          dispatch({ type: "SET_BURYING_PHASE", payload: true });
-        }
+  useEffect(() => {
+    if (computerPerformAction) {
+      // If active player is computer
+      if (activePlayer.isComputer) {
+        // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
+        if (choosingBigPhase) {
+          const becomeBig = decideBecomeBig(activePlayer.hand);
+          // console.log(`${activePlayer.name} choice to pick table: ${becomeBig}`);
 
-        if (!becomeBig) {
-          dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: chooseBigTurn + 1 });
-          dispatch({ type: "NEXT_SEAT" });
-        }
-      }
-      // ---
-
-      // If pick table, decide which cards to bury.
-      if (buryingCardsPhase) {
-        if (activePlayer.big) {
-          const buryCards = decideCardsToBury(activePlayer.hand);
-
-          buryCards.forEach((card) => {
+          if (becomeBig) {
+            // Set big and add table to hand
             dispatch({
-              type: "ADD_CARD_TO_BIG_STACK",
-              payload: card,
+              type: "SET_BIG",
+              payload: { name: activePlayer.name, big: true },
+            });
+            dispatch({
+              type: "ADD_TABLE_TO_PLAYER_HAND",
+              payload: {
+                name: activePlayer.name,
+                table: table,
+              },
+            });
+            dispatch({ type: "CLEAR_TABLE" });
+            dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
+            dispatch({ type: "SET_BURYING_PHASE", payload: true });
+          }
+
+          if (!becomeBig) {
+            dispatch({
+              type: "SET_CHOOSE_BIG_TURN",
+              payload: chooseBigTurn + 1,
+            });
+            dispatch({ type: "NEXT_SEAT" });
+          }
+        }
+        // ---
+
+        // If pick table, decide which cards to bury.
+        if (buryingCardsPhase) {
+          if (activePlayer.big) {
+            const buryCards = decideCardsToBury(activePlayer.hand);
+
+            buryCards.forEach((card) => {
+              dispatch({
+                type: "ADD_CARD_TO_BIG_STACK",
+                payload: card,
+              });
+              dispatch({
+                type: "REMOVE_CARD_FROM_HAND",
+                payload: { name: activePlayer.name, cardId: card.id },
+              });
+            });
+          }
+        }
+        // ---
+
+        // If make moves phase =>
+        if (makingMovesPhase) {
+          //    - Get valid card choices
+          //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
+          const card = chooseMoveCard(
+            activePlayer.hand,
+            askingCard,
+            moveCards,
+            activePlayer
+          );
+
+          console.log(`${activePlayer.name} chose move card`);
+          console.log(card);
+
+          //    - Add card to move cards
+          if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
+            if (moveTurn === 1) {
+              dispatch({ type: "SET_ASKING_CARD", payload: card });
+            }
+            dispatch({
+              type: "ADD_MOVE_CARD",
+              payload: { card: card, owner: activePlayer },
             });
             dispatch({
               type: "REMOVE_CARD_FROM_HAND",
               payload: { name: activePlayer.name, cardId: card.id },
             });
-          });
+
+            dispatch({ type: "NEXT_SEAT" });
+            dispatch({ type: "NEXT_MOVE_TURN" });
+          }
         }
       }
-      // ---
-      // If make moves phase =>
-      //    - Get valid card choices
-      //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
+      dispatch({ type: "SET_COMPUTER_PERFORM_ACTION", payload: false });
     }
-  }, [activePlayer, currentPhase]);
+  }, [computerPerformAction]);
 
   const decideBecomeBig = (playerHand) => {
     // Parameters that influence the decission
@@ -744,7 +787,75 @@ const GameScreen = () => {
     return buryCards;
   };
 
-  const chooseMoveCard = (playerHand, askingCard, moveCards) => {};
+  const chooseMoveCard = (playerHand, askingCard, moveCards, owner) => {
+    const validCards = playerHand
+      .filter((card) => {
+        if (checkIfCardValid(card, askingCard, owner)) {
+          return card;
+        }
+      })
+      .map((card) => card.id) // Card => id
+      .sort((a, b) => b - a) // sort cards according to id
+      .map((id) => {
+        return playerHand.filter((item) => item.id === id)[0];
+      }); // id => Card;
+
+    console.log(`${activePlayer.name} valid card choices`);
+    console.log(validCards);
+
+    let card;
+
+    for (let i = 0; i < validCards.length; i++) {
+      if (!askingCard) {
+        card = validCards[i];
+        break;
+      }
+      if (validCards[i].strength >= askingCard.strength) {
+        card = validCards[i];
+        break;
+      } else {
+        card = validCards[0];
+      }
+    }
+
+    return card;
+  };
+
+  const checkIfCardValid = (card, askingCard, owner) => {
+    let cardValid = false;
+
+    if (!askingCard) return (cardValid = true);
+
+    if (askingCard.isTrump && card.isTrump) {
+      cardValid = true;
+    }
+
+    if (
+      !askingCard.isTrump &&
+      !card.isTrump &&
+      card.suite === askingCard.suite
+    ) {
+      cardValid = true;
+    }
+
+    if (
+      askingCard.isTrump &&
+      owner.hand.filter((card) => card.isTrump).length === 0
+    ) {
+      cardValid = true;
+    }
+
+    if (
+      !askingCard.isTrump &&
+      owner.hand.filter(
+        (card) => !card.isTrump && card.suite === askingCard.suite
+      ).length === 0
+    ) {
+      cardValid = true;
+    }
+
+    return cardValid;
+  };
 
   //=======================================================================================
 

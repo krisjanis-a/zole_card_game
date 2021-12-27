@@ -6,6 +6,7 @@ const getInitialState = () => ({
   currentSeat: null, // current seat that is making active choices (choosing big, burying cards, choosing move card)
   chooseBigTurn: null, // player who is currently given choice of being big one
   bigOneWinsSmallZole: false, // in case small zole is played & big one wins
+  computerPerformAction: false, // determines whether computer should be performing an action
 });
 
 export default (state = getInitialState(), action) => {
@@ -75,6 +76,12 @@ export default (state = getInitialState(), action) => {
         currentSeat: nextSeat,
       };
     }
+
+    case "SET_COMPUTER_PERFORM_ACTION":
+      return {
+        ...state,
+        computerPerformAction: action.payload,
+      };
 
     case "RESET_ROUND":
       return getInitialState();
