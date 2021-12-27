@@ -58,6 +58,7 @@ const Session = () => {
     });
     dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
     dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
+    dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
 
     // Reset round phase, score & type
     dispatch({ type: "RESET_ROUND_PHASE" });

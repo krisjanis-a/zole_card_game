@@ -22,7 +22,6 @@ import getWinningCard from "../../../engine/utils/getWinningCard";
 import PromptBig from "../PromptBig/PromptBig";
 import PromptBury from "../PromptBury/PromptBury";
 import GameResult from "../GameResult/GameResult";
-import { current } from "@reduxjs/toolkit";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -297,6 +296,70 @@ const GameScreen = () => {
         dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: true });
       }
     }
+  };
+
+  // Check if all players passed in choosing big
+  useEffect(() => {
+    if (choosingBigPhase) {
+      if (chooseBigTurn > 3) {
+        dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: true });
+
+        setTimeout(() => {
+          dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
+          dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
+
+          if (normalMode) {
+            dispatch({ type: "SET_ROUND_FINISHED", payload: true });
+            dispatch({ type: "ADD_COLLECTIVE_DUE" });
+            dispatch({ type: "UPDATE_SCOREBOARD", payload: "Collective Due" });
+            dispatch({ type: "ADD_ROUND_PLAYED" });
+            dispatch({ type: "NEXT_STARTING_SEAT" });
+            resetRound();
+          }
+
+          if (tableMode) {
+            dispatch({ type: "SET_PLAY_TABLE", payload: true });
+          }
+        }, 1500);
+      }
+    }
+  }, [chooseBigTurn]);
+
+  // Reset round
+  const resetRound = () => {
+    // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
+    dispatch({ type: "SET_ROUND_RUNNING", payload: false });
+    dispatch({ type: "SET_ROUND_FINISHED", payload: false });
+    dispatch({ type: "RESET_MOVE_COUNT" });
+    dispatch({
+      type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
+      payload: startingSeat,
+    });
+    dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
+    dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
+    dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
+
+    // Reset round phase, result & type
+    dispatch({ type: "RESET_ROUND_PHASE" });
+    dispatch({ type: "RESET_ROUND_RESULT" });
+    dispatch({ type: "RESET_ROUND_TYPE" });
+    dispatch({ type: "RESET_MOVE" });
+    dispatch({ type: "RESET_MOVE_CARDS" });
+
+    // Reset table, stacks & tricks
+    dispatch({ type: "CLEAR_TABLE" });
+    dispatch({ type: "RESET_BIG_STACK" });
+    dispatch({ type: "RESET_SMALL_STACK" });
+    dispatch({ type: "RESET_TABLE_STACK" });
+    dispatch({ type: "RESET_TRICK_COUNTS" });
+
+    // Reset player's big one parameter
+    Object.values(players).forEach((player) => {
+      dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
+    });
+
+    // Initialize new round
+    dispatch({ type: "INITIALIZE_ROUND", payload: true });
   };
 
   //=======================================================================================
@@ -637,7 +700,9 @@ const GameScreen = () => {
   }, [activePlayer, currentPhase]);
 
   useEffect(() => {
+    // setTimeout(() => {
     if (computerPerformAction) {
+      // console.log("Something should be done from PC player's side");
       // If active player is computer
       if (activePlayer.isComputer) {
         // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
@@ -664,10 +729,12 @@ const GameScreen = () => {
           }
 
           if (!becomeBig) {
-            dispatch({
-              type: "SET_CHOOSE_BIG_TURN",
-              payload: chooseBigTurn + 1,
-            });
+            if (chooseBigTurn < 4) {
+              dispatch({
+                type: "SET_CHOOSE_BIG_TURN",
+                payload: chooseBigTurn + 1,
+              });
+            }
             dispatch({ type: "NEXT_SEAT" });
           }
         }
@@ -703,8 +770,8 @@ const GameScreen = () => {
             activePlayer
           );
 
-          console.log(`${activePlayer.name} chose move card`);
-          console.log(card);
+          // console.log(`${activePlayer.name} chose move card`);
+          // console.log(card);
 
           //    - Add card to move cards
           if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
@@ -727,6 +794,7 @@ const GameScreen = () => {
       }
       dispatch({ type: "SET_COMPUTER_PERFORM_ACTION", payload: false });
     }
+    // }, 1500);
   }, [computerPerformAction]);
 
   const decideBecomeBig = (playerHand) => {
@@ -800,8 +868,8 @@ const GameScreen = () => {
         return playerHand.filter((item) => item.id === id)[0];
       }); // id => Card;
 
-    console.log(`${activePlayer.name} valid card choices`);
-    console.log(validCards);
+    // console.log(`${activePlayer.name} valid card choices`);
+    // console.log(validCards);
 
     let card;
 

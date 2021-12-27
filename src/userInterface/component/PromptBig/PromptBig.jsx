@@ -14,74 +14,15 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
   const table = useSelector((state) => state.Table);
   const players = useSelector((state) => state.Players);
 
-  const { currentSeat, chooseBigTurn } = useSelector((state) => state.Round);
+  const { currentSeat, chooseBigTurn, allPlayersPassed } = useSelector(
+    (state) => state.Round
+  );
 
   const [player, setPlayer] = useState();
-  const [allPlayersPassed, setAllPlayersPassed] = useState(false);
 
   const playerObj = Object.values(players).filter(
     (player) => player.seatNumber === currentSeat
   );
-
-  // Check if all players have passed
-  useEffect(() => {
-    if (chooseBigTurn > 3) {
-      setAllPlayersPassed(true);
-      setTimeout(() => {
-        setShowChooseBigPrompt(false);
-        dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
-        dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
-
-        if (normalMode) {
-          dispatch({ type: "ADD_COLLECTIVE_DUE" });
-          dispatch({ type: "UPDATE_SCOREBOARD", payload: "Collective Due" });
-          dispatch({ type: "ADD_ROUND_PLAYED" });
-          dispatch({ type: "NEXT_STARTING_SEAT" });
-          resetRound();
-        }
-
-        if (tableMode) {
-          dispatch({ type: "SET_PLAY_TABLE", payload: true });
-        }
-      }, 1500);
-    }
-  }, [chooseBigTurn, startingSeat]);
-
-  // Reset round
-  const resetRound = () => {
-    // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
-    dispatch({ type: "SET_ROUND_RUNNING", payload: false });
-    dispatch({ type: "SET_ROUND_FINISHED", payload: false });
-    dispatch({ type: "RESET_MOVE_COUNT" });
-    dispatch({
-      type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
-      payload: startingSeat,
-    });
-    dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
-    dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
-
-    // Reset round phase, result & type
-    dispatch({ type: "RESET_ROUND_PHASE" });
-    dispatch({ type: "RESET_ROUND_RESULT" });
-    dispatch({ type: "RESET_ROUND_TYPE" });
-    dispatch({ type: "RESET_MOVE" });
-    dispatch({ type: "RESET_MOVE_CARDS" });
-
-    // Reset table, stacks & tricks
-    dispatch({ type: "CLEAR_TABLE" });
-    dispatch({ type: "RESET_BIG_STACK" });
-    dispatch({ type: "RESET_SMALL_STACK" });
-    dispatch({ type: "RESET_TABLE_STACK" });
-    dispatch({ type: "RESET_TRICK_COUNTS" });
-
-    // Reset player's big one parameter
-    Object.values(players).forEach((player) => {
-      dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
-    });
-
-    // Initialize new round
-    dispatch({ type: "INITIALIZE_ROUND", payload: true });
-  };
 
   // Set player
   useEffect(() => {
@@ -139,7 +80,9 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
 
   // PASS
   const chooseBigTurnUpdate = () => {
-    dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: chooseBigTurn + 1 });
+    if (chooseBigTurn < 4) {
+      dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: chooseBigTurn + 1 });
+    }
     dispatch({ type: "NEXT_SEAT" });
   };
 
