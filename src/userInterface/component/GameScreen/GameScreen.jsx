@@ -26,6 +26,8 @@ import GameResult from "../GameResult/GameResult";
 const GameScreen = () => {
   const dispatch = useDispatch();
 
+  const activePlayer = useSelector((state) => state.ActivePlayer);
+
   const { startingSeat } = useSelector((state) => state.Session);
 
   const { normalMode, smallZoleMode, tableMode } = useSelector(
@@ -64,6 +66,8 @@ const GameScreen = () => {
   const { smallTrickCount, bigTrickCount } = useSelector(
     (state) => state.Tricks
   );
+
+  const table = useSelector((state) => state.Table);
 
   const [showChooseBigPrompt, setShowChooseBigPrompt] = useState(false);
   const [showBuryCardsPrompt, setShowBuryCardsPrompt] = useState(false);
@@ -623,22 +627,124 @@ const GameScreen = () => {
   //! COMPUTER PLAYER LOGIC
 
   useEffect(() => {
-    const player = Object.values(players).filter(
-      (player) => player.seatNumber === currentSeat
-    )[0];
-    if (player) {
-      if (!player.isComputer) {
-        console.log(player.isComputer);
-        console.log("Real player");
-        return;
+    // If active player is not computer
+    if (!activePlayer.isComputer) return;
+
+    // If active player is computer
+    if (activePlayer.isComputer) {
+      // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
+      if (choosingBigPhase) {
+        const becomeBig = decideBecomeBig(activePlayer.hand);
+        // console.log(`${activePlayer.name} choice to pick table: ${becomeBig}`);
+
+        if (becomeBig) {
+          // Set big and add table to hand
+          dispatch({
+            type: "SET_BIG",
+            payload: { name: activePlayer.name, big: true },
+          });
+          dispatch({
+            type: "ADD_TABLE_TO_PLAYER_HAND",
+            payload: {
+              name: activePlayer.name,
+              table: table,
+            },
+          });
+          dispatch({ type: "CLEAR_TABLE" });
+          dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
+          dispatch({ type: "SET_BURYING_PHASE", payload: true });
+        }
+
+        if (!becomeBig) {
+          dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: chooseBigTurn + 1 });
+          dispatch({ type: "NEXT_SEAT" });
+        }
+      }
+      // ---
+
+      // If pick table, decide which cards to bury.
+      if (buryingCardsPhase) {
+        if (activePlayer.big) {
+          const buryCards = decideCardsToBury(activePlayer.hand);
+
+          buryCards.forEach((card) => {
+            dispatch({
+              type: "ADD_CARD_TO_BIG_STACK",
+              payload: card,
+            });
+            dispatch({
+              type: "REMOVE_CARD_FROM_HAND",
+              payload: { name: activePlayer.name, cardId: card.id },
+            });
+          });
+        }
+      }
+      // ---
+      // If make moves phase =>
+      //    - Get valid card choices
+      //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
+    }
+  }, [activePlayer, currentPhase]);
+
+  const decideBecomeBig = (playerHand) => {
+    // Parameters that influence the decission
+    let trumpCount = 0;
+    let trumpStrength = 0;
+    let aceCount = 0;
+
+    let pickTable = false;
+
+    // Object of these parameters (maybe not to be used)
+    const handParameters = new Object();
+
+    // Scan the hand for parameters
+    playerHand.forEach((card) => {
+      if (card.isTrump) {
+        trumpCount++;
+        trumpStrength = trumpStrength + card.strength;
       }
 
-      console.log("NPC");
+      if (card.nominal === "ace") {
+        aceCount++;
+      }
+    });
 
-      if (player.isComputer) {
+    // Populate object
+    handParameters.trumpCount = trumpCount;
+    handParameters.trumpStrength = trumpStrength;
+    handParameters.aceCount = aceCount;
+
+    /* Conditions for taking hand:
+      - if there are 5 or more trumps on hand
+      - if the trump overall strength is bigger than [...]
+      - if there are aces
+    */
+
+    if (trumpCount > 4) {
+      if (trumpStrength > 61) {
+        pickTable = true;
       }
     }
-  }, [currentSeat, currentPhase]);
+
+    // console.log(handParameters);
+    // console.log(playerHand);
+
+    return pickTable;
+  };
+
+  const decideCardsToBury = (playerHand) => {
+    const buryCards = playerHand
+      .map((card) => card.id) // Card => id
+      .sort((a, b) => a - b) // sort cards according to id
+      .map((id) => {
+        return playerHand.filter((item) => item.id === id)[0];
+      }) // id => Card
+      .slice(-2);
+
+    return buryCards;
+  };
+
+  const chooseMoveCard = (playerHand, askingCard, moveCards) => {};
 
   //=======================================================================================
 
