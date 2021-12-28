@@ -27,6 +27,11 @@ import GameResult from "../GameResult/GameResult";
 import { setActivePlayer } from "../../store/ActivePlayer/ActivePlayer.action";
 import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
 import { addCollectiveDue } from "../../store/DuesCollective/DuesCollective.action";
+import {
+  nextMoveTurn,
+  resetMove,
+  setAskingCard,
+} from "../../store/Move/Move.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -277,7 +282,8 @@ const GameScreen = () => {
     dispatch({ type: "SET_CURRENT_SEAT", payload: null });
     dispatch({ type: "RESET_MOVE_CARDS" });
     dispatch({ type: "ADD_MOVE_COUNT" });
-    dispatch({ type: "SET_ASKING_CARD", payload: null });
+    // dispatch({ type: "SET_ASKING_CARD", payload: null });
+    dispatch(setAskingCard(null));
     dispatch({
       type: "SET_CURRENT_SEAT",
       payload: winningCard.owner.seatNumber,
@@ -346,7 +352,7 @@ const GameScreen = () => {
     dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
-    dispatch({ type: "RESET_MOVE" });
+    dispatch(resetMove());
     dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset table, stacks & tricks
@@ -673,7 +679,7 @@ const GameScreen = () => {
     dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
-    dispatch({ type: "RESET_MOVE" });
+    dispatch(resetMove());
     dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset table, stacks & tricks
@@ -781,7 +787,8 @@ const GameScreen = () => {
           //    - Add card to move cards
           if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
             if (moveTurn === 1) {
-              dispatch({ type: "SET_ASKING_CARD", payload: card });
+              // dispatch({ type: "SET_ASKING_CARD", payload: card });
+              dispatch(setAskingCard(card));
             }
             dispatch({
               type: "ADD_MOVE_CARD",
@@ -793,7 +800,8 @@ const GameScreen = () => {
             });
 
             dispatch({ type: "NEXT_SEAT" });
-            dispatch({ type: "NEXT_MOVE_TURN" });
+            // dispatch({ type: "NEXT_MOVE_TURN" });
+            dispatch(nextMoveTurn());
           }
         }
       }
