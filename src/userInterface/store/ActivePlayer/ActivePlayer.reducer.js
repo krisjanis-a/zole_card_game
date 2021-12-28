@@ -6,6 +6,9 @@ export default (state = getInitialState(), action) => {
       const { player } = action;
       return player;
 
+    case "RESET_ACTIVE_PLAYER":
+      return getInitialState();
+
     default:
       return state;
   }
