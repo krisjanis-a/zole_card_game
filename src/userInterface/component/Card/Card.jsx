@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import cardIdToCard from "../../../engine/utils/cardIdToCard";
 import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
+import { nextMoveTurn, setAskingCard } from "../../store/Move/Move.action";
 import "./Card.scss";
 
 const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
@@ -87,7 +88,8 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
     if (makingMovesPhase && active) {
       addMoveCard();
       dispatch({ type: "NEXT_SEAT" });
-      dispatch({ type: "NEXT_MOVE_TURN" });
+      // dispatch({ type: "NEXT_MOVE_TURN" });
+      dispatch(nextMoveTurn());
     }
   };
 
@@ -130,7 +132,8 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
   const addMoveCard = () => {
     if (moveCards.every((moveCard) => moveCard.id !== cardId)) {
       if (moveTurn === 1) {
-        dispatch({ type: "SET_ASKING_CARD", payload: card });
+        // dispatch({ type: "SET_ASKING_CARD", payload: card });
+        dispatch(setAskingCard(card));
       }
       dispatch({
         type: "ADD_MOVE_CARD",

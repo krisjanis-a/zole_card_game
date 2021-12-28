@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import SessionSetup from "../../component/SessionSetup/SessionSetup";
 import { resetCollectiveDues } from "../../store/DuesCollective/DuesCollective.action";
+import { resetMove } from "../../store/Move/Move.action";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Session = () => {
     dispatch({ type: "RESET_PERSONAL_DUES" });
 
     // Reset move & move cards
-    dispatch({ type: "RESET_MOVE" });
+    dispatch(resetMove());
     dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset players
@@ -66,7 +67,7 @@ const Session = () => {
     dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
-    dispatch({ type: "RESET_MOVE" });
+    dispatch(resetMove());
     dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset table, stacks & tricks
