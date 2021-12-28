@@ -26,6 +26,7 @@ import GameResult from "../GameResult/GameResult";
 // Actions
 import { setActivePlayer } from "../../store/ActivePlayer/ActivePlayer.action";
 import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
+import { addCollectiveDue } from "../../store/DuesCollective/DuesCollective.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -312,7 +313,7 @@ const GameScreen = () => {
 
           if (normalMode) {
             dispatch({ type: "SET_ROUND_FINISHED", payload: true });
-            dispatch({ type: "ADD_COLLECTIVE_DUE" });
+            dispatch(addCollectiveDue());
             dispatch({ type: "UPDATE_SCOREBOARD", payload: "Collective Due" });
             dispatch({ type: "ADD_ROUND_PLAYED" });
             dispatch({ type: "NEXT_STARTING_SEAT" });
