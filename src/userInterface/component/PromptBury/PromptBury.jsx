@@ -6,8 +6,8 @@ import "./PromptBury.scss";
 const PromptBury = ({ setShowBuryCardsPrompt }) => {
   const dispatch = useDispatch();
 
-  const { currentSeat } = useSelector((state) => state.Round);
   const { startingSeat } = useSelector((state) => state.Session);
+  const { currentSeat } = useSelector((state) => state.Round);
 
   const { buryingCardsPhase } = useSelector((state) => state.RoundPhase);
 

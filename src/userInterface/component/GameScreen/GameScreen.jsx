@@ -23,6 +23,9 @@ import PromptBig from "../PromptBig/PromptBig";
 import PromptBury from "../PromptBury/PromptBury";
 import GameResult from "../GameResult/GameResult";
 
+// Actions
+import { setActivePlayer } from "../../store/ActivePlayer/ActivePlayer.action";
+
 const GameScreen = () => {
   const dispatch = useDispatch();
 
@@ -211,17 +214,17 @@ const GameScreen = () => {
   //! MANAGE MOVES & TURNS
 
   // Active player (depending on current seat)
-  const setActivePlayer = () => {
+  const selectActivePlayer = () => {
     const player = Object.values(players).filter(
       (player) => player.seatNumber === currentSeat
     )[0];
 
-    dispatch({ type: "SET_ACTIVE_PLAYER", payload: player });
+    dispatch(setActivePlayer(player));
   };
 
   useEffect(() => {
     if (roundRunning) {
-      setActivePlayer();
+      selectActivePlayer();
     }
   }, [currentSeat, roundRunning]);
 
@@ -657,6 +660,7 @@ const GameScreen = () => {
     dispatch({ type: "SET_ROUND_FINISHED", payload: false });
     dispatch({ type: "ADD_ROUND_PLAYED" });
     dispatch({ type: "RESET_MOVE_COUNT" });
+    dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
     dispatch({ type: "NEXT_STARTING_SEAT" });
     dispatch({
       type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",

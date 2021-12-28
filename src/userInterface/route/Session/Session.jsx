@@ -52,6 +52,7 @@ const Session = () => {
     dispatch({ type: "SET_ROUND_RUNNING", payload: false });
     dispatch({ type: "SET_ROUND_FINISHED", payload: false });
     dispatch({ type: "RESET_MOVE_COUNT" });
+    dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
     dispatch({
       type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
       payload: startingSeat,
