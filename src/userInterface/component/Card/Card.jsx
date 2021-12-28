@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import cardIdToCard from "../../../engine/utils/cardIdToCard";
+import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
 import "./Card.scss";
 
 const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
@@ -143,10 +144,7 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
   };
 
   const buryCard = () => {
-    dispatch({
-      type: "ADD_CARD_TO_BIG_STACK",
-      payload: card,
-    });
+    dispatch(addCardToBigStack(card));
     dispatch({
       type: "REMOVE_CARD_FROM_HAND",
       payload: { name: owner.name, cardId: cardId },

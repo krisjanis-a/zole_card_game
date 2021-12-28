@@ -25,6 +25,7 @@ import GameResult from "../GameResult/GameResult";
 
 // Actions
 import { setActivePlayer } from "../../store/ActivePlayer/ActivePlayer.action";
+import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -248,9 +249,7 @@ const GameScreen = () => {
     const cards = moveCards.map((card) => card.card);
     if (!playTable && !playSmallZole) {
       if (winningPlayer.big) {
-        cards.map((card) =>
-          dispatch({ type: "ADD_CARD_TO_BIG_STACK", payload: card })
-        );
+        cards.map((card) => dispatch(addCardToBigStack(card)));
         dispatch({ type: "ADD_BIG_TRICK_COUNT" });
       }
       if (!winningPlayer.big) {
@@ -750,10 +749,11 @@ const GameScreen = () => {
             const buryCards = decideCardsToBury(activePlayer.hand);
 
             buryCards.forEach((card) => {
-              dispatch({
-                type: "ADD_CARD_TO_BIG_STACK",
-                payload: card,
-              });
+              // dispatch({
+              //   type: "ADD_CARD_TO_BIG_STACK",
+              //   payload: card,
+              // });
+              dispatch(addCardToBigStack(card));
               dispatch({
                 type: "REMOVE_CARD_FROM_HAND",
                 payload: { name: activePlayer.name, cardId: card.id },
