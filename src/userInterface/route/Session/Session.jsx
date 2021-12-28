@@ -5,6 +5,7 @@ import Button from "../../component/Button/Button";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import SessionSetup from "../../component/SessionSetup/SessionSetup";
+import { resetCollectiveDues } from "../../store/DuesCollective/DuesCollective.action";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const Session = () => {
 
   const endSession = () => {
     // Reset dues
-    dispatch({ type: "RESET_COLLECTIVE_DUES" });
+    dispatch(resetCollectiveDues());
     dispatch({ type: "RESET_PERSONAL_DUES" });
 
     // Reset move & move cards
