@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import cardIdToCard from "../../../engine/utils/cardIdToCard";
 import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
 import { nextMoveTurn, setAskingCard } from "../../store/Move/Move.action";
+import { addMoveCard } from "../../store/MoveCards/MoveCards.action";
 import "./Card.scss";
 
 const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
@@ -86,7 +87,7 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
     }
 
     if (makingMovesPhase && active) {
-      addMoveCard();
+      addCardToMoveCard();
       dispatch({ type: "NEXT_SEAT" });
       // dispatch({ type: "NEXT_MOVE_TURN" });
       dispatch(nextMoveTurn());
@@ -129,16 +130,13 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
     return cardValid;
   };
 
-  const addMoveCard = () => {
+  const addCardToMoveCard = () => {
     if (moveCards.every((moveCard) => moveCard.id !== cardId)) {
       if (moveTurn === 1) {
         // dispatch({ type: "SET_ASKING_CARD", payload: card });
         dispatch(setAskingCard(card));
       }
-      dispatch({
-        type: "ADD_MOVE_CARD",
-        payload: { card: card, owner: owner },
-      });
+      dispatch(addMoveCard(card, owner));
       dispatch({
         type: "REMOVE_CARD_FROM_HAND",
         payload: { name: owner.name, cardId: cardId },

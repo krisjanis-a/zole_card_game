@@ -32,6 +32,7 @@ import {
   resetMove,
   setAskingCard,
 } from "../../store/Move/Move.action";
+import { addMoveCard } from "../../store/MoveCards/MoveCards.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -790,10 +791,7 @@ const GameScreen = () => {
               // dispatch({ type: "SET_ASKING_CARD", payload: card });
               dispatch(setAskingCard(card));
             }
-            dispatch({
-              type: "ADD_MOVE_CARD",
-              payload: { card: card, owner: activePlayer },
-            });
+            dispatch(addMoveCard(card, activePlayer));
             dispatch({
               type: "REMOVE_CARD_FROM_HAND",
               payload: { name: activePlayer.name, cardId: card.id },

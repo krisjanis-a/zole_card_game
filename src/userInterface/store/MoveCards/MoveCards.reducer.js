@@ -4,8 +4,9 @@ export default (state = getInitialState(), action) => {
   switch (action.type) {
     case "ADD_MOVE_CARD": {
       if (state.length < 3) {
+        const { card, owner } = action;
         let newState = [...state];
-        newState.push(action.payload);
+        newState.push({ card, owner });
         return newState;
       }
       return state;
