@@ -8,7 +8,7 @@ export default (state = getInitialState(), action) => {
     case "SET_ASKING_CARD":
       return {
         ...state,
-        askingCard: action.payload,
+        askingCard: action.card,
       };
 
     case "NEXT_MOVE_TURN": {

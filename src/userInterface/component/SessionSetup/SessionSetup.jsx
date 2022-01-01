@@ -3,7 +3,14 @@ import "./SessionSetup.scss";
 import Button from "../Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
+// Actions
 import { initializeSession } from "../../store/Session/Session.action";
+import {
+  setNormalMode,
+  setTableMode,
+  setSmallZoleMode,
+} from "../../store/SessionMode/SessionMode.action";
 
 const SessionSetup = () => {
   const dispatch = useDispatch();
@@ -12,21 +19,21 @@ const SessionSetup = () => {
     (state) => state.SessionMode
   );
 
-  const setNormalMode = () => {
+  const toggleNormalMode = () => {
     if (!normalMode) {
       dispatch(setNormalMode(true));
       dispatch(setTableMode(false));
     }
   };
 
-  const setTableMode = () => {
+  const toggleTableMode = () => {
     if (!tableMode) {
       dispatch(setNormalMode(false));
       dispatch(setTableMode(true));
     }
   };
 
-  const setSmallZoleMode = () => {
+  const toggleSmallZoleMode = () => {
     dispatch(setSmallZoleMode(!smallZoleMode));
   };
 
@@ -51,7 +58,7 @@ const SessionSetup = () => {
             name="NormalMode"
             value="Normal"
             checked={normalMode}
-            onChange={setNormalMode}
+            onChange={toggleNormalMode}
           />
         </div>
 
@@ -63,7 +70,7 @@ const SessionSetup = () => {
             name="TableMode"
             value="Table"
             checked={tableMode}
-            onChange={setTableMode}
+            onChange={toggleTableMode}
           />
         </div>
 
@@ -75,7 +82,7 @@ const SessionSetup = () => {
             name="SmallZoleMode"
             value="SmallZole"
             checked={smallZoleMode}
-            onChange={setSmallZoleMode}
+            onChange={toggleSmallZoleMode}
           />
         </div>
       </div>

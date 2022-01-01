@@ -9,17 +9,17 @@ export default (state = getInitialState(), action) => {
     case "SET_NORMAL_MODE":
       return {
         ...state,
-        normalMode: action.payload,
+        normalMode: action.status,
       };
     case "SET_TABLE_MODE":
       return {
         ...state,
-        tableMode: action.payload,
+        tableMode: action.status,
       };
     case "SET_SMALL_ZOLE_MODE":
       return {
         ...state,
-        smallZoleMode: action.payload,
+        smallZoleMode: action.status,
       };
 
     case "RESET_SESSION_MODE":
