@@ -28,6 +28,7 @@ import {
   setMakingMovesPhase,
   setResultsPhase,
 } from "../../store/RoundPhase/RoundPhase.action";
+import { resetRoundResult } from "../../store/RoundResult/RoundResult.action";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -54,7 +55,8 @@ const Session = () => {
     // dispatch({ type: "RESET_ROUND" });
     dispatch(resetRoundPhase());
     // dispatch({ type: "RESET_ROUND_PHASE" });
-    dispatch({ type: "RESET_ROUND_RESULT" });
+    dispatch(resetRoundResult());
+    // dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
 
     // Reset scoreboard
@@ -95,7 +97,8 @@ const Session = () => {
     // Reset round phase, score & type
     dispatch(resetRoundPhase());
     // dispatch({ type: "RESET_ROUND_PHASE" });
-    dispatch({ type: "RESET_ROUND_RESULT" });
+    dispatch(resetRoundResult());
+    // dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch(resetMove());
     dispatch({ type: "RESET_MOVE_CARDS" });

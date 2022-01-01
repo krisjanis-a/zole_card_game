@@ -64,6 +64,10 @@ import {
   setResultsPhase,
   setRoundPhase,
 } from "../../store/RoundPhase/RoundPhase.action";
+import {
+  resetRoundResult,
+  setRoundResult,
+} from "../../store/RoundResult/RoundResult.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -410,7 +414,8 @@ const GameScreen = () => {
     // Reset round phase, result & type
     dispatch(resetRoundPhase());
     // dispatch({ type: "RESET_ROUND_PHASE" });
-    dispatch({ type: "RESET_ROUND_RESULT" });
+    dispatch(resetRoundResult());
+    // dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch(resetMove());
     dispatch({ type: "RESET_MOVE_CARDS" });
@@ -699,7 +704,8 @@ const GameScreen = () => {
   useEffect(() => {
     if (resultsPhase) {
       const roundResult = getRoundResult(bigStack, smallStack);
-      dispatch({ type: "SET_ROUND_RESULT", payload: roundResult });
+      dispatch(setRoundResult(roundResult));
+      // dispatch({ type: "SET_ROUND_RESULT", payload: roundResult });
       dispatch(setRoundRunning(false));
       // dispatch({ type: "SET_ROUND_RUNNING", payload: false });
       dispatch(setRoundFinished(true));
@@ -748,7 +754,8 @@ const GameScreen = () => {
     // Reset round phase, score & type
     dispatch(resetRoundPhase());
     // dispatch({ type: "RESET_ROUND_PHASE" });
-    dispatch({ type: "RESET_ROUND_RESULT" });
+    dispatch(resetRoundResult());
+    // dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch(resetMove());
     dispatch({ type: "RESET_MOVE_CARDS" });
