@@ -9,19 +9,19 @@ export default (state = getInitialState(), action) => {
     case "SET_PLAY_ZOLE":
       return {
         ...state,
-        playZole: action.payload,
+        playZole: action.status,
       };
 
     case "SET_PLAY_SMALL_ZOLE":
       return {
         ...state,
-        playSmallZole: action.payload,
+        playSmallZole: action.status,
       };
 
     case "SET_PLAY_TABLE":
       return {
         ...state,
-        playTable: action.payload,
+        playTable: action.status,
       };
 
     case "RESET_ROUND_TYPE":

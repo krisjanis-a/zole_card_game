@@ -68,6 +68,10 @@ import {
   resetRoundResult,
   setRoundResult,
 } from "../../store/RoundResult/RoundResult.action";
+import {
+  resetRoundType,
+  setPlayTable,
+} from "../../store/RoundType/RoundType.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -383,7 +387,8 @@ const GameScreen = () => {
           }
 
           if (tableMode) {
-            dispatch({ type: "SET_PLAY_TABLE", payload: true });
+            dispatch(setPlayTable(true));
+            // dispatch({ type: "SET_PLAY_TABLE", payload: true });
           }
         }, 1500);
       }
@@ -416,7 +421,8 @@ const GameScreen = () => {
     // dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch(resetRoundResult());
     // dispatch({ type: "RESET_ROUND_RESULT" });
-    dispatch({ type: "RESET_ROUND_TYPE" });
+    dispatch(resetRoundType());
+    // dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch(resetMove());
     dispatch({ type: "RESET_MOVE_CARDS" });
 
@@ -756,7 +762,8 @@ const GameScreen = () => {
     // dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch(resetRoundResult());
     // dispatch({ type: "RESET_ROUND_RESULT" });
-    dispatch({ type: "RESET_ROUND_TYPE" });
+    dispatch(resetRoundType());
+    // dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch(resetMove());
     dispatch({ type: "RESET_MOVE_CARDS" });
 

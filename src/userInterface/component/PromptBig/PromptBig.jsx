@@ -16,6 +16,10 @@ import {
   setChoosingBigPhase,
   setMakingMovesPhase,
 } from "../../store/RoundPhase/RoundPhase.action";
+import {
+  setPlaySmallZole,
+  setPlayZole,
+} from "../../store/RoundType/RoundType.action";
 
 const PromptBig = ({ setShowChooseBigPrompt }) => {
   const dispatch = useDispatch();
@@ -49,10 +53,11 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
   const handlePlayZole = () => {
     dispatch(setBig(player.name, true));
     // dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
-    dispatch({
-      type: "SET_PLAY_ZOLE",
-      payload: true,
-    });
+    dispatch(setPlayZole(true));
+    // dispatch({
+    //   type: "SET_PLAY_ZOLE",
+    //   payload: true,
+    // });
     dispatch({
       type: "ADD_TABLE_TO_SMALL_STACK",
       payload: table,
@@ -93,7 +98,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
   const handlePlaySmallZole = () => {
     dispatch(setBig(player.name, true));
     // dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
-    dispatch({ type: "SET_PLAY_SMALL_ZOLE", payload: true });
+    dispatch(setPlaySmallZole(true));
+    // dispatch({ type: "SET_PLAY_SMALL_ZOLE", payload: true });
 
     setShowChooseBigPrompt(false);
     dispatch(setChoosingBigPhase(false));
