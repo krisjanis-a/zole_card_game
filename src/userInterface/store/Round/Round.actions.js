@@ -28,6 +28,12 @@ export const setRoundFinished = (status) => ({
   status,
 });
 
-export const setChooseBigTurn = () => ({
+export const setChooseBigTurn = (turn) => ({
   type: SET_CHOOSE_BIG_TURN,
+  turn,
+});
+
+export const setBigWinsSmallZole = (status) => ({
+  type: SET_BIG_WINS_SMALL_ZOLE,
+  status,
 });

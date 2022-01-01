@@ -32,13 +32,13 @@ export default (state = getInitialState(), action) => {
     case "SET_CHOOSE_BIG_TURN":
       return {
         ...state,
-        chooseBigTurn: action.payload,
+        chooseBigTurn: action.turn,
       };
 
     case "SET_BIG_WINS_SMALL_ZOLE":
       return {
         ...state,
-        bigOneWinsSmallZole: action.payload,
+        bigOneWinsSmallZole: action.status,
       };
 
     case "ADD_MOVE_COUNT":

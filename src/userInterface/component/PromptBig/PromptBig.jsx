@@ -6,6 +6,7 @@ import {
   addTableToPlayerHand,
   setBig,
 } from "../../store/Players/Players.action";
+import { setChooseBigTurn } from "../../store/Round/Round.actions";
 
 const PromptBig = ({ setShowChooseBigPrompt }) => {
   const dispatch = useDispatch();
@@ -89,7 +90,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
   // PASS
   const chooseBigTurnUpdate = () => {
     if (chooseBigTurn < 4) {
-      dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: chooseBigTurn + 1 });
+      dispatch(setChooseBigTurn(chooseBigTurn + 1));
+      // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: chooseBigTurn + 1 });
     }
     dispatch({ type: "NEXT_SEAT" });
   };

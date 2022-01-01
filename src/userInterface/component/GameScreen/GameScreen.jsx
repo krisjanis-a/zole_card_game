@@ -43,6 +43,8 @@ import {
   setPlayerHand,
 } from "../../store/Players/Players.action";
 import {
+  setBigWinsSmallZole,
+  setChooseBigTurn,
   setRoundFinished,
   setRoundRunning,
 } from "../../store/Round/Round.actions";
@@ -176,7 +178,8 @@ const GameScreen = () => {
         });
 
         if (!chooseBigTurn) {
-          dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
+          dispatch(setChooseBigTurn(1));
+          // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
         }
       }
     }
@@ -317,7 +320,8 @@ const GameScreen = () => {
       dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
       dispatch({ type: "SET_RESULTS_PHASE", payload: true });
       if (playSmallZole) {
-        dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: true });
+        dispatch(setBigWinsSmallZole(true));
+        // dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: true });
       }
     }
   };
@@ -362,8 +366,10 @@ const GameScreen = () => {
       type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
       payload: startingSeat,
     });
-    dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
-    dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
+    dispatch(setChooseBigTurn(null));
+    // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
+    dispatch(setBigWinsSmallZole(false));
+    // dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
     dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
 
     // Reset round phase, result & type
@@ -695,8 +701,10 @@ const GameScreen = () => {
       type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
       payload: startingSeat,
     });
-    dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
-    dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
+    dispatch(setChooseBigTurn(null));
+    // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
+    dispatch(setBigWinsSmallZole(false));
+    // dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
 
     // Reset round phase, score & type
     dispatch({ type: "RESET_ROUND_PHASE" });
@@ -757,10 +765,11 @@ const GameScreen = () => {
 
           if (!becomeBig) {
             if (chooseBigTurn < 4) {
-              dispatch({
-                type: "SET_CHOOSE_BIG_TURN",
-                payload: chooseBigTurn + 1,
-              });
+              dispatch(setChooseBigTurn(chooseBigTurn + 1));
+              // dispatch({
+              //   type: "SET_CHOOSE_BIG_TURN",
+              //   payload: chooseBigTurn + 1,
+              // });
             }
             dispatch({ type: "NEXT_SEAT" });
           }
