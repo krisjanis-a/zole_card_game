@@ -8,11 +8,13 @@ const getInitialState = () => ({
 
 export default (state = getInitialState(), action) => {
   switch (action.type) {
-    case "SET_ROUND_PHASE":
+    case "SET_ROUND_PHASE": {
+      const { phase } = action;
       return {
         ...state,
-        currentPhase: action.payload,
+        currentPhase: phase,
       };
+    }
 
     case "SET_CHOOSING_BIG_PHASE":
       return {

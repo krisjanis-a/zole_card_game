@@ -56,6 +56,7 @@ import {
   setRoundFinished,
   setRoundRunning,
 } from "../../store/Round/Round.actions";
+import { setRoundPhase } from "../../store/RoundPhase/RoundPhase.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -201,16 +202,20 @@ const GameScreen = () => {
   // Set round phase
   useEffect(() => {
     if (choosingBigPhase) {
-      dispatch({ type: "SET_ROUND_PHASE", payload: "CHOOSING_BIG" });
+      dispatch(setRoundPhase("CHOOSING_BIG"));
+      // dispatch({ type: "SET_ROUND_PHASE", payload: "CHOOSING_BIG" });
     }
     if (buryingCardsPhase) {
-      dispatch({ type: "SET_ROUND_PHASE", payload: "BURYING_CARDS" });
+      dispatch(setRoundPhase("BURYING_CARDS"));
+      // dispatch({ type: "SET_ROUND_PHASE", payload: "BURYING_CARDS" });
     }
     if (makingMovesPhase) {
-      dispatch({ type: "SET_ROUND_PHASE", payload: "MAKING_MOVES" });
+      dispatch(setRoundPhase("MAKING_MOVES"));
+      // dispatch({ type: "SET_ROUND_PHASE", payload: "MAKING_MOVES" });
     }
     if (resultsPhase) {
-      dispatch({ type: "SET_ROUND_PHASE", payload: "RESULTS" });
+      dispatch(setRoundPhase("RESULTS"));
+      // dispatch({ type: "SET_ROUND_PHASE", payload: "RESULTS" });
     }
   }, [choosingBigPhase, buryingCardsPhase, makingMovesPhase, resultsPhase]);
 
