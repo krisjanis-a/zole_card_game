@@ -11,6 +11,11 @@ import {
   setChooseBigTurn,
   setCurrentSeat,
 } from "../../store/Round/Round.actions";
+import {
+  setBuryingPhase,
+  setChoosingBigPhase,
+  setMakingMovesPhase,
+} from "../../store/RoundPhase/RoundPhase.action";
 
 const PromptBig = ({ setShowChooseBigPrompt }) => {
   const dispatch = useDispatch();
@@ -55,8 +60,10 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     dispatch({ type: "CLEAR_TABLE" });
 
     setShowChooseBigPrompt(false);
-    dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
-    dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
+    dispatch(setChoosingBigPhase(false));
+    // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
+    dispatch(setMakingMovesPhase(true));
+    // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
     dispatch(setCurrentSeat(startingSeat));
     // dispatch({ type: "SET_CURRENT_SEAT", payload: startingSeat });
   };
@@ -76,8 +83,10 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     dispatch({ type: "CLEAR_TABLE" });
 
     setShowChooseBigPrompt(false);
-    dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
-    dispatch({ type: "SET_BURYING_PHASE", payload: true });
+    dispatch(setChoosingBigPhase(false));
+    // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
+    dispatch(setBuryingPhase(true));
+    // dispatch({ type: "SET_BURYING_PHASE", payload: true });
   };
 
   // PLAY SMALL ZOLE
@@ -87,8 +96,10 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     dispatch({ type: "SET_PLAY_SMALL_ZOLE", payload: true });
 
     setShowChooseBigPrompt(false);
-    dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
-    dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
+    dispatch(setChoosingBigPhase(false));
+    // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
+    dispatch(setMakingMovesPhase(true));
+    // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
     dispatch(setCurrentSeat(startingSeat));
     // dispatch({ type: "SET_CURRENT_SEAT", payload: startingSeat });
   };

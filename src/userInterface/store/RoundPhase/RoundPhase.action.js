@@ -30,6 +30,6 @@ export const setResultsPhase = (status) => ({
   status,
 });
 
-export const setChoosingBigPhase = () => ({
+export const resetRoundPhase = () => ({
   type: RESET_ROUND_PHASE,
 });

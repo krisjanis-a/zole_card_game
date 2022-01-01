@@ -23,6 +23,11 @@ import {
   setRoundFinished,
   setRoundRunning,
 } from "../../store/Round/Round.actions";
+import {
+  resetRoundPhase,
+  setMakingMovesPhase,
+  setResultsPhase,
+} from "../../store/RoundPhase/RoundPhase.action";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -47,7 +52,8 @@ const Session = () => {
     // Reset round
     dispatch(resetRound());
     // dispatch({ type: "RESET_ROUND" });
-    dispatch({ type: "RESET_ROUND_PHASE" });
+    dispatch(resetRoundPhase());
+    // dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
 
@@ -87,7 +93,8 @@ const Session = () => {
     // dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
 
     // Reset round phase, score & type
-    dispatch({ type: "RESET_ROUND_PHASE" });
+    dispatch(resetRoundPhase());
+    // dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch(resetMove());
@@ -115,13 +122,17 @@ const Session = () => {
 
   const toResultPhase = () => {
     if (gamePhase === "MAKING_MOVES") {
-      dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
-      dispatch({ type: "SET_RESULTS_PHASE", payload: true });
+      dispatch(setMakingMovesPhase(false));
+      // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
+      dispatch(setResultsPhase(true));
+      // dispatch({ type: "SET_RESULTS_PHASE", payload: true });
     }
 
     if (gamePhase === "RESULTS") {
-      dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
-      dispatch({ type: "SET_RESULTS_PHASE", payload: false });
+      dispatch(setMakingMovesPhase(true));
+      // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
+      dispatch(setResultsPhase(false));
+      // dispatch({ type: "SET_RESULTS_PHASE", payload: false });
     }
   };
 

@@ -56,7 +56,14 @@ import {
   setRoundFinished,
   setRoundRunning,
 } from "../../store/Round/Round.actions";
-import { setRoundPhase } from "../../store/RoundPhase/RoundPhase.action";
+import {
+  resetRoundPhase,
+  setBuryingPhase,
+  setChoosingBigPhase,
+  setMakingMovesPhase,
+  setResultsPhase,
+  setRoundPhase,
+} from "../../store/RoundPhase/RoundPhase.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -180,7 +187,8 @@ const GameScreen = () => {
         // dispatch({ type: "INITIALIZE_ROUND", payload: false });
         dispatch(setRoundRunning(true));
         // dispatch({ type: "SET_ROUND_RUNNING", payload: true });
-        dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: true });
+        dispatch(setChoosingBigPhase(true));
+        // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: true });
         // dispatch({
         //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
         //   payload: startingSeat,
@@ -272,8 +280,10 @@ const GameScreen = () => {
       const winningCard = getWinningCard(moveCards);
 
       if (smallZoleMode && playSmallZole && winningCard.owner.big) {
-        dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
-        dispatch({ type: "SET_RESULTS_PHASE", payload: true });
+        dispatch(setMakingMovesPhase(false));
+        // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
+        dispatch(setResultsPhase(true));
+        // dispatch({ type: "SET_RESULTS_PHASE", payload: true });
       }
 
       addWinningCardsToStack(winningCard.owner, moveCards);
@@ -334,8 +344,10 @@ const GameScreen = () => {
         return player.hand.length === 0;
       })
     ) {
-      dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
-      dispatch({ type: "SET_RESULTS_PHASE", payload: true });
+      dispatch(setMakingMovesPhase(false));
+      // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
+      dispatch(setResultsPhase(true));
+      // dispatch({ type: "SET_RESULTS_PHASE", payload: true });
       if (playSmallZole) {
         dispatch(setBigWinsSmallZole(true));
         // dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: true });
@@ -351,8 +363,10 @@ const GameScreen = () => {
         // dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: true });
 
         setTimeout(() => {
-          dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
-          dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
+          dispatch(setChoosingBigPhase(false));
+          // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
+          dispatch(setMakingMovesPhase(true));
+          // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
 
           if (normalMode) {
             dispatch(setRoundFinished(true));
@@ -394,7 +408,8 @@ const GameScreen = () => {
     // dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
 
     // Reset round phase, result & type
-    dispatch({ type: "RESET_ROUND_PHASE" });
+    dispatch(resetRoundPhase());
+    // dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch(resetMove());
@@ -731,7 +746,8 @@ const GameScreen = () => {
     // dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
 
     // Reset round phase, score & type
-    dispatch({ type: "RESET_ROUND_PHASE" });
+    dispatch(resetRoundPhase());
+    // dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch(resetMove());
@@ -784,8 +800,10 @@ const GameScreen = () => {
             dispatch(setBig(activePlayer.name, true));
             dispatch(addTableToPlayerHand(activePlayer.name, table));
             dispatch({ type: "CLEAR_TABLE" });
-            dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
-            dispatch({ type: "SET_BURYING_PHASE", payload: true });
+            dispatch(setChoosingBigPhase(false));
+            // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
+            dispatch(setBuryingPhase(true));
+            // dispatch({ type: "SET_BURYING_PHASE", payload: true });
           }
 
           if (!becomeBig) {

@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { setCurrentSeatToStartingSeat } from "../../store/Round/Round.actions";
+import {
+  setBuryingPhase,
+  setMakingMovesPhase,
+} from "../../store/RoundPhase/RoundPhase.action";
 import "./PromptBury.scss";
 
 const PromptBury = ({ setShowBuryCardsPrompt }) => {
@@ -29,8 +33,10 @@ const PromptBury = ({ setShowBuryCardsPrompt }) => {
   useEffect(() => {
     if (playerHand) {
       if (playerHand.length === 8) {
-        dispatch({ type: "SET_BURYING_PHASE", payload: false });
-        dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
+        dispatch(setBuryingPhase(false));
+        // dispatch({ type: "SET_BURYING_PHASE", payload: false });
+        dispatch(setMakingMovesPhase(true));
+        // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
         // dispatch({
         //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
         //   payload: startingSeat,

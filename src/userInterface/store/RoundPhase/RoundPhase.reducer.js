@@ -9,6 +9,7 @@ const getInitialState = () => ({
 export default (state = getInitialState(), action) => {
   switch (action.type) {
     case "SET_ROUND_PHASE": {
+      console.log("lewat");
       const { phase } = action;
       return {
         ...state,
@@ -19,25 +20,25 @@ export default (state = getInitialState(), action) => {
     case "SET_CHOOSING_BIG_PHASE":
       return {
         ...state,
-        choosingBigPhase: action.payload,
+        choosingBigPhase: action.status,
       };
 
     case "SET_BURYING_PHASE":
       return {
         ...state,
-        buryingCardsPhase: action.payload,
+        buryingCardsPhase: action.status,
       };
 
     case "SET_MAKING_MOVES_PHASE":
       return {
         ...state,
-        makingMovesPhase: action.payload,
+        makingMovesPhase: action.status,
       };
 
     case "SET_RESULTS_PHASE":
       return {
         ...state,
-        resultsPhase: action.payload,
+        resultsPhase: action.status,
       };
 
     case "RESET_ROUND_PHASE":
