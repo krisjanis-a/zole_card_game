@@ -31,6 +31,7 @@ import {
 import { resetRoundResult } from "../../store/RoundResult/RoundResult.action";
 import { resetRoundType } from "../../store/RoundType/RoundType.action";
 import { resetSession } from "../../store/Session/Session.action";
+import { resetSessionMode } from "../../store/SessionMode/SessionMode.action";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -68,7 +69,8 @@ const Session = () => {
     // Reset session
     dispatch(resetSession());
     // dispatch({ type: "RESET_SESSION" });
-    dispatch({ type: "RESET_SESSION_MODE" });
+    dispatch(resetSessionMode());
+    // dispatch({ type: "RESET_SESSION_MODE" });
 
     // Reset table, stacks & tricks
     dispatch({ type: "CLEAR_TABLE" });

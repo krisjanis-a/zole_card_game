@@ -14,20 +14,25 @@ const SessionSetup = () => {
 
   const setNormalMode = () => {
     if (!normalMode) {
-      dispatch({ type: "SET_NORMAL_MODE", payload: true });
-      dispatch({ type: "SET_TABLE_MODE", payload: false });
+      dispatch(setNormalMode(true));
+      // dispatch({ type: "SET_NORMAL_MODE", payload: true });
+      dispatch(setTableMode(false));
+      // dispatch({ type: "SET_TABLE_MODE", payload: false });
     }
   };
 
   const setTableMode = () => {
     if (!tableMode) {
-      dispatch({ type: "SET_NORMAL_MODE", payload: false });
-      dispatch({ type: "SET_TABLE_MODE", payload: true });
+      dispatch(setNormalMode(false));
+      // dispatch({ type: "SET_NORMAL_MODE", payload: false });
+      dispatch(setTableMode(true));
+      // dispatch({ type: "SET_TABLE_MODE", payload: true });
     }
   };
 
   const setSmallZoleMode = () => {
-    dispatch({ type: "SET_SMALL_ZOLE_MODE", payload: !smallZoleMode });
+    dispatch(setSmallZoleMode(!smallZoleMode));
+    // dispatch({ type: "SET_SMALL_ZOLE_MODE", payload: !smallZoleMode });
   };
 
   const handleLaunchSession = () => {
@@ -36,9 +41,12 @@ const SessionSetup = () => {
   };
 
   const cancelSetup = () => {
-    dispatch({ type: "SET_NORMAL_MODE", payload: true });
-    dispatch({ type: "SET_TABLE_MODE", payload: false });
-    dispatch({ type: "SET_SMALL_ZOLE_MODE", payload: false });
+    dispatch(setNormalMode(true));
+    // dispatch({ type: "SET_NORMAL_MODE", payload: true });
+    dispatch(setTableMode(false));
+    // dispatch({ type: "SET_TABLE_MODE", payload: false });
+    dispatch(setSmallZoleMode(false));
+    // dispatch({ type: "SET_SMALL_ZOLE_MODE", payload: false });
   };
 
   return (
