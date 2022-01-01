@@ -12,6 +12,11 @@ import {
   resetStack,
   setBig,
 } from "../../store/Players/Players.action";
+import {
+  initializeRound,
+  setRoundFinished,
+  setRoundRunning,
+} from "../../store/Round/Round.actions";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -56,8 +61,10 @@ const Session = () => {
 
   const resetRound = () => {
     // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
-    dispatch({ type: "SET_ROUND_RUNNING", payload: false });
-    dispatch({ type: "SET_ROUND_FINISHED", payload: false });
+    dispatch(setRoundRunning(false));
+    // dispatch({ type: "SET_ROUND_RUNNING", payload: false });
+    dispatch(setRoundFinished(false));
+    // dispatch({ type: "SET_ROUND_FINISHED", payload: false });
     dispatch({ type: "RESET_MOVE_COUNT" });
     dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
     dispatch({
@@ -91,7 +98,8 @@ const Session = () => {
     });
 
     // Initialize new round
-    dispatch({ type: "INITIALIZE_ROUND", payload: true });
+    // dispatch({ type: "INITIALIZE_ROUND", payload: true });
+    dispatch(initializeRound(true));
   };
 
   const toResultPhase = () => {

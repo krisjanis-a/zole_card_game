@@ -15,18 +15,18 @@ export default (state = getInitialState(), action) => {
     case "INITIALIZE_ROUND":
       return {
         ...state,
-        initializeRound: action.payload,
+        initializeRound: action.status,
       };
 
     case "SET_ROUND_RUNNING":
       return {
         ...state,
-        roundRunning: action.payload,
+        roundRunning: action.status,
       };
     case "SET_ROUND_FINISHED":
       return {
         ...state,
-        roundFinished: action.payload,
+        roundFinished: action.status,
       };
 
     case "SET_CHOOSE_BIG_TURN":

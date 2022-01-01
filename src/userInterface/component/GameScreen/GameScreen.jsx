@@ -42,6 +42,10 @@ import {
   setBig,
   setPlayerHand,
 } from "../../store/Players/Players.action";
+import {
+  setRoundFinished,
+  setRoundRunning,
+} from "../../store/Round/Round.actions";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -128,7 +132,8 @@ const GameScreen = () => {
     dispatch(addPlayer(player2));
     dispatch(addPlayer(player3));
 
-    dispatch({ type: "INITIALIZE_ROUND", payload: true });
+    // dispatch({ type: "INITIALIZE_ROUND", payload: true });
+    dispatch(initializeRound(true));
   }, []);
 
   //=======================================================================================
@@ -160,8 +165,10 @@ const GameScreen = () => {
           payload: hands[3].map((id) => cardIdToCard(id)),
         });
 
-        dispatch({ type: "INITIALIZE_ROUND", payload: false });
-        dispatch({ type: "SET_ROUND_RUNNING", payload: true });
+        dispatch(initializeRound(false));
+        // dispatch({ type: "INITIALIZE_ROUND", payload: false });
+        dispatch(setRoundRunning(true));
+        // dispatch({ type: "SET_ROUND_RUNNING", payload: true });
         dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: true });
         dispatch({
           type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
@@ -326,7 +333,8 @@ const GameScreen = () => {
           dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
 
           if (normalMode) {
-            dispatch({ type: "SET_ROUND_FINISHED", payload: true });
+            dispatch(setRoundFinished(true));
+            // dispatch({ type: "SET_ROUND_FINISHED", payload: true });
             dispatch(addCollectiveDue());
             dispatch({ type: "UPDATE_SCOREBOARD", payload: "Collective Due" });
             dispatch({ type: "ADD_ROUND_PLAYED" });
@@ -345,8 +353,10 @@ const GameScreen = () => {
   // Reset round
   const resetRound = () => {
     // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
-    dispatch({ type: "SET_ROUND_RUNNING", payload: false });
-    dispatch({ type: "SET_ROUND_FINISHED", payload: false });
+    dispatch(setRoundRunning(false));
+    // dispatch({ type: "SET_ROUND_RUNNING", payload: false });
+    dispatch(setRoundFinished(false));
+    // dispatch({ type: "SET_ROUND_FINISHED", payload: false });
     dispatch({ type: "RESET_MOVE_COUNT" });
     dispatch({
       type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
@@ -377,7 +387,8 @@ const GameScreen = () => {
     });
 
     // Initialize new round
-    dispatch({ type: "INITIALIZE_ROUND", payload: true });
+    // dispatch({ type: "INITIALIZE_ROUND", payload: true });
+    dispatch(initializeRound(true));
   };
 
   //=======================================================================================
@@ -647,8 +658,10 @@ const GameScreen = () => {
     if (resultsPhase) {
       const roundResult = getRoundResult(bigStack, smallStack);
       dispatch({ type: "SET_ROUND_RESULT", payload: roundResult });
-      dispatch({ type: "SET_ROUND_RUNNING", payload: false });
-      dispatch({ type: "SET_ROUND_FINISHED", payload: true });
+      dispatch(setRoundRunning(false));
+      // dispatch({ type: "SET_ROUND_RUNNING", payload: false });
+      dispatch(setRoundFinished(true));
+      // dispatch({ type: "SET_ROUND_FINISHED", payload: true });
     }
   }, [resultsPhase]);
 
@@ -672,7 +685,8 @@ const GameScreen = () => {
   // Setup everything for next round
   const setupNextRound = () => {
     // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
-    dispatch({ type: "SET_ROUND_FINISHED", payload: false });
+    dispatch(setRoundFinished(false));
+    // dispatch({ type: "SET_ROUND_FINISHED", payload: false });
     dispatch({ type: "ADD_ROUND_PLAYED" });
     dispatch({ type: "RESET_MOVE_COUNT" });
     dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
@@ -707,7 +721,8 @@ const GameScreen = () => {
     });
 
     // Initialize new round
-    dispatch({ type: "INITIALIZE_ROUND", payload: true });
+    // dispatch({ type: "INITIALIZE_ROUND", payload: true });
+    dispatch(initializeRound(true));
   };
 
   //=======================================================================================
