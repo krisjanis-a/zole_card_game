@@ -33,6 +33,7 @@ import { resetRoundType } from "../../store/RoundType/RoundType.action";
 import { resetSession } from "../../store/Session/Session.action";
 import { resetSessionMode } from "../../store/SessionMode/SessionMode.action";
 import { resetSmallStack } from "../../store/SmallStack/SmallStack.action";
+import { clearTable } from "../../store/TableCards/Table.action";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -74,7 +75,8 @@ const Session = () => {
     // dispatch({ type: "RESET_SESSION_MODE" });
 
     // Reset table, stacks & tricks
-    dispatch({ type: "CLEAR_TABLE" });
+    dispatch(clearTable());
+    // dispatch({ type: "CLEAR_TABLE" });
     dispatch({ type: "RESET_BIG_STACK" });
     dispatch(resetSmallStack());
     // dispatch({ type: "RESET_SMALL_STACK" });
@@ -113,7 +115,8 @@ const Session = () => {
     dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset table, stacks & tricks
-    dispatch({ type: "CLEAR_TABLE" });
+    dispatch(clearTable());
+    // dispatch({ type: "CLEAR_TABLE" });
     dispatch({ type: "RESET_BIG_STACK" });
     dispatch(resetSmallStack());
     // dispatch({ type: "RESET_SMALL_STACK" });

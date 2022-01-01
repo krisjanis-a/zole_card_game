@@ -83,6 +83,7 @@ import {
   addCardToSmallStack,
   resetSmallStack,
 } from "../../store/SmallStack/SmallStack.action";
+import { clearTable, setTable } from "../../store/TableCards/Table.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -198,10 +199,11 @@ const GameScreen = () => {
         }
 
         // Set table
-        dispatch({
-          type: "SET_TABLE",
-          payload: hands[3].map((id) => cardIdToCard(id)),
-        });
+        dispatch(setTable(hands[3].map((id) => cardIdToCard(id))));
+        // dispatch({
+        //   type: "SET_TABLE",
+        //   payload: hands[3].map((id) => cardIdToCard(id)),
+        // });
 
         dispatch(setInitializeRound(false));
         // dispatch({ type: "INITIALIZE_ROUND", payload: false });
@@ -443,7 +445,8 @@ const GameScreen = () => {
     dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset table, stacks & tricks
-    dispatch({ type: "CLEAR_TABLE" });
+    dispatch(clearTable());
+    // dispatch({ type: "CLEAR_TABLE" });
     dispatch({ type: "RESET_BIG_STACK" });
     dispatch(resetSmallStack());
     // dispatch({ type: "RESET_SMALL_STACK" });
@@ -788,7 +791,8 @@ const GameScreen = () => {
     dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset table, stacks & tricks
-    dispatch({ type: "CLEAR_TABLE" });
+    dispatch(clearTable());
+    // dispatch({ type: "CLEAR_TABLE" });
     dispatch({ type: "RESET_BIG_STACK" });
     dispatch(resetSmallStack());
     // dispatch({ type: "RESET_SMALL_STACK" });
@@ -834,7 +838,8 @@ const GameScreen = () => {
             // Set big and add table to hand
             dispatch(setBig(activePlayer.name, true));
             dispatch(addTableToPlayerHand(activePlayer.name, table));
-            dispatch({ type: "CLEAR_TABLE" });
+            dispatch(clearTable());
+            // dispatch({ type: "CLEAR_TABLE" });
             dispatch(setChoosingBigPhase(false));
             // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
             dispatch(setBuryingPhase(true));

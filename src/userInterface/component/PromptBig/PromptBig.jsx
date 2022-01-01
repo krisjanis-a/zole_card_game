@@ -21,6 +21,7 @@ import {
   setPlayZole,
 } from "../../store/RoundType/RoundType.action";
 import { addTableToSmallStack } from "../../store/SmallStack/SmallStack.action";
+import { clearTable } from "../../store/TableCards/Table.action";
 
 const PromptBig = ({ setShowChooseBigPrompt }) => {
   const dispatch = useDispatch();
@@ -64,7 +65,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     //   type: "ADD_TABLE_TO_SMALL_STACK",
     //   payload: table,
     // });
-    dispatch({ type: "CLEAR_TABLE" });
+    dispatch(clearTable());
+    // dispatch({ type: "CLEAR_TABLE" });
 
     setShowChooseBigPrompt(false);
     dispatch(setChoosingBigPhase(false));
@@ -87,7 +89,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     //   },
     // });
     dispatch(addTableToPlayerHand(player.name, table));
-    dispatch({ type: "CLEAR_TABLE" });
+    dispatch(clearTable());
+    // dispatch({ type: "CLEAR_TABLE" });
 
     setShowChooseBigPrompt(false);
     dispatch(setChoosingBigPhase(false));
