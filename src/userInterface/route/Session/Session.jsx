@@ -30,6 +30,7 @@ import {
 } from "../../store/RoundPhase/RoundPhase.action";
 import { resetRoundResult } from "../../store/RoundResult/RoundResult.action";
 import { resetRoundType } from "../../store/RoundType/RoundType.action";
+import { resetSession } from "../../store/Session/Session.action";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -65,7 +66,8 @@ const Session = () => {
     dispatch({ type: "RESET_SCOREBOARD" });
 
     // Reset session
-    dispatch({ type: "RESET_SESSION" });
+    dispatch(resetSession());
+    // dispatch({ type: "RESET_SESSION" });
     dispatch({ type: "RESET_SESSION_MODE" });
 
     // Reset table, stacks & tricks

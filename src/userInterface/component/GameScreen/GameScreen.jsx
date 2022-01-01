@@ -73,6 +73,11 @@ import {
   setPlayTable,
 } from "../../store/RoundType/RoundType.action";
 import { updateScoreboard } from "../../store/Scoreboard/Scoreboard.action";
+import {
+  addRoundPlayed,
+  nextStartingSeat,
+  setPlayerNames,
+} from "../../store/Session/Session.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -145,10 +150,11 @@ const GameScreen = () => {
     player2.setIsComputer(true);
     player3.setIsComputer(true);
 
-    dispatch({
-      type: "SET_PLAYER_NAMES",
-      payload: [player1.name, player2.name, player3.name],
-    });
+    dispatch(setPlayerNames([player1.name, player2.name, player3.name]));
+    // dispatch({
+    //   type: "SET_PLAYER_NAMES",
+    //   payload: [player1.name, player2.name, player3.name],
+    // });
 
     player1.setSeat(1);
     player2.setSeat(2);
@@ -383,8 +389,10 @@ const GameScreen = () => {
             dispatch(addCollectiveDue());
             dispatch(updateScoreboard("Collective Due"));
             // dispatch({ type: "UPDATE_SCOREBOARD", payload: "Collective Due" });
-            dispatch({ type: "ADD_ROUND_PLAYED" });
-            dispatch({ type: "NEXT_STARTING_SEAT" });
+            dispatch(addRoundPlayed());
+            // dispatch({ type: "ADD_ROUND_PLAYED" });
+            dispatch(nextStartingSeat());
+            // dispatch({ type: "NEXT_STARTING_SEAT" });
             resetRound();
           }
 
@@ -744,12 +752,14 @@ const GameScreen = () => {
     // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
     dispatch(setRoundFinished(false));
     // dispatch({ type: "SET_ROUND_FINISHED", payload: false });
-    dispatch({ type: "ADD_ROUND_PLAYED" });
+    dispatch(addRoundPlayed());
+    // dispatch({ type: "ADD_ROUND_PLAYED" });
     dispatch(resetMoveCount());
     // dispatch({ type: "RESET_MOVE_COUNT" });
     dispatch(setAllPlayersPassed(false));
     // dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
-    dispatch({ type: "NEXT_STARTING_SEAT" });
+    dispatch(nextStartingSeat());
+    // dispatch({ type: "NEXT_STARTING_SEAT" });
     // dispatch({
     //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
     //   payload: startingSeat,

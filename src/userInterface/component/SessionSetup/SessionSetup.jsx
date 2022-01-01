@@ -3,6 +3,7 @@ import "./SessionSetup.scss";
 import Button from "../Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { initializeSession } from "../../store/Session/Session.action";
 
 const SessionSetup = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,8 @@ const SessionSetup = () => {
   };
 
   const handleLaunchSession = () => {
-    dispatch({ type: "INITIALIZE_SESSION" });
+    dispatch(initializeSession());
+    // dispatch({ type: "INITIALIZE_SESSION" });
   };
 
   const cancelSetup = () => {
