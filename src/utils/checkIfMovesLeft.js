@@ -4,7 +4,7 @@ import {
   setResultsPhase,
 } from "../store/RoundPhase/RoundPhase.action";
 
-// Check if players do not have any more cards in hand => if any moves left
+// Check if players do not have any more cards in hand => if there are any moves left to be made
 const checkIfMovesLeft = (dispatch, players, playSmallZole) => {
   if (
     Object.values(players).every((player) => {

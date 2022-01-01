@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import cardIdToCard from "../../../engine/utils/cardIdToCard";
+import cardIdToCard from "../../utils/cardIdToCard";
 import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
 import { nextMoveTurn, setAskingCard } from "../../store/Move/Move.action";
 import { addMoveCard } from "../../store/MoveCards/MoveCards.action";

@@ -3,9 +3,9 @@ import React from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 // import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Using Browser Router causes some problems with webpack that should be resolved https://coderedirect.com/questions/214973/why-is-react-webpack-production-build-showing-blank-page
-import MainMenu from "./route/MainMenu/MainMenu";
-import Session from "./route/Session/Session";
-import Settings from "./route/Settings/Settings";
+import MainMenu from "../../route/MainMenu/MainMenu";
+import Session from "../../route/Session/Session";
+import Settings from "../../route/Settings/Settings";
 
 function App() {
   return (
