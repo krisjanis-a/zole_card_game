@@ -90,9 +90,7 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
 
     if (makingMovesPhase && active) {
       addCardToMoveCard();
-      // dispatch({ type: "NEXT_SEAT" });
       dispatch(nextSeat());
-      // dispatch({ type: "NEXT_MOVE_TURN" });
       dispatch(nextMoveTurn());
     }
   };
@@ -136,7 +134,6 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
   const addCardToMoveCard = () => {
     if (moveCards.every((moveCard) => moveCard.id !== cardId)) {
       if (moveTurn === 1) {
-        // dispatch({ type: "SET_ASKING_CARD", payload: card });
         dispatch(setAskingCard(card));
       }
       dispatch(addMoveCard(card, owner));

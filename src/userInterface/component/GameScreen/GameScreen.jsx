@@ -25,14 +25,20 @@ import GameResult from "../GameResult/GameResult";
 
 // Actions
 import { setActivePlayer } from "../../store/ActivePlayer/ActivePlayer.action";
-import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
+import {
+  addCardToBigStack,
+  resetBigStack,
+} from "../../store/BigStack/BigStack.action";
 import { addCollectiveDue } from "../../store/DuesCollective/DuesCollective.action";
 import {
   nextMoveTurn,
   resetMove,
   setAskingCard,
 } from "../../store/Move/Move.action";
-import { addMoveCard } from "../../store/MoveCards/MoveCards.action";
+import {
+  addMoveCard,
+  resetMoveCards,
+} from "../../store/MoveCards/MoveCards.action";
 import {
   addCardsToStack,
   addPlayer,
@@ -84,10 +90,7 @@ import {
   resetSmallStack,
 } from "../../store/SmallStack/SmallStack.action";
 import { clearTable, setTable } from "../../store/TableCards/Table.action";
-import {
-  resetTableStack,
-  resetTableStacl,
-} from "../../store/TableStack/TableStack.action";
+import { resetTableStack } from "../../store/TableStack/TableStack.action";
 import {
   addBigTrickCount,
   addSmallTrickCount,
@@ -166,10 +169,6 @@ const GameScreen = () => {
     player3.setIsComputer(true);
 
     dispatch(setPlayerNames([player1.name, player2.name, player3.name]));
-    // dispatch({
-    //   type: "SET_PLAYER_NAMES",
-    //   payload: [player1.name, player2.name, player3.name],
-    // });
 
     player1.setSeat(1);
     player2.setSeat(2);
@@ -180,7 +179,6 @@ const GameScreen = () => {
     dispatch(addPlayer(player2));
     dispatch(addPlayer(player3));
 
-    // dispatch({ type: "INITIALIZE_ROUND", payload: true });
     dispatch(setInitializeRound(true));
   }, []);
 
@@ -209,26 +207,14 @@ const GameScreen = () => {
 
         // Set table
         dispatch(setTable(hands[3].map((id) => cardIdToCard(id))));
-        // dispatch({
-        //   type: "SET_TABLE",
-        //   payload: hands[3].map((id) => cardIdToCard(id)),
-        // });
 
         dispatch(setInitializeRound(false));
-        // dispatch({ type: "INITIALIZE_ROUND", payload: false });
         dispatch(setRoundRunning(true));
-        // dispatch({ type: "SET_ROUND_RUNNING", payload: true });
         dispatch(setChoosingBigPhase(true));
-        // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: true });
-        // dispatch({
-        //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
-        //   payload: startingSeat,
-        // });
         dispatch(setCurrentSeatToStartingSeat(startingSeat));
 
         if (!chooseBigTurn) {
           dispatch(setChooseBigTurn(1));
-          // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: 1 });
         }
       }
     }
@@ -242,19 +228,15 @@ const GameScreen = () => {
   useEffect(() => {
     if (choosingBigPhase) {
       dispatch(setRoundPhase("CHOOSING_BIG"));
-      // dispatch({ type: "SET_ROUND_PHASE", payload: "CHOOSING_BIG" });
     }
     if (buryingCardsPhase) {
       dispatch(setRoundPhase("BURYING_CARDS"));
-      // dispatch({ type: "SET_ROUND_PHASE", payload: "BURYING_CARDS" });
     }
     if (makingMovesPhase) {
       dispatch(setRoundPhase("MAKING_MOVES"));
-      // dispatch({ type: "SET_ROUND_PHASE", payload: "MAKING_MOVES" });
     }
     if (resultsPhase) {
       dispatch(setRoundPhase("RESULTS"));
-      // dispatch({ type: "SET_ROUND_PHASE", payload: "RESULTS" });
     }
   }, [choosingBigPhase, buryingCardsPhase, makingMovesPhase, resultsPhase]);
 
@@ -312,9 +294,7 @@ const GameScreen = () => {
 
       if (smallZoleMode && playSmallZole && winningCard.owner.big) {
         dispatch(setMakingMovesPhase(false));
-        // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
         dispatch(setResultsPhase(true));
-        // dispatch({ type: "SET_RESULTS_PHASE", payload: true });
       }
 
       addWinningCardsToStack(winningCard.owner, moveCards);
@@ -329,25 +309,16 @@ const GameScreen = () => {
       if (winningPlayer.big) {
         cards.map((card) => dispatch(addCardToBigStack(card)));
         dispatch(addBigTrickCount());
-        // dispatch({ type: "ADD_BIG_TRICK_COUNT" });
       }
       if (!winningPlayer.big) {
-        cards.map((card) =>
-          // dispatch({ type: "ADD_CARD_TO_SMALL_STACK", payload: card })
-          dispatch(addCardToSmallStack(card))
-        );
+        cards.map((card) => dispatch(addCardToSmallStack(card)));
         dispatch(addSmallTrickCount());
-        // dispatch({ type: "ADD_SMALL_TRICK_COUNT" });
       }
     }
 
     // All players pass and playing table
     if (tableMode && playTable) {
       cards.map((card) => {
-        // dispatch({
-        //   type: "ADD_CARDS_TO_STACK",
-        //   payload: { name: winningPlayer.name, card: card },
-        // });
         dispatch(addCardsToStack(winningPlayer.name, card));
       });
     }
@@ -356,17 +327,11 @@ const GameScreen = () => {
   // Setup next move
   const setupNextMove = (winningCard, players) => {
     dispatch(setCurrentSeat(null));
-    // dispatch({ type: "SET_CURRENT_SEAT", payload: null });
-    dispatch({ type: "RESET_MOVE_CARDS" });
+    dispatch(resetMoveCards());
+    // dispatch({ type: "RESET_MOVE_CARDS" });
     dispatch(addMoveCount());
-    // dispatch({ type: "ADD_MOVE_COUNT" });
-    // dispatch({ type: "SET_ASKING_CARD", payload: null });
     dispatch(setAskingCard(null));
     dispatch(setCurrentSeat(winningCard.owner.seatNumber));
-    // dispatch({
-    //   type: "SET_CURRENT_SEAT",
-    //   payload: winningCard.owner.seatNumber,
-    // });
     checkIfMovesLeft(players);
   };
 
@@ -379,12 +344,9 @@ const GameScreen = () => {
       })
     ) {
       dispatch(setMakingMovesPhase(false));
-      // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
       dispatch(setResultsPhase(true));
-      // dispatch({ type: "SET_RESULTS_PHASE", payload: true });
       if (playSmallZole) {
         dispatch(setBigWinsSmallZole(true));
-        // dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: true });
       }
     }
   };
@@ -394,24 +356,17 @@ const GameScreen = () => {
     if (choosingBigPhase) {
       if (chooseBigTurn > 3) {
         dispatch(setAllPlayersPassed(true));
-        // dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: true });
 
         setTimeout(() => {
           dispatch(setChoosingBigPhase(false));
-          // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
           dispatch(setMakingMovesPhase(true));
-          // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
 
           if (normalMode) {
             dispatch(setRoundFinished(true));
-            // dispatch({ type: "SET_ROUND_FINISHED", payload: true });
             dispatch(addCollectiveDue());
             dispatch(updateScoreboard("Collective Due"));
-            // dispatch({ type: "UPDATE_SCOREBOARD", payload: "Collective Due" });
             dispatch(addRoundPlayed());
-            // dispatch({ type: "ADD_ROUND_PLAYED" });
             dispatch(nextStartingSeat());
-            // dispatch({ type: "NEXT_STARTING_SEAT" });
             resetRound();
           }
 
@@ -428,52 +383,35 @@ const GameScreen = () => {
   const resetRound = () => {
     // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
     dispatch(setRoundRunning(false));
-    // dispatch({ type: "SET_ROUND_RUNNING", payload: false });
     dispatch(setRoundFinished(false));
-    // dispatch({ type: "SET_ROUND_FINISHED", payload: false });
-    // dispatch({ type: "RESET_MOVE_COUNT" });
     dispatch(resetMoveCount());
-    // dispatch({
-    //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
-    //   payload: startingSeat,
-    // });
     dispatch(setCurrentSeatToStartingSeat(startingSeat));
     dispatch(setChooseBigTurn(null));
-    // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
     dispatch(setBigWinsSmallZole(false));
-    // dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
     dispatch(setAllPlayersPassed(false));
-    // dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
 
     // Reset round phase, result & type
     dispatch(resetRoundPhase());
-    // dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch(resetRoundResult());
-    // dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch(resetRoundType());
-    // dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch(resetMove());
-    dispatch({ type: "RESET_MOVE_CARDS" });
+    dispatch(resetMoveCards());
+    // dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset table, stacks & tricks
     dispatch(clearTable());
-    // dispatch({ type: "CLEAR_TABLE" });
-    dispatch({ type: "RESET_BIG_STACK" });
+    dispatch(resetBigStack());
+    // dispatch({ type: "RESET_BIG_STACK" });
     dispatch(resetSmallStack());
-    // dispatch({ type: "RESET_SMALL_STACK" });
     dispatch(resetTableStack());
-    // dispatch({ type: "RESET_TABLE_STACK" });
     dispatch(resetTrickCounts());
-    // dispatch({ type: "RESET_TRICK_COUNTS" });
 
     // Reset player's big one parameter
     Object.values(players).forEach((player) => {
       dispatch(setBig(player.name, false));
-      // dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
     });
 
     // Initialize new round
-    // dispatch({ type: "INITIALIZE_ROUND", payload: true });
     dispatch(setInitializeRound(true));
   };
 
@@ -744,11 +682,8 @@ const GameScreen = () => {
     if (resultsPhase) {
       const roundResult = getRoundResult(bigStack, smallStack);
       dispatch(setRoundResult(roundResult));
-      // dispatch({ type: "SET_ROUND_RESULT", payload: roundResult });
       dispatch(setRoundRunning(false));
-      // dispatch({ type: "SET_ROUND_RUNNING", payload: false });
       dispatch(setRoundFinished(true));
-      // dispatch({ type: "SET_ROUND_FINISHED", payload: true });
     }
   }, [resultsPhase]);
 
@@ -762,7 +697,6 @@ const GameScreen = () => {
         smallTrickCount
       );
       dispatch(updateScoreboard(score));
-      // dispatch({ type: "UPDATE_SCOREBOARD", payload: score });
 
       setTimeout(() => {
         setupNextRound();
@@ -774,56 +708,37 @@ const GameScreen = () => {
   const setupNextRound = () => {
     // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
     dispatch(setRoundFinished(false));
-    // dispatch({ type: "SET_ROUND_FINISHED", payload: false });
     dispatch(addRoundPlayed());
-    // dispatch({ type: "ADD_ROUND_PLAYED" });
     dispatch(resetMoveCount());
-    // dispatch({ type: "RESET_MOVE_COUNT" });
     dispatch(setAllPlayersPassed(false));
-    // dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
     dispatch(nextStartingSeat());
-    // dispatch({ type: "NEXT_STARTING_SEAT" });
-    // dispatch({
-    //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
-    //   payload: startingSeat,
-    // });
     dispatch(setCurrentSeatToStartingSeat(startingSeat));
     dispatch(setChooseBigTurn(null));
-    // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
     dispatch(setBigWinsSmallZole(false));
-    // dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
 
     // Reset round phase, score & type
     dispatch(resetRoundPhase());
-    // dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch(resetRoundResult());
-    // dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch(resetRoundType());
-    // dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch(resetMove());
-    dispatch({ type: "RESET_MOVE_CARDS" });
+    dispatch(resetMoveCards());
+    // dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset table, stacks & tricks
     dispatch(clearTable());
-    // dispatch({ type: "CLEAR_TABLE" });
-    dispatch({ type: "RESET_BIG_STACK" });
+    dispatch(resetBigStack());
+    // dispatch({ type: "RESET_BIG_STACK" });
     dispatch(resetSmallStack());
-    // dispatch({ type: "RESET_SMALL_STACK" });
     dispatch(resetTableStack());
-    // dispatch({ type: "RESET_TABLE_STACK" });
     dispatch(resetTrickCounts());
-    // dispatch({ type: "RESET_TRICK_COUNTS" });
 
     // Reset player's stack and big one parameter
     Object.values(players).forEach((player) => {
       dispatch(setBig(player.name, false));
-      // dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
-      // dispatch({ type: "RESET_STACK", payload: player.name });
       dispatch(resetStack(player.name));
     });
 
     // Initialize new round
-    // dispatch({ type: "INITIALIZE_ROUND", payload: true });
     dispatch(setInitializeRound(true));
   };
 
@@ -834,7 +749,6 @@ const GameScreen = () => {
   useEffect(() => {
     if (activePlayer.isComputer) {
       dispatch(setComputerPerformAction(true));
-      // dispatch({ type: "SET_COMPUTER_PERFORM_ACTION", payload: true });
     }
   }, [activePlayer, currentPhase]);
 
@@ -854,22 +768,14 @@ const GameScreen = () => {
             dispatch(setBig(activePlayer.name, true));
             dispatch(addTableToPlayerHand(activePlayer.name, table));
             dispatch(clearTable());
-            // dispatch({ type: "CLEAR_TABLE" });
             dispatch(setChoosingBigPhase(false));
-            // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
             dispatch(setBuryingPhase(true));
-            // dispatch({ type: "SET_BURYING_PHASE", payload: true });
           }
 
           if (!becomeBig) {
             if (chooseBigTurn < 4) {
               dispatch(setChooseBigTurn(chooseBigTurn + 1));
-              // dispatch({
-              //   type: "SET_CHOOSE_BIG_TURN",
-              //   payload: chooseBigTurn + 1,
-              // });
             }
-            // dispatch({ type: "NEXT_SEAT" });
             dispatch(nextSeat());
           }
         }
@@ -905,21 +811,17 @@ const GameScreen = () => {
           //    - Add card to move cards
           if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
             if (moveTurn === 1) {
-              // dispatch({ type: "SET_ASKING_CARD", payload: card });
               dispatch(setAskingCard(card));
             }
             dispatch(addMoveCard(card, activePlayer));
             dispatch(removeCardFromHand(activePlayer.name, card.id));
 
-            // dispatch({ type: "NEXT_SEAT" });
             dispatch(nextSeat());
-            // dispatch({ type: "NEXT_MOVE_TURN" });
             dispatch(nextMoveTurn());
           }
         }
       }
       dispatch(setComputerPerformAction(false));
-      // dispatch({ type: "SET_COMPUTER_PERFORM_ACTION", payload: false });
     }
     // }, 1500);
   }, [computerPerformAction]);

@@ -36,6 +36,7 @@ import { resetSmallStack } from "../../store/SmallStack/SmallStack.action";
 import { clearTable } from "../../store/TableCards/Table.action";
 import { resetTableStack } from "../../store/TableStack/TableStack.action";
 import { resetTrickCounts } from "../../store/Tricks/Tricks.action";
+import { resetMoveCards } from "../../store/MoveCards/MoveCards.action";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -52,7 +53,8 @@ const Session = () => {
 
     // Reset move & move cards
     dispatch(resetMove());
-    dispatch({ type: "RESET_MOVE_CARDS" });
+    dispatch(resetMoveCards());
+    // dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset players
     dispatch(resetPlayers());
