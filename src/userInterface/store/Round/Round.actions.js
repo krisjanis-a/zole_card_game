@@ -50,3 +50,8 @@ export const setCurrentSeatToStartingSeat = (startingSeat) => ({
   type: SET_CURRENT_SEAT_TO_STARTING_SEAT,
   startingSeat,
 });
+
+export const setCurrentSeat = (seat) => ({
+  type: SET_CURRENT_SEAT,
+  seat,
+});

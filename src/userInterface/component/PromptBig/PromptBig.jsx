@@ -6,7 +6,10 @@ import {
   addTableToPlayerHand,
   setBig,
 } from "../../store/Players/Players.action";
-import { setChooseBigTurn } from "../../store/Round/Round.actions";
+import {
+  setChooseBigTurn,
+  setCurrentSeat,
+} from "../../store/Round/Round.actions";
 
 const PromptBig = ({ setShowChooseBigPrompt }) => {
   const dispatch = useDispatch();
@@ -53,7 +56,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     setShowChooseBigPrompt(false);
     dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
     dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
-    dispatch({ type: "SET_CURRENT_SEAT", payload: startingSeat });
+    dispatch(setCurrentSeat(startingSeat));
+    // dispatch({ type: "SET_CURRENT_SEAT", payload: startingSeat });
   };
 
   // PICK TABLE
@@ -84,7 +88,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     setShowChooseBigPrompt(false);
     dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
     dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
-    dispatch({ type: "SET_CURRENT_SEAT", payload: startingSeat });
+    dispatch(setCurrentSeat(startingSeat));
+    // dispatch({ type: "SET_CURRENT_SEAT", payload: startingSeat });
   };
 
   // PASS

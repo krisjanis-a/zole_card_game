@@ -61,11 +61,13 @@ export default (state = getInitialState(), action) => {
         currentSeat: startingSeat,
       };
     }
-    case "SET_CURRENT_SEAT":
+    case "SET_CURRENT_SEAT": {
+      const { seat } = action;
       return {
         ...state,
-        currentSeat: action.payload,
+        currentSeat: seat,
       };
+    }
 
     case "NEXT_SEAT": {
       let nextSeat = state.currentSeat + 1;

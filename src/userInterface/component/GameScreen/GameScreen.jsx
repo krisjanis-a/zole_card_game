@@ -47,6 +47,7 @@ import {
   resetMoveCount,
   setBigWinsSmallZole,
   setChooseBigTurn,
+  setCurrentSeat,
   setCurrentSeatToStartingSeat,
   setInitializeRound,
   setRoundFinished,
@@ -302,16 +303,18 @@ const GameScreen = () => {
 
   // Setup next move
   const setupNextMove = (winningCard, players) => {
-    dispatch({ type: "SET_CURRENT_SEAT", payload: null });
+    dispatch(setCurrentSeat(null));
+    // dispatch({ type: "SET_CURRENT_SEAT", payload: null });
     dispatch({ type: "RESET_MOVE_CARDS" });
     dispatch(addMoveCount());
     // dispatch({ type: "ADD_MOVE_COUNT" });
     // dispatch({ type: "SET_ASKING_CARD", payload: null });
     dispatch(setAskingCard(null));
-    dispatch({
-      type: "SET_CURRENT_SEAT",
-      payload: winningCard.owner.seatNumber,
-    });
+    dispatch(setCurrentSeat(winningCard.owner.seatNumber));
+    // dispatch({
+    //   type: "SET_CURRENT_SEAT",
+    //   payload: winningCard.owner.seatNumber,
+    // });
     checkIfMovesLeft(players);
   };
 
