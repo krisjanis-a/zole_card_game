@@ -34,13 +34,7 @@ const PromptBury = ({ setShowBuryCardsPrompt }) => {
     if (playerHand) {
       if (playerHand.length === 8) {
         dispatch(setBuryingPhase(false));
-        // dispatch({ type: "SET_BURYING_PHASE", payload: false });
         dispatch(setMakingMovesPhase(true));
-        // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
-        // dispatch({
-        //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
-        //   payload: startingSeat,
-        // });
         dispatch(setCurrentSeatToStartingSeat(startingSeat));
         setShowBuryCardsPrompt(false);
       }
