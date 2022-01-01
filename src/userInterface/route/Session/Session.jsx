@@ -34,6 +34,8 @@ import { resetSession } from "../../store/Session/Session.action";
 import { resetSessionMode } from "../../store/SessionMode/SessionMode.action";
 import { resetSmallStack } from "../../store/SmallStack/SmallStack.action";
 import { clearTable } from "../../store/TableCards/Table.action";
+import { resetTableStack } from "../../store/TableStack/TableStack.action";
+import { resetTrickCounts } from "../../store/Tricks/Tricks.action";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -80,8 +82,10 @@ const Session = () => {
     dispatch({ type: "RESET_BIG_STACK" });
     dispatch(resetSmallStack());
     // dispatch({ type: "RESET_SMALL_STACK" });
-    dispatch({ type: "RESET_TABLE_STACK" });
-    dispatch({ type: "RESET_TRICK_COUNTS" });
+    dispatch(resetTableStack());
+    // dispatch({ type: "RESET_TABLE_STACK" });
+    dispatch(resetTrickCounts());
+    // dispatch({ type: "RESET_TRICK_COUNTS" });
   };
 
   const restartRound = () => {
@@ -120,8 +124,10 @@ const Session = () => {
     dispatch({ type: "RESET_BIG_STACK" });
     dispatch(resetSmallStack());
     // dispatch({ type: "RESET_SMALL_STACK" });
-    dispatch({ type: "RESET_TABLE_STACK" });
-    dispatch({ type: "RESET_TRICK_COUNTS" });
+    dispatch(resetTableStack());
+    // dispatch({ type: "RESET_TABLE_STACK" });
+    dispatch(resetTrickCounts());
+    // dispatch({ type: "RESET_TRICK_COUNTS" });
 
     // Reset player's stack and big one parameter
     Object.values(players).forEach((player) => {

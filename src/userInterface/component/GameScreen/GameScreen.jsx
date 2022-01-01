@@ -84,6 +84,15 @@ import {
   resetSmallStack,
 } from "../../store/SmallStack/SmallStack.action";
 import { clearTable, setTable } from "../../store/TableCards/Table.action";
+import {
+  resetTableStack,
+  resetTableStacl,
+} from "../../store/TableStack/TableStack.action";
+import {
+  addBigTrickCount,
+  addSmallTrickCount,
+  resetTrickCounts,
+} from "../../store/Tricks/Tricks.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -319,14 +328,16 @@ const GameScreen = () => {
     if (!playTable && !playSmallZole) {
       if (winningPlayer.big) {
         cards.map((card) => dispatch(addCardToBigStack(card)));
-        dispatch({ type: "ADD_BIG_TRICK_COUNT" });
+        dispatch(addBigTrickCount());
+        // dispatch({ type: "ADD_BIG_TRICK_COUNT" });
       }
       if (!winningPlayer.big) {
         cards.map((card) =>
           // dispatch({ type: "ADD_CARD_TO_SMALL_STACK", payload: card })
           dispatch(addCardToSmallStack(card))
         );
-        dispatch({ type: "ADD_SMALL_TRICK_COUNT" });
+        dispatch(addSmallTrickCount());
+        // dispatch({ type: "ADD_SMALL_TRICK_COUNT" });
       }
     }
 
@@ -450,8 +461,10 @@ const GameScreen = () => {
     dispatch({ type: "RESET_BIG_STACK" });
     dispatch(resetSmallStack());
     // dispatch({ type: "RESET_SMALL_STACK" });
-    dispatch({ type: "RESET_TABLE_STACK" });
-    dispatch({ type: "RESET_TRICK_COUNTS" });
+    dispatch(resetTableStack());
+    // dispatch({ type: "RESET_TABLE_STACK" });
+    dispatch(resetTrickCounts());
+    // dispatch({ type: "RESET_TRICK_COUNTS" });
 
     // Reset player's big one parameter
     Object.values(players).forEach((player) => {
@@ -796,8 +809,10 @@ const GameScreen = () => {
     dispatch({ type: "RESET_BIG_STACK" });
     dispatch(resetSmallStack());
     // dispatch({ type: "RESET_SMALL_STACK" });
-    dispatch({ type: "RESET_TABLE_STACK" });
-    dispatch({ type: "RESET_TRICK_COUNTS" });
+    dispatch(resetTableStack());
+    // dispatch({ type: "RESET_TABLE_STACK" });
+    dispatch(resetTrickCounts());
+    // dispatch({ type: "RESET_TRICK_COUNTS" });
 
     // Reset player's stack and big one parameter
     Object.values(players).forEach((player) => {
