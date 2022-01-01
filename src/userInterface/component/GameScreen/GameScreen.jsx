@@ -33,6 +33,15 @@ import {
   setAskingCard,
 } from "../../store/Move/Move.action";
 import { addMoveCard } from "../../store/MoveCards/MoveCards.action";
+import {
+  addCardsToStack,
+  addPlayer,
+  addTableToPlayerHand,
+  removeCardFromHand,
+  resetStack,
+  setBig,
+  setPlayerHand,
+} from "../../store/Players/Players.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -115,9 +124,9 @@ const GameScreen = () => {
     player3.setSeat(3);
 
     // Add players to state
-    dispatch({ type: "ADD_PLAYER", payload: player1 });
-    dispatch({ type: "ADD_PLAYER", payload: player2 });
-    dispatch({ type: "ADD_PLAYER", payload: player3 });
+    dispatch(addPlayer(player1));
+    dispatch(addPlayer(player2));
+    dispatch(addPlayer(player3));
 
     dispatch({ type: "INITIALIZE_ROUND", payload: true });
   }, []);
@@ -139,13 +148,10 @@ const GameScreen = () => {
         const playersArr = Object.entries(players);
 
         for (let i = 0; i < playersArr.length; i++) {
-          const player = playersArr[i][1].name;
+          const playerName = playersArr[i][1].name;
           const hand = hands[i].map((id) => cardIdToCard(id));
 
-          dispatch({
-            type: "SET_PLAYER_HAND",
-            payload: { name: player, newHand: hand },
-          });
+          dispatch(setPlayerHand(playerName, hand));
         }
 
         // Set table
@@ -270,10 +276,11 @@ const GameScreen = () => {
     // All players pass and playing table
     if (tableMode && playTable) {
       cards.map((card) => {
-        dispatch({
-          type: "ADD_CARDS_TO_STACK",
-          payload: { name: winningPlayer.name, card: card },
-        });
+        // dispatch({
+        //   type: "ADD_CARDS_TO_STACK",
+        //   payload: { name: winningPlayer.name, card: card },
+        // });
+        dispatch(addCardsToStack(winningPlayer.name, card));
       });
     }
   };
@@ -365,7 +372,8 @@ const GameScreen = () => {
 
     // Reset player's big one parameter
     Object.values(players).forEach((player) => {
-      dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
+      dispatch(setBig(player.name, false));
+      // dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
     });
 
     // Initialize new round
@@ -692,8 +700,10 @@ const GameScreen = () => {
 
     // Reset player's stack and big one parameter
     Object.values(players).forEach((player) => {
-      dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
-      dispatch({ type: "RESET_STACK", payload: player.name });
+      dispatch(setBig(player.name, false));
+      // dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
+      // dispatch({ type: "RESET_STACK", payload: player.name });
+      dispatch(resetStack(player.name));
     });
 
     // Initialize new round
@@ -723,17 +733,8 @@ const GameScreen = () => {
 
           if (becomeBig) {
             // Set big and add table to hand
-            dispatch({
-              type: "SET_BIG",
-              payload: { name: activePlayer.name, big: true },
-            });
-            dispatch({
-              type: "ADD_TABLE_TO_PLAYER_HAND",
-              payload: {
-                name: activePlayer.name,
-                table: table,
-              },
-            });
+            dispatch(setBig(activePlayer.name, true));
+            dispatch(addTableToPlayerHand(activePlayer.name, table));
             dispatch({ type: "CLEAR_TABLE" });
             dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
             dispatch({ type: "SET_BURYING_PHASE", payload: true });
@@ -757,15 +758,8 @@ const GameScreen = () => {
             const buryCards = decideCardsToBury(activePlayer.hand);
 
             buryCards.forEach((card) => {
-              // dispatch({
-              //   type: "ADD_CARD_TO_BIG_STACK",
-              //   payload: card,
-              // });
               dispatch(addCardToBigStack(card));
-              dispatch({
-                type: "REMOVE_CARD_FROM_HAND",
-                payload: { name: activePlayer.name, cardId: card.id },
-              });
+              dispatch(removeCardFromHand(activePlayer.name, card.id));
             });
           }
         }
@@ -792,10 +786,7 @@ const GameScreen = () => {
               dispatch(setAskingCard(card));
             }
             dispatch(addMoveCard(card, activePlayer));
-            dispatch({
-              type: "REMOVE_CARD_FROM_HAND",
-              payload: { name: activePlayer.name, cardId: card.id },
-            });
+            dispatch(removeCardFromHand(activePlayer.name, card.id));
 
             dispatch({ type: "NEXT_SEAT" });
             // dispatch({ type: "NEXT_MOVE_TURN" });

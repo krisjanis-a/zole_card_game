@@ -3,8 +3,8 @@ const getInitialState = () => ({});
 export default (state = getInitialState(), action) => {
   switch (action.type) {
     case "ADD_PLAYER": {
-      const { name } = action.payload;
-      const newState = { ...state, [name]: action.payload };
+      const { name } = action.player;
+      const newState = { ...state, [name]: action.player };
       return newState;
     }
 
@@ -17,14 +17,14 @@ export default (state = getInitialState(), action) => {
     }
 
     case "SET_PLAYER_HAND": {
-      const { name, newHand } = action.payload;
+      const { name, newHand } = action;
       const newState = { ...state };
       newState[name].setHand(newHand);
       return newState;
     }
 
     case "REMOVE_CARD_FROM_HAND": {
-      const { name, cardId } = action.payload;
+      const { name, cardId } = action;
       const newHand = state[name].hand
         .map((card) => card)
         .filter((card) => card.id !== cardId);
@@ -34,28 +34,28 @@ export default (state = getInitialState(), action) => {
     }
 
     case "SET_BIG": {
-      const { name, big } = action.payload;
+      const { name, big } = action;
       const newState = { ...state };
       newState[name].setBig(big);
       return newState;
     }
 
     case "ADD_TABLE_TO_PLAYER_HAND": {
-      const { name, table } = action.payload;
+      const { name, table } = action;
       const newState = { ...state };
       newState[name].hand.push(...table);
       return newState;
     }
 
     case "ADD_CARDS_TO_STACK": {
-      const { name, card } = action.payload;
+      const { name, card } = action;
       const newState = { ...state };
       newState[name].setStack(card);
       return newState;
     }
 
     case "RESET_STACK": {
-      const name = action.payload;
+      const { name } = action;
       const newState = { ...state };
       newState[name].stack = [];
       return newState;

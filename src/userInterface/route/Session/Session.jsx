@@ -7,6 +7,11 @@ import { useSelector } from "react-redux";
 import SessionSetup from "../../component/SessionSetup/SessionSetup";
 import { resetCollectiveDues } from "../../store/DuesCollective/DuesCollective.action";
 import { resetMove } from "../../store/Move/Move.action";
+import {
+  resetPlayers,
+  resetStack,
+  setBig,
+} from "../../store/Players/Players.action";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -26,7 +31,7 @@ const Session = () => {
     dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset players
-    dispatch({ type: "RESET_PLAYERS" });
+    dispatch(resetPlayers());
 
     // Reset round
     dispatch({ type: "RESET_ROUND" });
@@ -79,8 +84,10 @@ const Session = () => {
 
     // Reset player's stack and big one parameter
     Object.values(players).forEach((player) => {
-      dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
-      dispatch({ type: "RESET_STACK", payload: player.name });
+      dispatch(setBig(player.name, false));
+      // dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
+      // dispatch({ type: "RESET_STACK", payload: player.name });
+      dispatch(resetStack(player.name));
     });
 
     // Initialize new round

@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./PromptBig.scss";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../Button/Button";
+import {
+  addTableToPlayerHand,
+  setBig,
+} from "../../store/Players/Players.action";
 
 const PromptBig = ({ setShowChooseBigPrompt }) => {
   const dispatch = useDispatch();
@@ -33,7 +37,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
 
   // PLAY ZOLE
   const handlePlayZole = () => {
-    dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
+    dispatch(setBig(player.name, true));
+    // dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
     dispatch({
       type: "SET_PLAY_ZOLE",
       payload: true,
@@ -52,14 +57,16 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
 
   // PICK TABLE
   const handlePickTable = () => {
-    dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
-    dispatch({
-      type: "ADD_TABLE_TO_PLAYER_HAND",
-      payload: {
-        name: player.name,
-        table: table,
-      },
-    });
+    dispatch(setBig(player.name, true));
+    // dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
+    // dispatch({
+    //   type: "ADD_TABLE_TO_PLAYER_HAND",
+    //   payload: {
+    //     name: player.name,
+    //     table: table,
+    //   },
+    // });
+    dispatch(addTableToPlayerHand(player.name, table));
     dispatch({ type: "CLEAR_TABLE" });
 
     setShowChooseBigPrompt(false);
@@ -69,7 +76,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
 
   // PLAY SMALL ZOLE
   const handlePlaySmallZole = () => {
-    dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
+    dispatch(setBig(player.name, true));
+    // dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
     dispatch({ type: "SET_PLAY_SMALL_ZOLE", payload: true });
 
     setShowChooseBigPrompt(false);

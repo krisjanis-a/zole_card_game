@@ -4,6 +4,7 @@ import cardIdToCard from "../../../engine/utils/cardIdToCard";
 import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
 import { nextMoveTurn, setAskingCard } from "../../store/Move/Move.action";
 import { addMoveCard } from "../../store/MoveCards/MoveCards.action";
+import { removeCardFromHand } from "../../store/Players/Players.action";
 import "./Card.scss";
 
 const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
@@ -137,19 +138,13 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
         dispatch(setAskingCard(card));
       }
       dispatch(addMoveCard(card, owner));
-      dispatch({
-        type: "REMOVE_CARD_FROM_HAND",
-        payload: { name: owner.name, cardId: cardId },
-      });
+      dispatch(removeCardFromHand(owner.name, cardId));
     }
   };
 
   const buryCard = () => {
     dispatch(addCardToBigStack(card));
-    dispatch({
-      type: "REMOVE_CARD_FROM_HAND",
-      payload: { name: owner.name, cardId: cardId },
-    });
+    dispatch(removeCardFromHand(owner.name, cardId));
   };
 
   return (
