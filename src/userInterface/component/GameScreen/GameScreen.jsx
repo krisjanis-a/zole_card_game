@@ -43,8 +43,12 @@ import {
   setPlayerHand,
 } from "../../store/Players/Players.action";
 import {
+  addMoveCount,
+  resetMoveCount,
   setBigWinsSmallZole,
   setChooseBigTurn,
+  setCurrentSeatToStartingSeat,
+  setInitializeRound,
   setRoundFinished,
   setRoundRunning,
 } from "../../store/Round/Round.actions";
@@ -135,7 +139,7 @@ const GameScreen = () => {
     dispatch(addPlayer(player3));
 
     // dispatch({ type: "INITIALIZE_ROUND", payload: true });
-    dispatch(initializeRound(true));
+    dispatch(setInitializeRound(true));
   }, []);
 
   //=======================================================================================
@@ -167,15 +171,16 @@ const GameScreen = () => {
           payload: hands[3].map((id) => cardIdToCard(id)),
         });
 
-        dispatch(initializeRound(false));
+        dispatch(setInitializeRound(false));
         // dispatch({ type: "INITIALIZE_ROUND", payload: false });
         dispatch(setRoundRunning(true));
         // dispatch({ type: "SET_ROUND_RUNNING", payload: true });
         dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: true });
-        dispatch({
-          type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
-          payload: startingSeat,
-        });
+        // dispatch({
+        //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
+        //   payload: startingSeat,
+        // });
+        dispatch(setCurrentSeatToStartingSeat(startingSeat));
 
         if (!chooseBigTurn) {
           dispatch(setChooseBigTurn(1));
@@ -299,7 +304,8 @@ const GameScreen = () => {
   const setupNextMove = (winningCard, players) => {
     dispatch({ type: "SET_CURRENT_SEAT", payload: null });
     dispatch({ type: "RESET_MOVE_CARDS" });
-    dispatch({ type: "ADD_MOVE_COUNT" });
+    dispatch(addMoveCount());
+    // dispatch({ type: "ADD_MOVE_COUNT" });
     // dispatch({ type: "SET_ASKING_CARD", payload: null });
     dispatch(setAskingCard(null));
     dispatch({
@@ -361,11 +367,13 @@ const GameScreen = () => {
     // dispatch({ type: "SET_ROUND_RUNNING", payload: false });
     dispatch(setRoundFinished(false));
     // dispatch({ type: "SET_ROUND_FINISHED", payload: false });
-    dispatch({ type: "RESET_MOVE_COUNT" });
-    dispatch({
-      type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
-      payload: startingSeat,
-    });
+    // dispatch({ type: "RESET_MOVE_COUNT" });
+    dispatch(resetMoveCount());
+    // dispatch({
+    //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
+    //   payload: startingSeat,
+    // });
+    dispatch(setCurrentSeatToStartingSeat(startingSeat));
     dispatch(setChooseBigTurn(null));
     // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
     dispatch(setBigWinsSmallZole(false));
@@ -394,7 +402,7 @@ const GameScreen = () => {
 
     // Initialize new round
     // dispatch({ type: "INITIALIZE_ROUND", payload: true });
-    dispatch(initializeRound(true));
+    dispatch(setInitializeRound(true));
   };
 
   //=======================================================================================
@@ -694,13 +702,15 @@ const GameScreen = () => {
     dispatch(setRoundFinished(false));
     // dispatch({ type: "SET_ROUND_FINISHED", payload: false });
     dispatch({ type: "ADD_ROUND_PLAYED" });
-    dispatch({ type: "RESET_MOVE_COUNT" });
+    dispatch(resetMoveCount());
+    // dispatch({ type: "RESET_MOVE_COUNT" });
     dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
     dispatch({ type: "NEXT_STARTING_SEAT" });
-    dispatch({
-      type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
-      payload: startingSeat,
-    });
+    // dispatch({
+    //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
+    //   payload: startingSeat,
+    // });
+    dispatch(setCurrentSeatToStartingSeat(startingSeat));
     dispatch(setChooseBigTurn(null));
     // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
     dispatch(setBigWinsSmallZole(false));
@@ -730,7 +740,7 @@ const GameScreen = () => {
 
     // Initialize new round
     // dispatch({ type: "INITIALIZE_ROUND", payload: true });
-    dispatch(initializeRound(true));
+    dispatch(setInitializeRound(true));
   };
 
   //=======================================================================================

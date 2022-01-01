@@ -13,9 +13,11 @@ import {
   setBig,
 } from "../../store/Players/Players.action";
 import {
-  initializeRound,
+  resetMoveCount,
   setBigWinsSmallZole,
   setChooseBigTurn,
+  setCurrentSeatToStartingSeat,
+  setInitializeRound,
   setRoundFinished,
   setRoundRunning,
 } from "../../store/Round/Round.actions";
@@ -67,12 +69,14 @@ const Session = () => {
     // dispatch({ type: "SET_ROUND_RUNNING", payload: false });
     dispatch(setRoundFinished(false));
     // dispatch({ type: "SET_ROUND_FINISHED", payload: false });
-    dispatch({ type: "RESET_MOVE_COUNT" });
+    // dispatch({ type: "RESET_MOVE_COUNT" });
+    dispatch(resetMoveCount());
     dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
-    dispatch({
-      type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
-      payload: startingSeat,
-    });
+    // dispatch({
+    //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
+    //   payload: startingSeat,
+    // });
+    dispatch(setCurrentSeatToStartingSeat(startingSeat));
     dispatch(setChooseBigTurn(null));
     // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
     dispatch(setBigWinsSmallZole(false));
@@ -103,7 +107,7 @@ const Session = () => {
 
     // Initialize new round
     // dispatch({ type: "INITIALIZE_ROUND", payload: true });
-    dispatch(initializeRound(true));
+    dispatch(setInitializeRound(true));
   };
 
   const toResultPhase = () => {

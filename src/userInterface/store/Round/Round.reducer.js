@@ -12,7 +12,7 @@ const getInitialState = () => ({
 
 export default (state = getInitialState(), action) => {
   switch (action.type) {
-    case "INITIALIZE_ROUND":
+    case "SET_INITIALIZE_ROUND":
       return {
         ...state,
         initializeRound: action.status,
@@ -54,12 +54,13 @@ export default (state = getInitialState(), action) => {
         moveCount: 0,
       };
 
-    case "SET_CURRENT_SEAT_TO_STARTING_SEAT":
+    case "SET_CURRENT_SEAT_TO_STARTING_SEAT": {
+      const { startingSeat } = action;
       return {
         ...state,
-        currentSeat: action.payload,
+        currentSeat: startingSeat,
       };
-
+    }
     case "SET_CURRENT_SEAT":
       return {
         ...state,
