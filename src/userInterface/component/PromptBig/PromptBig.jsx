@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./PromptBig.scss";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../Button/Button";
+
+// Actions
 import {
   addTableToPlayerHand,
   setBig,
@@ -54,74 +56,43 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
   // PLAY ZOLE
   const handlePlayZole = () => {
     dispatch(setBig(player.name, true));
-    // dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
     dispatch(setPlayZole(true));
-    // dispatch({
-    //   type: "SET_PLAY_ZOLE",
-    //   payload: true,
-    // });
     dispatch(addTableToSmallStack(table));
-    // dispatch({
-    //   type: "ADD_TABLE_TO_SMALL_STACK",
-    //   payload: table,
-    // });
     dispatch(clearTable());
-    // dispatch({ type: "CLEAR_TABLE" });
 
     setShowChooseBigPrompt(false);
     dispatch(setChoosingBigPhase(false));
-    // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
     dispatch(setMakingMovesPhase(true));
-    // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
     dispatch(setCurrentSeat(startingSeat));
-    // dispatch({ type: "SET_CURRENT_SEAT", payload: startingSeat });
   };
 
   // PICK TABLE
   const handlePickTable = () => {
     dispatch(setBig(player.name, true));
-    // dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
-    // dispatch({
-    //   type: "ADD_TABLE_TO_PLAYER_HAND",
-    //   payload: {
-    //     name: player.name,
-    //     table: table,
-    //   },
-    // });
     dispatch(addTableToPlayerHand(player.name, table));
     dispatch(clearTable());
-    // dispatch({ type: "CLEAR_TABLE" });
 
     setShowChooseBigPrompt(false);
     dispatch(setChoosingBigPhase(false));
-    // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
     dispatch(setBuryingPhase(true));
-    // dispatch({ type: "SET_BURYING_PHASE", payload: true });
   };
 
   // PLAY SMALL ZOLE
   const handlePlaySmallZole = () => {
     dispatch(setBig(player.name, true));
-    // dispatch({ type: "SET_BIG", payload: { name: player.name, big: true } });
     dispatch(setPlaySmallZole(true));
-    // dispatch({ type: "SET_PLAY_SMALL_ZOLE", payload: true });
 
     setShowChooseBigPrompt(false);
     dispatch(setChoosingBigPhase(false));
-    // dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
     dispatch(setMakingMovesPhase(true));
-    // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
     dispatch(setCurrentSeat(startingSeat));
-    // dispatch({ type: "SET_CURRENT_SEAT", payload: startingSeat });
   };
 
   // PASS
   const chooseBigTurnUpdate = () => {
     if (chooseBigTurn < 4) {
       dispatch(setChooseBigTurn(chooseBigTurn + 1));
-      // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: chooseBigTurn + 1 });
     }
-    // dispatch({ type: "NEXT_SEAT" });
     dispatch(nextSeat());
   };
 
