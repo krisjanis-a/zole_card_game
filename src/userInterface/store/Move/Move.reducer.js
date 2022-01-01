@@ -1,6 +1,7 @@
 const getInitialState = () => ({
   moveTurn: 1,
   askingCard: null, // first card placed in single move
+  moveInProcess: false,
 });
 
 export default (state = getInitialState(), action) => {
@@ -9,6 +10,12 @@ export default (state = getInitialState(), action) => {
       return {
         ...state,
         askingCard: action.card,
+      };
+
+    case "SET_MOVE_IN_PROCESS":
+      return {
+        ...state,
+        moveInProcess: action.status,
       };
 
     case "NEXT_MOVE_TURN": {

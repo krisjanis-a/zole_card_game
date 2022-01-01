@@ -208,6 +208,7 @@ const GameScreen = () => {
         // Set table
         dispatch(setTable(hands[3].map((id) => cardIdToCard(id))));
 
+        // Finalize round setup
         dispatch(setInitializeRound(false));
         dispatch(setRoundRunning(true));
         dispatch(setChoosingBigPhase(true));
@@ -297,8 +298,10 @@ const GameScreen = () => {
         dispatch(setResultsPhase(true));
       }
 
-      addWinningCardsToStack(winningCard.owner, moveCards);
-      setupNextMove(winningCard, players);
+      setTimeout(() => {
+        addWinningCardsToStack(winningCard.owner, moveCards);
+        setupNextMove(winningCard, players);
+      }, 2000);
     }
   }, [moveCards.length]);
 
@@ -326,7 +329,7 @@ const GameScreen = () => {
 
   // Setup next move
   const setupNextMove = (winningCard, players) => {
-    dispatch(setCurrentSeat(null));
+    // dispatch(setCurrentSeat(null));
     dispatch(resetMoveCards());
     dispatch(addMoveCount());
     dispatch(setAskingCard(null));
@@ -747,15 +750,12 @@ const GameScreen = () => {
   }, [activePlayer, currentPhase]);
 
   useEffect(() => {
-    // setTimeout(() => {
     if (computerPerformAction) {
-      // console.log("Something should be done from PC player's side");
       // If active player is computer
       if (activePlayer.isComputer) {
         // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
         if (choosingBigPhase) {
           const becomeBig = decideBecomeBig(activePlayer.hand);
-          // console.log(`${activePlayer.name} choice to pick table: ${becomeBig}`);
 
           if (becomeBig) {
             // Set big and add table to hand
@@ -799,9 +799,6 @@ const GameScreen = () => {
             activePlayer
           );
 
-          // console.log(`${activePlayer.name} chose move card`);
-          // console.log(card);
-
           //    - Add card to move cards
           if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
             if (moveTurn === 1) {
@@ -817,7 +814,6 @@ const GameScreen = () => {
       }
       dispatch(setComputerPerformAction(false));
     }
-    // }, 1500);
   }, [computerPerformAction]);
 
   const decideBecomeBig = (playerHand) => {
@@ -890,9 +886,6 @@ const GameScreen = () => {
       .map((id) => {
         return playerHand.filter((item) => item.id === id)[0];
       }); // id => Card;
-
-    // console.log(`${activePlayer.name} valid card choices`);
-    // console.log(validCards);
 
     let card;
 

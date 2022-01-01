@@ -125,3 +125,25 @@ Things to do / implement:
 - description
 
 - live playing online (web sockets, live server etc.)
+
+
+
+|===================================================|
+
+01.01.2022
+
+How to slow down PC player choices?
+
+    Using timeouts.
+
+    => A function that takes in game state (active player, phase, other needed parameters) and decides which action to execute
+        => Applies timeout before executing the action
+
+    The
+
+How to manage game flow / action flow?
+
+    -) The game has phases
+    -) In each phase players can perform an action which changes the state of the app
+    -) 
+
