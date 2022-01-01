@@ -9,7 +9,8 @@ const getPlayerScores = (
   smallOnesTrickCount,
   playTable,
   playSmallZole,
-  playZole
+  playZole,
+  bigOneWinsSmallZole
 ) => {
   const playerScores = {};
   const bigOneScore = roundResult.bigOneScore;

@@ -100,8 +100,13 @@ import {
 // Util functions
 import getRoundResult from "../../utils/getRoundResults";
 import getPlayerScores from "../../utils/getPlayerScores";
-import checkIfCardValid from "../../utils/checkIfCardValid";
 import chooseMoveCard from "../../utils/chooseMoveCard";
+import decideCardsToBury from "../../utils/decideCardsToBury";
+import decideBecomeBig from "../../utils/decideBecomeBig";
+import setupNextRound from "../../utils/setupNextRound";
+import resetRound from "../../utils/resetRoundGS";
+import addWinningCardsToStack from "../../utils/addWinningCardsToStack";
+import setupNextMove from "../../utils/setupNextMove";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -304,58 +309,17 @@ const GameScreen = () => {
         dispatch(setResultsPhase(true));
       }
 
-      addWinningCardsToStack(winningCard.owner, moveCards);
-      setupNextMove(winningCard, players);
+      addWinningCardsToStack(
+        dispatch,
+        winningCard.owner,
+        moveCards,
+        playTable,
+        playSmallZole,
+        tableMode
+      );
+      setupNextMove(dispatch, winningCard, players, playSmallZole);
     }
   }, [moveCards.length]);
-
-  //  Add winning cards to correct stack
-  const addWinningCardsToStack = (winningPlayer, moveCards) => {
-    const cards = moveCards.map((card) => card.card);
-    if (!playTable && !playSmallZole) {
-      if (winningPlayer.big) {
-        cards.map((card) => dispatch(addCardToBigStack(card)));
-        dispatch(addBigTrickCount());
-      }
-      if (!winningPlayer.big) {
-        cards.map((card) => dispatch(addCardToSmallStack(card)));
-        dispatch(addSmallTrickCount());
-      }
-    }
-
-    // All players pass and playing table
-    if (tableMode && playTable) {
-      cards.map((card) => {
-        dispatch(addCardsToStack(winningPlayer.name, card));
-      });
-    }
-  };
-
-  // Setup next move
-  const setupNextMove = (winningCard, players) => {
-    // dispatch(setCurrentSeat(null));
-    dispatch(resetMoveCards());
-    dispatch(addMoveCount());
-    dispatch(setAskingCard(null));
-    dispatch(setCurrentSeat(winningCard.owner.seatNumber));
-    checkIfMovesLeft(players);
-  };
-
-  // Keep count of remaining moves => not using this method for now
-  // Check if players do not have any more cards in hand
-  const checkIfMovesLeft = (players) => {
-    if (
-      Object.values(players).every((player) => {
-        return player.hand.length === 0;
-      })
-    ) {
-      dispatch(setMakingMovesPhase(false));
-      dispatch(setResultsPhase(true));
-      if (playSmallZole) {
-        dispatch(setBigWinsSmallZole(true));
-      }
-    }
-  };
 
   // Check if all players passed in choosing big
   useEffect(() => {
@@ -373,7 +337,7 @@ const GameScreen = () => {
             dispatch(updateScoreboard("Collective Due"));
             dispatch(addRoundPlayed());
             dispatch(nextStartingSeat());
-            resetRound();
+            resetRound(dispatch, players, startingSeat);
           }
 
           if (tableMode) {
@@ -383,40 +347,6 @@ const GameScreen = () => {
       }
     }
   }, [chooseBigTurn]);
-
-  // Reset round
-  const resetRound = () => {
-    // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
-    dispatch(setRoundRunning(false));
-    dispatch(setRoundFinished(false));
-    dispatch(resetMoveCount());
-    dispatch(setCurrentSeatToStartingSeat(startingSeat));
-    dispatch(setChooseBigTurn(null));
-    dispatch(setBigWinsSmallZole(false));
-    dispatch(setAllPlayersPassed(false));
-
-    // Reset round phase, result & type
-    dispatch(resetRoundPhase());
-    dispatch(resetRoundResult());
-    dispatch(resetRoundType());
-    dispatch(resetMove());
-    dispatch(resetMoveCards());
-
-    // Reset table, stacks & tricks
-    dispatch(clearTable());
-    dispatch(resetBigStack());
-    dispatch(resetSmallStack());
-    dispatch(resetTableStack());
-    dispatch(resetTrickCounts());
-
-    // Reset player's big one parameter
-    Object.values(players).forEach((player) => {
-      dispatch(setBig(player.name, false));
-    });
-
-    // Initialize new round
-    dispatch(setInitializeRound(true));
-  };
 
   //=======================================================================================
 
@@ -442,51 +372,16 @@ const GameScreen = () => {
         smallTrickCount,
         playTable,
         playSmallZole,
-        playZole
+        playZole,
+        bigOneWinsSmallZole
       );
       dispatch(updateScoreboard(score));
 
       setTimeout(() => {
-        setupNextRound();
+        setupNextRound(dispatch, players, startingSeat);
       }, 2000);
     }
   }, [roundFinished]);
-
-  // Setup everything for next round
-  const setupNextRound = () => {
-    // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
-    dispatch(setRoundFinished(false));
-    dispatch(addRoundPlayed());
-    dispatch(resetMoveCount());
-    dispatch(setAllPlayersPassed(false));
-    dispatch(nextStartingSeat());
-    dispatch(setCurrentSeatToStartingSeat(startingSeat));
-    dispatch(setChooseBigTurn(null));
-    dispatch(setBigWinsSmallZole(false));
-
-    // Reset round phase, score & type
-    dispatch(resetRoundPhase());
-    dispatch(resetRoundResult());
-    dispatch(resetRoundType());
-    dispatch(resetMove());
-    dispatch(resetMoveCards());
-
-    // Reset table, stacks & tricks
-    dispatch(clearTable());
-    dispatch(resetBigStack());
-    dispatch(resetSmallStack());
-    dispatch(resetTableStack());
-    dispatch(resetTrickCounts());
-
-    // Reset player's stack and big one parameter
-    Object.values(players).forEach((player) => {
-      dispatch(setBig(player.name, false));
-      dispatch(resetStack(player.name));
-    });
-
-    // Initialize new round
-    dispatch(setInitializeRound(true));
-  };
 
   //=======================================================================================
 
@@ -564,64 +459,6 @@ const GameScreen = () => {
       dispatch(setComputerPerformAction(false));
     }
   }, [computerPerformAction]);
-
-  const decideBecomeBig = (playerHand) => {
-    // Parameters that influence the decission
-    let trumpCount = 0;
-    let trumpStrength = 0;
-    let aceCount = 0;
-
-    let pickTable = false;
-
-    // Object of these parameters (maybe not to be used)
-    const handParameters = new Object();
-
-    // Scan the hand for parameters
-    playerHand.forEach((card) => {
-      if (card.isTrump) {
-        trumpCount++;
-        trumpStrength = trumpStrength + card.strength;
-      }
-
-      if (card.nominal === "ace") {
-        aceCount++;
-      }
-    });
-
-    // Populate object
-    handParameters.trumpCount = trumpCount;
-    handParameters.trumpStrength = trumpStrength;
-    handParameters.aceCount = aceCount;
-
-    /* Conditions for taking hand:
-      - if there are 5 or more trumps on hand
-      - if the trump overall strength is bigger than [...]
-      - if there are aces
-    */
-
-    if (trumpCount > 4) {
-      if (trumpStrength > 61) {
-        pickTable = true;
-      }
-    }
-
-    // console.log(handParameters);
-    // console.log(playerHand);
-
-    return pickTable;
-  };
-
-  const decideCardsToBury = (playerHand) => {
-    const buryCards = playerHand
-      .map((card) => card.id) // Card => id
-      .sort((a, b) => a - b) // sort cards according to id
-      .map((id) => {
-        return playerHand.filter((item) => item.id === id)[0];
-      }) // id => Card
-      .slice(-2);
-
-    return buryCards;
-  };
 
   //=======================================================================================
 

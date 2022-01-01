@@ -1,3 +1,5 @@
+import checkIfCardValid from "./checkIfCardValid";
+
 // Computer makes next move card choice
 
 const chooseMoveCard = (playerHand, askingCard, moveCards, owner) => {
