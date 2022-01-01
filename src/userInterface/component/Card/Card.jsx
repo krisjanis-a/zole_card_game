@@ -5,6 +5,7 @@ import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
 import { nextMoveTurn, setAskingCard } from "../../store/Move/Move.action";
 import { addMoveCard } from "../../store/MoveCards/MoveCards.action";
 import { removeCardFromHand } from "../../store/Players/Players.action";
+import { nextSeat } from "../../store/Round/Round.actions";
 import "./Card.scss";
 
 const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
@@ -89,7 +90,8 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
 
     if (makingMovesPhase && active) {
       addCardToMoveCard();
-      dispatch({ type: "NEXT_SEAT" });
+      // dispatch({ type: "NEXT_SEAT" });
+      dispatch(nextSeat());
       // dispatch({ type: "NEXT_MOVE_TURN" });
       dispatch(nextMoveTurn());
     }

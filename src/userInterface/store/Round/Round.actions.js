@@ -55,3 +55,21 @@ export const setCurrentSeat = (seat) => ({
   type: SET_CURRENT_SEAT,
   seat,
 });
+
+export const nextSeat = () => ({
+  type: NEXT_SEAT,
+});
+
+export const setComputerPerformAction = (status) => ({
+  type: SET_COMPUTER_PERFORM_ACTION,
+  status,
+});
+
+export const setAllPlayersPassed = (status) => ({
+  type: SET_ALL_PLAYERS_PASSED,
+  status,
+});
+
+export const resetRound = () => ({
+  type: RESET_ROUND,
+});

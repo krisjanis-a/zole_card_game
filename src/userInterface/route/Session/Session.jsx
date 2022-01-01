@@ -14,6 +14,8 @@ import {
 } from "../../store/Players/Players.action";
 import {
   resetMoveCount,
+  resetRound,
+  setAllPlayersPassed,
   setBigWinsSmallZole,
   setChooseBigTurn,
   setCurrentSeatToStartingSeat,
@@ -43,7 +45,8 @@ const Session = () => {
     dispatch(resetPlayers());
 
     // Reset round
-    dispatch({ type: "RESET_ROUND" });
+    dispatch(resetRound());
+    // dispatch({ type: "RESET_ROUND" });
     dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch({ type: "RESET_ROUND_TYPE" });
@@ -63,7 +66,7 @@ const Session = () => {
     dispatch({ type: "RESET_TRICK_COUNTS" });
   };
 
-  const resetRound = () => {
+  const restartRound = () => {
     // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
     dispatch(setRoundRunning(false));
     // dispatch({ type: "SET_ROUND_RUNNING", payload: false });
@@ -71,7 +74,8 @@ const Session = () => {
     // dispatch({ type: "SET_ROUND_FINISHED", payload: false });
     // dispatch({ type: "RESET_MOVE_COUNT" });
     dispatch(resetMoveCount());
-    dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
+    dispatch(setAllPlayersPassed(false));
+    // dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
     // dispatch({
     //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
     //   payload: startingSeat,
@@ -81,7 +85,6 @@ const Session = () => {
     // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
     dispatch(setBigWinsSmallZole(false));
     // dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
-    dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
 
     // Reset round phase, score & type
     dispatch({ type: "RESET_ROUND_PHASE" });
@@ -137,7 +140,7 @@ const Session = () => {
           <Button
             buttonName="Reset game"
             type="secondary"
-            onClick={resetRound}
+            onClick={restartRound}
           />
           <Button
             buttonName="Results phase / Next Round"

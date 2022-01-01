@@ -7,6 +7,7 @@ import {
   setBig,
 } from "../../store/Players/Players.action";
 import {
+  nextSeat,
   setChooseBigTurn,
   setCurrentSeat,
 } from "../../store/Round/Round.actions";
@@ -98,7 +99,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
       dispatch(setChooseBigTurn(chooseBigTurn + 1));
       // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: chooseBigTurn + 1 });
     }
-    dispatch({ type: "NEXT_SEAT" });
+    // dispatch({ type: "NEXT_SEAT" });
+    dispatch(nextSeat());
   };
 
   return (

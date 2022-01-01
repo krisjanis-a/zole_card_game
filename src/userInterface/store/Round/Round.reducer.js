@@ -84,13 +84,13 @@ export default (state = getInitialState(), action) => {
     case "SET_COMPUTER_PERFORM_ACTION":
       return {
         ...state,
-        computerPerformAction: action.payload,
+        computerPerformAction: action.status,
       };
 
     case "SET_ALL_PLAYERS_PASSED":
       return {
         ...state,
-        allPlayersPassed: action.payload,
+        allPlayersPassed: action.status,
       };
 
     case "RESET_ROUND":

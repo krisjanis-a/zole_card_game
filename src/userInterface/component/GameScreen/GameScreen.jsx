@@ -44,9 +44,12 @@ import {
 } from "../../store/Players/Players.action";
 import {
   addMoveCount,
+  nextSeat,
   resetMoveCount,
+  setAllPlayersPassed,
   setBigWinsSmallZole,
   setChooseBigTurn,
+  setComputerPerformAction,
   setCurrentSeat,
   setCurrentSeatToStartingSeat,
   setInitializeRound,
@@ -339,7 +342,8 @@ const GameScreen = () => {
   useEffect(() => {
     if (choosingBigPhase) {
       if (chooseBigTurn > 3) {
-        dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: true });
+        dispatch(setAllPlayersPassed(true));
+        // dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: true });
 
         setTimeout(() => {
           dispatch({ type: "SET_CHOOSING_BIG_PHASE", payload: false });
@@ -381,7 +385,8 @@ const GameScreen = () => {
     // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
     dispatch(setBigWinsSmallZole(false));
     // dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
-    dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
+    dispatch(setAllPlayersPassed(false));
+    // dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
 
     // Reset round phase, result & type
     dispatch({ type: "RESET_ROUND_PHASE" });
@@ -707,7 +712,8 @@ const GameScreen = () => {
     dispatch({ type: "ADD_ROUND_PLAYED" });
     dispatch(resetMoveCount());
     // dispatch({ type: "RESET_MOVE_COUNT" });
-    dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
+    dispatch(setAllPlayersPassed(false));
+    // dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
     dispatch({ type: "NEXT_STARTING_SEAT" });
     // dispatch({
     //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
@@ -752,7 +758,8 @@ const GameScreen = () => {
 
   useEffect(() => {
     if (activePlayer.isComputer) {
-      dispatch({ type: "SET_COMPUTER_PERFORM_ACTION", payload: true });
+      dispatch(setComputerPerformAction(true));
+      // dispatch({ type: "SET_COMPUTER_PERFORM_ACTION", payload: true });
     }
   }, [activePlayer, currentPhase]);
 
@@ -784,7 +791,8 @@ const GameScreen = () => {
               //   payload: chooseBigTurn + 1,
               // });
             }
-            dispatch({ type: "NEXT_SEAT" });
+            // dispatch({ type: "NEXT_SEAT" });
+            dispatch(nextSeat());
           }
         }
         // ---
@@ -825,13 +833,15 @@ const GameScreen = () => {
             dispatch(addMoveCard(card, activePlayer));
             dispatch(removeCardFromHand(activePlayer.name, card.id));
 
-            dispatch({ type: "NEXT_SEAT" });
+            // dispatch({ type: "NEXT_SEAT" });
+            dispatch(nextSeat());
             // dispatch({ type: "NEXT_MOVE_TURN" });
             dispatch(nextMoveTurn());
           }
         }
       }
-      dispatch({ type: "SET_COMPUTER_PERFORM_ACTION", payload: false });
+      dispatch(setComputerPerformAction(false));
+      // dispatch({ type: "SET_COMPUTER_PERFORM_ACTION", payload: false });
     }
     // }, 1500);
   }, [computerPerformAction]);
