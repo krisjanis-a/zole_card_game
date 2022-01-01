@@ -6,6 +6,7 @@ import { nextMoveTurn, setAskingCard } from "../../store/Move/Move.action";
 import { addMoveCard } from "../../store/MoveCards/MoveCards.action";
 import { removeCardFromHand } from "../../store/Players/Players.action";
 import { nextSeat } from "../../store/Round/Round.actions";
+import checkIfCardValid from "../../utils/checkIfCardValid";
 import "./Card.scss";
 
 const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
@@ -58,7 +59,7 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
         }
         owner.seatNumber !== currentSeat && setActive(false);
 
-        const cardValid = checkIfCardValid();
+        const cardValid = checkIfCardValid(card, askingCard, owner);
         owner.seatNumber === currentSeat && cardValid && setActive(true);
         return;
       }
@@ -70,19 +71,6 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
     }
   }, [currentPhase, currentSeat, askingCard]);
 
-  // Another version for above switch statement (older && unfinished && not as good)
-  /* useEffect(() => {
-    if (choosingBigPhase) setActive(false);
-    if (buryingCardsPhase && owner.seatNumber === currentSeat) {
-      setActive(true);
-    }
-
-    if (makingMovesPhase && owner.seatNumber === currentSeat) {
-    }
-
-    if (resultsPhase) setActive(false);
-  }, [choosingBigPhase, buryingCardsPhase, makingMovesPhase, resultsPhase]); */
-
   const handleClick = () => {
     if (buryingCardsPhase && active) {
       buryCard();
@@ -93,42 +81,6 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
       dispatch(nextSeat());
       dispatch(nextMoveTurn());
     }
-  };
-
-  const checkIfCardValid = () => {
-    let cardValid = false;
-
-    if (!askingCard) return (cardValid = true);
-
-    if (askingCard.isTrump && card.isTrump) {
-      cardValid = true;
-    }
-
-    if (
-      !askingCard.isTrump &&
-      !card.isTrump &&
-      card.suite === askingCard.suite
-    ) {
-      cardValid = true;
-    }
-
-    if (
-      askingCard.isTrump &&
-      owner.hand.filter((card) => card.isTrump).length === 0
-    ) {
-      cardValid = true;
-    }
-
-    if (
-      !askingCard.isTrump &&
-      owner.hand.filter(
-        (card) => !card.isTrump && card.suite === askingCard.suite
-      ).length === 0
-    ) {
-      cardValid = true;
-    }
-
-    return cardValid;
   };
 
   const addCardToMoveCard = () => {

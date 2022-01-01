@@ -100,6 +100,8 @@ import {
 // Util functions
 import getRoundResult from "../../utils/getRoundResults";
 import getPlayerScores from "../../utils/getPlayerScores";
+import checkIfCardValid from "../../utils/checkIfCardValid";
+import chooseMoveCard from "../../utils/chooseMoveCard";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -619,73 +621,6 @@ const GameScreen = () => {
       .slice(-2);
 
     return buryCards;
-  };
-
-  const chooseMoveCard = (playerHand, askingCard, moveCards, owner) => {
-    const validCards = playerHand
-      .filter((card) => {
-        if (checkIfCardValid(card, askingCard, owner)) {
-          return card;
-        }
-      })
-      .map((card) => card.id) // Card => id
-      .sort((a, b) => b - a) // sort cards according to id
-      .map((id) => {
-        return playerHand.filter((item) => item.id === id)[0];
-      }); // id => Card;
-
-    let card;
-
-    for (let i = 0; i < validCards.length; i++) {
-      if (!askingCard) {
-        card = validCards[i];
-        break;
-      }
-      if (validCards[i].strength >= askingCard.strength) {
-        card = validCards[i];
-        break;
-      } else {
-        card = validCards[0];
-      }
-    }
-
-    return card;
-  };
-
-  const checkIfCardValid = (card, askingCard, owner) => {
-    let cardValid = false;
-
-    if (!askingCard) return (cardValid = true);
-
-    if (askingCard.isTrump && card.isTrump) {
-      cardValid = true;
-    }
-
-    if (
-      !askingCard.isTrump &&
-      !card.isTrump &&
-      card.suite === askingCard.suite
-    ) {
-      cardValid = true;
-    }
-
-    if (
-      askingCard.isTrump &&
-      owner.hand.filter((card) => card.isTrump).length === 0
-    ) {
-      cardValid = true;
-    }
-
-    if (
-      !askingCard.isTrump &&
-      owner.hand.filter(
-        (card) => !card.isTrump && card.suite === askingCard.suite
-      ).length === 0
-    ) {
-      cardValid = true;
-    }
-
-    return cardValid;
   };
 
   //=======================================================================================
