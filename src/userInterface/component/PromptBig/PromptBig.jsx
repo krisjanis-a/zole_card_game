@@ -20,6 +20,7 @@ import {
   setPlaySmallZole,
   setPlayZole,
 } from "../../store/RoundType/RoundType.action";
+import { addTableToSmallStack } from "../../store/SmallStack/SmallStack.action";
 
 const PromptBig = ({ setShowChooseBigPrompt }) => {
   const dispatch = useDispatch();
@@ -58,10 +59,11 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
     //   type: "SET_PLAY_ZOLE",
     //   payload: true,
     // });
-    dispatch({
-      type: "ADD_TABLE_TO_SMALL_STACK",
-      payload: table,
-    });
+    dispatch(addTableToSmallStack(table));
+    // dispatch({
+    //   type: "ADD_TABLE_TO_SMALL_STACK",
+    //   payload: table,
+    // });
     dispatch({ type: "CLEAR_TABLE" });
 
     setShowChooseBigPrompt(false);

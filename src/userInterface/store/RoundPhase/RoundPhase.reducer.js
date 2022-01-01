@@ -9,7 +9,6 @@ const getInitialState = () => ({
 export default (state = getInitialState(), action) => {
   switch (action.type) {
     case "SET_ROUND_PHASE": {
-      console.log("lewat");
       const { phase } = action;
       return {
         ...state,

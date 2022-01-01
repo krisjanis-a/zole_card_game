@@ -79,6 +79,11 @@ import {
   setPlayerNames,
 } from "../../store/Session/Session.action";
 
+import {
+  addCardToSmallStack,
+  resetSmallStack,
+} from "../../store/SmallStack/SmallStack.action";
+
 const GameScreen = () => {
   const dispatch = useDispatch();
 
@@ -316,7 +321,8 @@ const GameScreen = () => {
       }
       if (!winningPlayer.big) {
         cards.map((card) =>
-          dispatch({ type: "ADD_CARD_TO_SMALL_STACK", payload: card })
+          // dispatch({ type: "ADD_CARD_TO_SMALL_STACK", payload: card })
+          dispatch(addCardToSmallStack(card))
         );
         dispatch({ type: "ADD_SMALL_TRICK_COUNT" });
       }
@@ -439,7 +445,8 @@ const GameScreen = () => {
     // Reset table, stacks & tricks
     dispatch({ type: "CLEAR_TABLE" });
     dispatch({ type: "RESET_BIG_STACK" });
-    dispatch({ type: "RESET_SMALL_STACK" });
+    dispatch(resetSmallStack());
+    // dispatch({ type: "RESET_SMALL_STACK" });
     dispatch({ type: "RESET_TABLE_STACK" });
     dispatch({ type: "RESET_TRICK_COUNTS" });
 
@@ -783,7 +790,8 @@ const GameScreen = () => {
     // Reset table, stacks & tricks
     dispatch({ type: "CLEAR_TABLE" });
     dispatch({ type: "RESET_BIG_STACK" });
-    dispatch({ type: "RESET_SMALL_STACK" });
+    dispatch(resetSmallStack());
+    // dispatch({ type: "RESET_SMALL_STACK" });
     dispatch({ type: "RESET_TABLE_STACK" });
     dispatch({ type: "RESET_TRICK_COUNTS" });
 
