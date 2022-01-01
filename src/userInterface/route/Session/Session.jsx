@@ -5,7 +5,10 @@ import Button from "../../component/Button/Button";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import SessionSetup from "../../component/SessionSetup/SessionSetup";
+
+// Actions
 import { resetCollectiveDues } from "../../store/DuesCollective/DuesCollective.action";
+import { resetPersonalDues } from "../../store/DuesPersonal/DuesPersonal.action";
 import { resetMove } from "../../store/Move/Move.action";
 import {
   resetPlayers,
@@ -37,6 +40,8 @@ import { clearTable } from "../../store/TableCards/Table.action";
 import { resetTableStack } from "../../store/TableStack/TableStack.action";
 import { resetTrickCounts } from "../../store/Tricks/Tricks.action";
 import { resetMoveCards } from "../../store/MoveCards/MoveCards.action";
+import { resetScoreboard } from "../../store/Scoreboard/Scoreboard.action";
+import { resetBigStack } from "../../store/BigStack/BigStack.action";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -49,114 +54,79 @@ const Session = () => {
   const endSession = () => {
     // Reset dues
     dispatch(resetCollectiveDues());
-    dispatch({ type: "RESET_PERSONAL_DUES" });
+    dispatch(resetPersonalDues());
 
     // Reset move & move cards
     dispatch(resetMove());
     dispatch(resetMoveCards());
-    // dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset players
     dispatch(resetPlayers());
 
     // Reset round
     dispatch(resetRound());
-    // dispatch({ type: "RESET_ROUND" });
     dispatch(resetRoundPhase());
-    // dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch(resetRoundResult());
-    // dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch(resetRoundType());
-    // dispatch({ type: "RESET_ROUND_TYPE" });
 
     // Reset scoreboard
-    dispatch({ type: "RESET_SCOREBOARD" });
+    dispatch(resetScoreboard());
 
     // Reset session
     dispatch(resetSession());
-    // dispatch({ type: "RESET_SESSION" });
     dispatch(resetSessionMode());
-    // dispatch({ type: "RESET_SESSION_MODE" });
 
     // Reset table, stacks & tricks
     dispatch(clearTable());
-    // dispatch({ type: "CLEAR_TABLE" });
-    dispatch({ type: "RESET_BIG_STACK" });
+    dispatch(resetBigStack());
     dispatch(resetSmallStack());
-    // dispatch({ type: "RESET_SMALL_STACK" });
     dispatch(resetTableStack());
-    // dispatch({ type: "RESET_TABLE_STACK" });
     dispatch(resetTrickCounts());
-    // dispatch({ type: "RESET_TRICK_COUNTS" });
   };
 
   const restartRound = () => {
     // Reset round running/finished, move count, current seat, choose big turn, big one wins small zole parameters
     dispatch(setRoundRunning(false));
-    // dispatch({ type: "SET_ROUND_RUNNING", payload: false });
     dispatch(setRoundFinished(false));
-    // dispatch({ type: "SET_ROUND_FINISHED", payload: false });
-    // dispatch({ type: "RESET_MOVE_COUNT" });
     dispatch(resetMoveCount());
     dispatch(setAllPlayersPassed(false));
-    // dispatch({ type: "SET_ALL_PLAYERS_PASSED", payload: false });
-    // dispatch({
-    //   type: "SET_CURRENT_SEAT_TO_STARTING_SEAT",
-    //   payload: startingSeat,
-    // });
     dispatch(setCurrentSeatToStartingSeat(startingSeat));
     dispatch(setChooseBigTurn(null));
-    // dispatch({ type: "SET_CHOOSE_BIG_TURN", payload: null });
     dispatch(setBigWinsSmallZole(false));
-    // dispatch({ type: "SET_BIG_WINS_SMALL_ZOLE", payload: false });
 
     // Reset round phase, score & type
     dispatch(resetRoundPhase());
-    // dispatch({ type: "RESET_ROUND_PHASE" });
     dispatch(resetRoundResult());
-    // dispatch({ type: "RESET_ROUND_RESULT" });
     dispatch(resetRoundType());
-    // dispatch({ type: "RESET_ROUND_TYPE" });
     dispatch(resetMove());
-    dispatch({ type: "RESET_MOVE_CARDS" });
+    dispatch(resetMoveCards());
 
     // Reset table, stacks & tricks
     dispatch(clearTable());
-    // dispatch({ type: "CLEAR_TABLE" });
-    dispatch({ type: "RESET_BIG_STACK" });
+    dispatch(resetBigStack());
     dispatch(resetSmallStack());
-    // dispatch({ type: "RESET_SMALL_STACK" });
     dispatch(resetTableStack());
-    // dispatch({ type: "RESET_TABLE_STACK" });
     dispatch(resetTrickCounts());
-    // dispatch({ type: "RESET_TRICK_COUNTS" });
 
     // Reset player's stack and big one parameter
     Object.values(players).forEach((player) => {
       dispatch(setBig(player.name, false));
-      // dispatch({ type: "SET_BIG", payload: { name: player.name, big: false } });
-      // dispatch({ type: "RESET_STACK", payload: player.name });
       dispatch(resetStack(player.name));
     });
 
     // Initialize new round
-    // dispatch({ type: "INITIALIZE_ROUND", payload: true });
     dispatch(setInitializeRound(true));
   };
 
   const toResultPhase = () => {
     if (gamePhase === "MAKING_MOVES") {
       dispatch(setMakingMovesPhase(false));
-      // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: false });
       dispatch(setResultsPhase(true));
-      // dispatch({ type: "SET_RESULTS_PHASE", payload: true });
     }
 
     if (gamePhase === "RESULTS") {
       dispatch(setMakingMovesPhase(true));
-      // dispatch({ type: "SET_MAKING_MOVES_PHASE", payload: true });
       dispatch(setResultsPhase(false));
-      // dispatch({ type: "SET_RESULTS_PHASE", payload: false });
     }
   };
 

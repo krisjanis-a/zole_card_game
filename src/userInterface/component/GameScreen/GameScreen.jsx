@@ -328,7 +328,6 @@ const GameScreen = () => {
   const setupNextMove = (winningCard, players) => {
     dispatch(setCurrentSeat(null));
     dispatch(resetMoveCards());
-    // dispatch({ type: "RESET_MOVE_CARDS" });
     dispatch(addMoveCount());
     dispatch(setAskingCard(null));
     dispatch(setCurrentSeat(winningCard.owner.seatNumber));
@@ -372,7 +371,6 @@ const GameScreen = () => {
 
           if (tableMode) {
             dispatch(setPlayTable(true));
-            // dispatch({ type: "SET_PLAY_TABLE", payload: true });
           }
         }, 1500);
       }
@@ -396,12 +394,10 @@ const GameScreen = () => {
     dispatch(resetRoundType());
     dispatch(resetMove());
     dispatch(resetMoveCards());
-    // dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset table, stacks & tricks
     dispatch(clearTable());
     dispatch(resetBigStack());
-    // dispatch({ type: "RESET_BIG_STACK" });
     dispatch(resetSmallStack());
     dispatch(resetTableStack());
     dispatch(resetTrickCounts());
@@ -722,12 +718,10 @@ const GameScreen = () => {
     dispatch(resetRoundType());
     dispatch(resetMove());
     dispatch(resetMoveCards());
-    // dispatch({ type: "RESET_MOVE_CARDS" });
 
     // Reset table, stacks & tricks
     dispatch(clearTable());
     dispatch(resetBigStack());
-    // dispatch({ type: "RESET_BIG_STACK" });
     dispatch(resetSmallStack());
     dispatch(resetTableStack());
     dispatch(resetTrickCounts());
