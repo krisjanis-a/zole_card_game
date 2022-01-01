@@ -72,6 +72,7 @@ import {
   resetRoundType,
   setPlayTable,
 } from "../../store/RoundType/RoundType.action";
+import { updateScoreboard } from "../../store/Scoreboard/Scoreboard.action";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -380,7 +381,8 @@ const GameScreen = () => {
             dispatch(setRoundFinished(true));
             // dispatch({ type: "SET_ROUND_FINISHED", payload: true });
             dispatch(addCollectiveDue());
-            dispatch({ type: "UPDATE_SCOREBOARD", payload: "Collective Due" });
+            dispatch(updateScoreboard("Collective Due"));
+            // dispatch({ type: "UPDATE_SCOREBOARD", payload: "Collective Due" });
             dispatch({ type: "ADD_ROUND_PLAYED" });
             dispatch({ type: "NEXT_STARTING_SEAT" });
             resetRound();
@@ -728,7 +730,8 @@ const GameScreen = () => {
         bigTrickCount,
         smallTrickCount
       );
-      dispatch({ type: "UPDATE_SCOREBOARD", payload: score });
+      dispatch(updateScoreboard(score));
+      // dispatch({ type: "UPDATE_SCOREBOARD", payload: score });
 
       setTimeout(() => {
         setupNextRound();
