@@ -8,7 +8,7 @@ import {
   setBigWinsSmallZole,
   setChooseBigTurn,
   setCurrentSeatToStartingSeat,
-  setInitializeRound,
+  setShouldInitializeRound,
   setRoundFinished,
 } from "../store/Round/Round.actions";
 import { resetRoundPhase } from "../store/RoundPhase/RoundPhase.action";
@@ -56,7 +56,7 @@ const setupNextRound = (dispatch, players, startingSeat) => {
   });
 
   // Initialize new round
-  dispatch(setInitializeRound(true));
+  dispatch(setShouldInitializeRound(true));
 };
 
 export default setupNextRound;

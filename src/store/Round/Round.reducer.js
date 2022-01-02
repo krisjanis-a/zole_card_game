@@ -1,5 +1,5 @@
 const getInitialState = () => ({
-  initializeRound: false, // during session initialization or after each game / round
+  shouldInitializeRound: false, // during session initialization or after each game / round
   roundRunning: false, // while round running
   roundFinished: false, // for setting up next round
   moveCount: 0, // in case === 8 => round is finished
@@ -12,10 +12,10 @@ const getInitialState = () => ({
 
 export default (state = getInitialState(), action) => {
   switch (action.type) {
-    case "SET_INITIALIZE_ROUND":
+    case "SET_SHOULD_INITIALIZE_ROUND":
       return {
         ...state,
-        initializeRound: action.status,
+        shouldInitializeRound: action.status,
       };
 
     case "SET_ROUND_RUNNING":

@@ -13,9 +13,6 @@ import SmallOnesCards from "../SmallOnesCards/SmallOnesCards";
 // Engine functionality
 import Player from "../../models/Player";
 import Cards from "../../data/Cards";
-import createDeck from "../../utils/createDeck";
-import dealCards from "../../utils/dealCards";
-import cardIdToCard from "../../utils/cardIdToCard";
 import getWinningCard from "../../utils/getWinningCard";
 
 // Prompts / Information displays
@@ -42,9 +39,9 @@ import {
   setChooseBigTurn,
   setComputerPerformAction,
   setCurrentSeatToStartingSeat,
-  setInitializeRound,
   setRoundFinished,
   setRoundRunning,
+  setShouldInitializeRound,
 } from "../../store/Round/Round.actions";
 import {
   setBuryingPhase,
@@ -73,6 +70,7 @@ import setupNextRound from "../../utils/setupNextRound";
 import resetRound from "../../utils/resetRoundGS";
 import addWinningCardsToStack from "../../utils/addWinningCardsToStack";
 import setupNextMove from "../../utils/setupNextMove";
+import performRoundInitialization from "../../utils/performRoundInitialization";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -94,7 +92,7 @@ const GameScreen = () => {
   );
   const roundResult = useSelector((state) => state.RoundResult);
   const {
-    initializeRound,
+    shouldInitializeRound,
     roundRunning,
     roundFinished,
     currentSeat,
@@ -146,7 +144,7 @@ const GameScreen = () => {
     dispatch(addPlayer(player2));
     dispatch(addPlayer(player3));
 
-    dispatch(setInitializeRound(true));
+    dispatch(setShouldInitializeRound(true));
   }, []);
 
   //=======================================================================================
@@ -154,37 +152,15 @@ const GameScreen = () => {
   //! ROUND INITIALIZATION
 
   useEffect(() => {
-    if (initializeRound) {
-      if (Object.values(players).length > 0) {
-        // Deal cards
-        const deck = createDeck(Cards);
-        const hands = dealCards(deck, 3);
-
-        // Set player hands in state
-        const playersArr = Object.entries(players);
-
-        for (let i = 0; i < playersArr.length; i++) {
-          const playerName = playersArr[i][1].name;
-          const hand = hands[i].map((id) => cardIdToCard(id));
-
-          dispatch(setPlayerHand(playerName, hand));
-        }
-
-        // Set table
-        dispatch(setTable(hands[3].map((id) => cardIdToCard(id))));
-
-        // Finalize round setup
-        dispatch(setInitializeRound(false));
-        dispatch(setRoundRunning(true));
-        dispatch(setChoosingBigPhase(true));
-        dispatch(setCurrentSeatToStartingSeat(startingSeat));
-
-        if (!chooseBigTurn) {
-          dispatch(setChooseBigTurn(1));
-        }
-      }
+    if (shouldInitializeRound) {
+      performRoundInitialization(
+        dispatch,
+        players,
+        startingSeat,
+        chooseBigTurn
+      );
     }
-  }, [initializeRound]);
+  }, [shouldInitializeRound]);
 
   //=======================================================================================
 
@@ -341,76 +317,99 @@ const GameScreen = () => {
 
   //! COMPUTER PLAYER LOGIC
 
+  // Check if active player is computer => if yes, set computer perform action to true
   useEffect(() => {
     if (activePlayer.isComputer) {
       dispatch(setComputerPerformAction(true));
     }
   }, [activePlayer, currentPhase]);
 
+  // Execute computer action
   useEffect(() => {
     if (computerPerformAction) {
+      // Random decision time for computer (in miliseconds)
+      const decisionTime = 1000 + Math.random() * 1;
+
       // If active player is computer
       if (activePlayer.isComputer) {
         // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
+
         if (choosingBigPhase) {
-          const becomeBig = decideBecomeBig(activePlayer.hand);
+          setTimeout(() => {
+            const becomeBig = decideBecomeBig(activePlayer.hand);
 
-          if (becomeBig) {
-            // Set big and add table to hand
-            dispatch(setBig(activePlayer.name, true));
-            dispatch(addTableToPlayerHand(activePlayer.name, table));
-            dispatch(clearTable());
-            dispatch(setChoosingBigPhase(false));
-            dispatch(setBuryingPhase(true));
-          }
-
-          if (!becomeBig) {
-            if (chooseBigTurn < 4) {
-              dispatch(setChooseBigTurn(chooseBigTurn + 1));
+            if (becomeBig) {
+              // Set big and add table to hand
+              dispatch(setBig(activePlayer.name, true));
+              dispatch(addTableToPlayerHand(activePlayer.name, table));
+              dispatch(clearTable());
+              dispatch(setChoosingBigPhase(false));
+              dispatch(setBuryingPhase(true));
             }
-            dispatch(nextSeat());
-          }
+
+            if (!becomeBig) {
+              if (chooseBigTurn < 4) {
+                dispatch(nextSeat());
+                dispatch(setChooseBigTurn(chooseBigTurn + 1));
+              }
+            }
+
+            dispatch(setComputerPerformAction(false));
+          }, decisionTime);
+          // return;
         }
         // ---
 
         // If pick table, decide which cards to bury.
         if (buryingCardsPhase) {
-          if (activePlayer.big) {
-            const buryCards = decideCardsToBury(activePlayer.hand);
+          setTimeout(() => {
+            if (activePlayer.big) {
+              const buryCards = decideCardsToBury(activePlayer.hand);
 
-            buryCards.forEach((card) => {
-              dispatch(addCardToBigStack(card));
-              dispatch(removeCardFromHand(activePlayer.name, card.id));
-            });
-          }
+              buryCards.forEach((card) => {
+                dispatch(addCardToBigStack(card));
+                dispatch(removeCardFromHand(activePlayer.name, card.id));
+              });
+            }
+
+            dispatch(setComputerPerformAction(false));
+          }, decisionTime);
+          // return;
         }
         // ---
 
         // If make moves phase =>
         if (makingMovesPhase) {
-          //    - Get valid card choices
-          //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
-          const card = chooseMoveCard(
-            activePlayer.hand,
-            askingCard,
-            moveCards,
-            activePlayer
-          );
+          setTimeout(() => {
+            //    - Get valid card choices
+            //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
+            console.log("point 1");
+            const card = chooseMoveCard(
+              activePlayer.hand,
+              askingCard,
+              moveCards,
+              activePlayer
+            );
 
-          //    - Add card to move cards
-          if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
-            if (moveTurn === 1) {
-              dispatch(setAskingCard(card));
+            //    - Add card to move cards
+            if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
+              console.log("point 2");
+              if (moveTurn === 1) {
+                dispatch(setAskingCard(card));
+              }
+              dispatch(addMoveCard(card, activePlayer));
+              dispatch(removeCardFromHand(activePlayer.name, card.id));
+
+              dispatch(nextSeat());
+              dispatch(nextMoveTurn());
             }
-            dispatch(addMoveCard(card, activePlayer));
-            dispatch(removeCardFromHand(activePlayer.name, card.id));
-
-            dispatch(nextSeat());
-            dispatch(nextMoveTurn());
-          }
+            dispatch(setComputerPerformAction(false));
+          }, decisionTime);
+          // return;
         }
+
+        dispatch(setComputerPerformAction(false));
       }
-      dispatch(setComputerPerformAction(false));
     }
   }, [computerPerformAction]);
 

@@ -1,4 +1,4 @@
-export const SET_INITIALIZE_ROUND = "SET_INITIALIZE_ROUND";
+export const SET_SHOULD_INITIALIZE_ROUND = "SET_SHOULD_INITIALIZE_ROUND";
 export const SET_ROUND_RUNNING = "SET_ROUND_RUNNING";
 export const SET_ROUND_FINISHED = "SET_ROUND_FINISHED";
 export const SET_CHOOSE_BIG_TURN = "SET_CHOOSE_BIG_TURN";
@@ -13,8 +13,8 @@ export const SET_COMPUTER_PERFORM_ACTION = "SET_COMPUTER_PERFORM_ACTION";
 export const SET_ALL_PLAYERS_PASSED = "SET_ALL_PLAYERS_PASSED";
 export const RESET_ROUND = "RESET_ROUND";
 
-export const setInitializeRound = (status) => ({
-  type: SET_INITIALIZE_ROUND,
+export const setShouldInitializeRound = (status) => ({
+  type: SET_SHOULD_INITIALIZE_ROUND,
   status,
 });
 

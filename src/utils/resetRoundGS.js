@@ -7,10 +7,11 @@ import {
   setAllPlayersPassed,
   setBigWinsSmallZole,
   setChooseBigTurn,
+  setComputerPerformAction,
   setCurrentSeatToStartingSeat,
-  setInitializeRound,
   setRoundFinished,
   setRoundRunning,
+  setShouldInitializeRound,
 } from "../store/Round/Round.actions";
 import { resetRoundPhase } from "../store/RoundPhase/RoundPhase.action";
 import { resetRoundResult } from "../store/RoundResult/RoundResult.action";
@@ -31,6 +32,7 @@ const resetRound = (dispatch, players, startingSeat) => {
   dispatch(setChooseBigTurn(null));
   dispatch(setBigWinsSmallZole(false));
   dispatch(setAllPlayersPassed(false));
+  dispatch(setComputerPerformAction(false));
 
   // Reset round phase, result & type
   dispatch(resetRoundPhase());
@@ -52,7 +54,7 @@ const resetRound = (dispatch, players, startingSeat) => {
   });
 
   // Initialize new round
-  dispatch(setInitializeRound(true));
+  dispatch(setShouldInitializeRound(true));
 };
 
 export default resetRound;
