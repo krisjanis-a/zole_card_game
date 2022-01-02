@@ -134,4 +134,3 @@ Cards in ascending order of strength ([n] - card count with specific strength)
 Glossary
 
 	-> trick : move or "gājiens"
-	-> 

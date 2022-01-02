@@ -1,7 +1,7 @@
-import "./PlayerHand.scss";
 import React, { useEffect, useState } from "react";
-import Card from "../Card/Card";
 import { useSelector } from "react-redux";
+import Card from "../Card/Card";
+import "./PlayerHand.scss";
 
 const PlayerHand = ({ seat }) => {
   const players = useSelector((state) => state.Players);

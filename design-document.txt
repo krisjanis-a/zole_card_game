@@ -52,3 +52,37 @@ After players have ran out of cards, each groups total score is determined
     - total score is the sum of all card values contained in their stack
 
 Then each player's score is added to individual and global scoreboard
+
+
+=== Action Flow ===
+
+| I | - Choosing Big Phase
+
+- Player decides to become big
+    - set player big to true
+        - set bury phase true
+
+- Player decides to pass
+    - set current seat to next seat
+        - set active player to 
+
+- Player decides to play Zole
+    - set player big to true
+        - set round type to play zole
+            - 
+
+- Player decides to play Small Zole
+    - set player big to true
+        - set round type to play small zole
+
+- Computer decides to become big
+
+- Computer decides to pass
+
+- Player decides bury card
+
+- Computer decides bury card
+
+- Player chooses (clicks) move card
+
+- Computer chooses move card

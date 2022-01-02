@@ -139,8 +139,6 @@ How to slow down PC player choices?
     => A function that takes in game state (active player, phase, other needed parameters) and decides which action to execute
         => Applies timeout before executing the action
 
-    The
-
 How to manage game flow / action flow?
 
     -) The game has phases

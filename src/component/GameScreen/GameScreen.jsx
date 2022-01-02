@@ -61,7 +61,6 @@ import {
   nextStartingSeat,
   setPlayerNames,
 } from "../../store/Session/Session.action";
-
 import { clearTable, setTable } from "../../store/TableCards/Table.action";
 
 // Util functions
@@ -79,13 +78,10 @@ const GameScreen = () => {
   const dispatch = useDispatch();
 
   const activePlayer = useSelector((state) => state.ActivePlayer);
-
   const { startingSeat } = useSelector((state) => state.Session);
-
   const { normalMode, smallZoleMode, tableMode } = useSelector(
     (state) => state.SessionMode
   );
-
   const {
     buryingCardsPhase,
     choosingBigPhase,
@@ -93,13 +89,10 @@ const GameScreen = () => {
     resultsPhase,
     currentPhase,
   } = useSelector((state) => state.RoundPhase);
-
   const { playZole, playTable, playSmallZole } = useSelector(
     (state) => state.RoundType
   );
-
   const roundResult = useSelector((state) => state.RoundResult);
-
   const {
     initializeRound,
     roundRunning,
@@ -109,18 +102,14 @@ const GameScreen = () => {
     bigOneWinsSmallZole,
     computerPerformAction,
   } = useSelector((state) => state.Round);
-
   const players = useSelector((state) => state.Players);
   const { askingCard, moveTurn } = useSelector((state) => state.Move);
   const moveCards = useSelector((state) => state.MoveCards);
-
   const bigStack = useSelector((state) => state.BigStack);
   const smallStack = useSelector((state) => state.SmallStack);
-
   const { smallTrickCount, bigTrickCount } = useSelector(
     (state) => state.Tricks
   );
-
   const table = useSelector((state) => state.Table);
 
   const [showChooseBigPrompt, setShowChooseBigPrompt] = useState(false);
@@ -166,14 +155,12 @@ const GameScreen = () => {
 
   useEffect(() => {
     if (initializeRound) {
-      // console.log("Initializing the game");
       if (Object.values(players).length > 0) {
         // Deal cards
         const deck = createDeck(Cards);
         const hands = dealCards(deck, 3);
 
-        // Set player hands in state <= put in function later
-
+        // Set player hands in state
         const playersArr = Object.entries(players);
 
         for (let i = 0; i < playersArr.length; i++) {
