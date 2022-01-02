@@ -11,9 +11,9 @@ import "./PromptBury.scss";
 const PromptBury = ({ setShowBuryCardsPrompt }) => {
   const dispatch = useDispatch();
 
+  const activePlayer = useSelector((state) => state.ActivePlayer);
   const { startingSeat } = useSelector((state) => state.Session);
   const { currentSeat } = useSelector((state) => state.Round);
-
   const { buryingCardsPhase } = useSelector((state) => state.RoundPhase);
 
   const playerName = useSelector(
@@ -42,11 +42,15 @@ const PromptBury = ({ setShowBuryCardsPrompt }) => {
   }, [playerHand, buryingCardsPhase]);
 
   return (
-    <div className="promptBuryCards">
-      <h3>{`Bury ${playerHand.length - 8} card${
-        playerHand.length - 8 === 2 ? "s" : ""
-      }, ${playerName ? playerName : null}`}</h3>
-    </div>
+    <>
+      {!activePlayer.isComputer ? (
+        <div className="promptBuryCards">
+          <h3>{`Bury ${playerHand.length - 8} card${
+            playerHand.length - 8 === 2 ? "s" : ""
+          }, ${playerName ? playerName : null}`}</h3>
+        </div>
+      ) : null}
+    </>
   );
 };
 

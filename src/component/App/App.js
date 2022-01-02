@@ -1,7 +1,7 @@
 import "./App.scss";
 import React from "react";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Using Browser Router causes some problems with webpack that should be resolved https://coderedirect.com/questions/214973/why-is-react-webpack-production-build-showing-blank-page
 import MainMenu from "../../route/MainMenu/MainMenu";
 import Session from "../../route/Session/Session";
@@ -13,8 +13,8 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="/" element={<MainMenu />} />
-          <Route path="/session" element={<Session />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route exact path="/session" element={<Session />} />
+          <Route exact path="/settings" element={<Settings />} />
         </Routes>
       </Router>
     </div>

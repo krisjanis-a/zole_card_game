@@ -28,34 +28,19 @@ import { clearTable } from "../../store/TableCards/Table.action";
 const PromptBig = ({ setShowChooseBigPrompt }) => {
   const dispatch = useDispatch();
 
+  const activePlayer = useSelector((state) => state.ActivePlayer);
   const { startingSeat } = useSelector((state) => state.Session);
-
   const { normalMode, tableMode, smallZoleMode } = useSelector(
     (state) => state.SessionMode
   );
   const table = useSelector((state) => state.Table);
-  const players = useSelector((state) => state.Players);
-
-  const { currentSeat, chooseBigTurn, allPlayersPassed } = useSelector(
+  const { chooseBigTurn, allPlayersPassed } = useSelector(
     (state) => state.Round
   );
 
-  const [player, setPlayer] = useState();
-
-  const playerObj = Object.values(players).filter(
-    (player) => player.seatNumber === currentSeat
-  );
-
-  // Set player
-  useEffect(() => {
-    setPlayer(...playerObj);
-  }, [playerObj]);
-
-  // Set game mode
-
   // PLAY ZOLE
   const handlePlayZole = () => {
-    dispatch(setBig(player.name, true));
+    dispatch(setBig(activePlayer.name, true));
     dispatch(setPlayZole(true));
     dispatch(addTableToSmallStack(table));
     dispatch(clearTable());
@@ -68,8 +53,8 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
 
   // PICK TABLE
   const handlePickTable = () => {
-    dispatch(setBig(player.name, true));
-    dispatch(addTableToPlayerHand(player.name, table));
+    dispatch(setBig(activePlayer.name, true));
+    dispatch(addTableToPlayerHand(activePlayer.name, table));
     dispatch(clearTable());
 
     setShowChooseBigPrompt(false);
@@ -79,7 +64,7 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
 
   // PLAY SMALL ZOLE
   const handlePlaySmallZole = () => {
-    dispatch(setBig(player.name, true));
+    dispatch(setBig(activePlayer.name, true));
     dispatch(setPlaySmallZole(true));
 
     setShowChooseBigPrompt(false);
@@ -98,32 +83,44 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
 
   return (
     <div className="chooseBigPrompt">
-      {player && !allPlayersPassed ? (
+      {!allPlayersPassed ? (
         <>
-          <h4>{`${player ? player.name : null}, what is your decision?`}</h4>
+          {!activePlayer.isComputer ? (
+            <>
+              <h4>{`${
+                activePlayer ? activePlayer.name : null
+              }, what is your decision?`}</h4>
 
-          <Button
-            buttonName="Play Zole"
-            type="secondary"
-            onClick={handlePlayZole}
-          />
-          <Button
-            buttonName="Pick Table"
-            type="secondary"
-            onClick={handlePickTable}
-          />
-          {smallZoleMode ? (
-            <Button
-              buttonName="Small Zole"
-              type="secondary"
-              onClick={handlePlaySmallZole}
-            />
-          ) : null}
-          <Button
-            buttonName="Pass"
-            type="secondary"
-            onClick={chooseBigTurnUpdate}
-          />
+              <Button
+                buttonName="Play Zole"
+                type="secondary"
+                onClick={handlePlayZole}
+              />
+              <Button
+                buttonName="Pick Table"
+                type="secondary"
+                onClick={handlePickTable}
+              />
+              {smallZoleMode ? (
+                <Button
+                  buttonName="Small Zole"
+                  type="secondary"
+                  onClick={handlePlaySmallZole}
+                />
+              ) : null}
+              <Button
+                buttonName="Pass"
+                type="secondary"
+                onClick={chooseBigTurnUpdate}
+              />
+            </>
+          ) : (
+            <>
+              <h4>{`${
+                activePlayer ? activePlayer.name : null
+              } is choosing`}</h4>
+            </>
+          )}
         </>
       ) : null}
       {allPlayersPassed && normalMode ? (
