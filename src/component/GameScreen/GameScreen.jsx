@@ -71,6 +71,7 @@ import resetRound from "../../utils/resetRoundGS";
 import addWinningCardsToStack from "../../utils/addWinningCardsToStack";
 import setupNextMove from "../../utils/setupNextMove";
 import performRoundInitialization from "../../utils/performRoundInitialization";
+import performSessionInitialization from "../../utils/performSessionInitialization";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -119,32 +120,7 @@ const GameScreen = () => {
   //! SESSION INITIALIZATION
 
   useEffect(() => {
-    // Initialize players
-
-    const player1 = new Player();
-    const player2 = new Player();
-    const player3 = new Player();
-
-    // Set players names, seat numbers etc.
-    player1.setName("Arnold");
-    player2.setName("Bob");
-    player3.setName("Cornelius");
-
-    player2.setIsComputer(true);
-    player3.setIsComputer(true);
-
-    dispatch(setPlayerNames([player1.name, player2.name, player3.name]));
-
-    player1.setSeat(1);
-    player2.setSeat(2);
-    player3.setSeat(3);
-
-    // Add players to state
-    dispatch(addPlayer(player1));
-    dispatch(addPlayer(player2));
-    dispatch(addPlayer(player3));
-
-    dispatch(setShouldInitializeRound(true));
+    performSessionInitialization(dispatch, ["Arnold", "Bob", "Carl"]);
   }, []);
 
   //=======================================================================================
@@ -247,6 +223,7 @@ const GameScreen = () => {
         playSmallZole,
         tableMode
       );
+
       setupNextMove(dispatch, winningCard, players, playSmallZole);
     }
   }, [moveCards.length]);
@@ -356,7 +333,6 @@ const GameScreen = () => {
 
             dispatch(setComputerPerformAction(false));
           }, decisionTime);
-          // return;
         }
         // ---
 
@@ -374,7 +350,6 @@ const GameScreen = () => {
 
             dispatch(setComputerPerformAction(false));
           }, decisionTime);
-          // return;
         }
         // ---
 
@@ -383,7 +358,6 @@ const GameScreen = () => {
           setTimeout(() => {
             //    - Get valid card choices
             //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
-            console.log("point 1");
             const card = chooseMoveCard(
               activePlayer.hand,
               askingCard,
@@ -393,7 +367,6 @@ const GameScreen = () => {
 
             //    - Add card to move cards
             if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
-              console.log("point 2");
               if (moveTurn === 1) {
                 dispatch(setAskingCard(card));
               }
@@ -405,7 +378,6 @@ const GameScreen = () => {
             }
             dispatch(setComputerPerformAction(false));
           }, decisionTime);
-          // return;
         }
 
         dispatch(setComputerPerformAction(false));
