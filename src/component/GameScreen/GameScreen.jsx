@@ -10,11 +10,6 @@ import MoveCards from "../MoveCards/MoveCards";
 import BigOneCards from "../BigOneCards/BigOneCards";
 import SmallOnesCards from "../SmallOnesCards/SmallOnesCards";
 
-// Engine functionality
-import Player from "../../models/Player";
-import Cards from "../../data/Cards";
-import getWinningCard from "../../utils/getWinningCard";
-
 // Prompts / Information displays
 import PromptBig from "../PromptBig/PromptBig";
 import PromptBury from "../PromptBury/PromptBury";
@@ -27,21 +22,17 @@ import { addCollectiveDue } from "../../store/DuesCollective/DuesCollective.acti
 import { nextMoveTurn, setAskingCard } from "../../store/Move/Move.action";
 import { addMoveCard } from "../../store/MoveCards/MoveCards.action";
 import {
-  addPlayer,
   addTableToPlayerHand,
   removeCardFromHand,
   setBig,
-  setPlayerHand,
 } from "../../store/Players/Players.action";
 import {
   nextSeat,
   setAllPlayersPassed,
   setChooseBigTurn,
   setComputerPerformAction,
-  setCurrentSeatToStartingSeat,
   setRoundFinished,
   setRoundRunning,
-  setShouldInitializeRound,
 } from "../../store/Round/Round.actions";
 import {
   setBuryingPhase,
@@ -56,9 +47,8 @@ import { updateScoreboard } from "../../store/Scoreboard/Scoreboard.action";
 import {
   addRoundPlayed,
   nextStartingSeat,
-  setPlayerNames,
 } from "../../store/Session/Session.action";
-import { clearTable, setTable } from "../../store/TableCards/Table.action";
+import { clearTable } from "../../store/TableCards/Table.action";
 
 // Util functions
 import getRoundResult from "../../utils/getRoundResults";
@@ -72,6 +62,7 @@ import addWinningCardsToStack from "../../utils/addWinningCardsToStack";
 import setupNextMove from "../../utils/setupNextMove";
 import performRoundInitialization from "../../utils/performRoundInitialization";
 import performSessionInitialization from "../../utils/performSessionInitialization";
+import getWinningCard from "../../utils/getWinningCard";
 
 const GameScreen = () => {
   const dispatch = useDispatch();

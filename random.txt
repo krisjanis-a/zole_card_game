@@ -145,3 +145,9 @@ How to manage game flow / action flow?
     -) In each phase players can perform an action which changes the state of the app
     -) 
 
+When active player is real player everything can be controlled by changing state.
+
+When computer player is active player there needs to be a delay to simulate a real person making decissions.
+
+The problem is managing code so delays do not cause state changes before previous necessary state changes have been made.
+

@@ -13,43 +13,32 @@ const PromptBury = ({ setShowBuryCardsPrompt }) => {
 
   const activePlayer = useSelector((state) => state.ActivePlayer);
   const { startingSeat } = useSelector((state) => state.Session);
-  const { currentSeat } = useSelector((state) => state.Round);
   const { buryingCardsPhase } = useSelector((state) => state.RoundPhase);
 
-  const playerName = useSelector(
-    (state) =>
-      Object.values(state.Players).filter(
-        (player) => player.seatNumber === currentSeat
-      )[0].name
-  );
-
-  const playerHand = useSelector(
-    (state) =>
-      Object.values(state.Players).filter(
-        (player) => player.seatNumber === currentSeat
-      )[0].hand
-  );
-
   useEffect(() => {
-    if (playerHand) {
-      if (playerHand.length === 8) {
+    if (activePlayer.hand) {
+      if (activePlayer.hand.length === 8) {
         dispatch(setBuryingPhase(false));
         dispatch(setMakingMovesPhase(true));
         dispatch(setCurrentSeatToStartingSeat(startingSeat));
         setShowBuryCardsPrompt(false);
       }
     }
-  }, [playerHand, buryingCardsPhase]);
+  }, [activePlayer.hand, buryingCardsPhase]);
 
   return (
     <>
       {!activePlayer.isComputer ? (
         <div className="promptBuryCards">
-          <h3>{`Bury ${playerHand.length - 8} card${
-            playerHand.length - 8 === 2 ? "s" : ""
-          }, ${playerName ? playerName : null}`}</h3>
+          <h3>{`Bury ${activePlayer.hand.length - 8} card${
+            activePlayer.hand.length - 8 === 2 ? "s" : ""
+          }, ${activePlayer.name ? activePlayer.name : null}`}</h3>
         </div>
-      ) : null}
+      ) : (
+        <div className="promptBuryCards">
+          <h3>{`${activePlayer.name} burying cards`}</h3>
+        </div>
+      )}
     </>
   );
 };

@@ -8,6 +8,7 @@ const getInitialState = () => ({
   allPlayersPassed: false,
   bigOneWinsSmallZole: false, // in case small zole is played & big one wins
   computerPerformAction: false, // determines whether computer should be performing an action
+  actionExecuting: false, // determines whether action is being performed
 });
 
 export default (state = getInitialState(), action) => {
