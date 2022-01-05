@@ -1,0 +1,16 @@
+|===================================================|
+                    BUGS
+|===================================================|
+
+Problems related to making moves phase (the following bugs might be inter-related => fixing one might fix another e.g.)
+
+- after all players have placed the move cards, the current seat or move turn jumps to next seat and breaks the flow of game 
+    => (wrong player is set to make move card decision and this lead to other problems)
+
+- next move begins executing before previous is finalized
+    => probably related to action dispatching outside of NPC delay timeouts
+
+- if NPC player made last move and had winning card then it doesn't perform next move action & gets stuck
+
+- in some cases player is skipped and NPC adds two cards to move cards in one move, setAskingCard gets executed
+    => this happened when the player had to make a move, but game jumped to NPC making move instead

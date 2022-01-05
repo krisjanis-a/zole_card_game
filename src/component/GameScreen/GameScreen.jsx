@@ -206,15 +206,17 @@ const GameScreen = () => {
         dispatch(setResultsPhase(true));
       }
 
-      setupNextMove(
-        dispatch,
-        winningCard,
-        players,
-        playSmallZole,
-        moveCards,
-        playTable,
-        tableMode
-      );
+      setTimeout(() => {
+        setupNextMove(
+          dispatch,
+          winningCard,
+          players,
+          playSmallZole,
+          moveCards,
+          playTable,
+          tableMode
+        );
+      }, 1500);
     }
   }, [moveCards.length]);
 
@@ -300,21 +302,22 @@ const GameScreen = () => {
       // Random decision time for computer (in miliseconds)
       const decisionTime = 1000 + Math.random() * 1000;
 
-      // console.log(`Decision time: ${decisionTime}`);
+      console.log(`Decision time: ${decisionTime}`);
 
       // If active player is computer
       if (activePlayer.isComputer) {
         // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
         if (choosingBigPhase) {
-          // console.log(`Current phase ${currentPhase}`);
-          // console.log(`Computer player ${activePlayer.name} choosing big`);
+          console.log(`Current phase ${currentPhase}`);
+          console.log(`Computer player ${activePlayer.name} choosing big`);
+
           setTimeout(() => {
             const becomeBig = decideBecomeBig(activePlayer.hand);
-            // console.log(
-            //   `${activePlayer.name} decided ${
-            //     becomeBig ? "to become big" : "to pass"
-            //   }`
-            // );
+            console.log(
+              `${activePlayer.name} decided ${
+                becomeBig ? "to become big" : "to pass"
+              }`
+            );
 
             if (becomeBig) {
               // Set big and add table to hand
@@ -337,10 +340,10 @@ const GameScreen = () => {
 
         // If pick table, decide which cards to bury.
         if (buryingCardsPhase) {
-          // console.log(`Current phase ${currentPhase}`);
-          // if (activePlayer.big) {
-          //   console.log(`${activePlayer.name} choosing cards to bury`);
-          // }
+          console.log(`Current phase ${currentPhase}`);
+          if (activePlayer.big) {
+            console.log(`${activePlayer.name} choosing cards to bury`);
+          }
 
           setTimeout(() => {
             if (activePlayer.big) {
@@ -357,8 +360,8 @@ const GameScreen = () => {
 
         // If make moves phase =>
         if (makingMovesPhase) {
-          // console.log(`Current phase ${currentPhase}`);
-          // console.log(`${activePlayer.name} choosing move cards`);
+          console.log(`Current phase ${currentPhase}`);
+          console.log(`${activePlayer.name} choosing move cards`);
           setTimeout(() => {
             //    - Get valid card choices
             //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
@@ -369,7 +372,7 @@ const GameScreen = () => {
               activePlayer
             );
 
-            // console.log(`${activePlayer.name} chose move card ${card.name}`);
+            console.log(`${activePlayer.name} chose move card ${card.name}`);
 
             //    - Add card to move cards
             if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
@@ -388,7 +391,7 @@ const GameScreen = () => {
         }
       }
     }
-  }, [activePlayer, computerPerformAction, currentPhase]);
+  }, [activePlayer, computerPerformAction, currentPhase, moveTurn]);
 
   //=======================================================================================
 
