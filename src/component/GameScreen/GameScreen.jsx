@@ -206,16 +206,15 @@ const GameScreen = () => {
         dispatch(setResultsPhase(true));
       }
 
-      addWinningCardsToStack(
+      setupNextMove(
         dispatch,
-        winningCard.owner,
+        winningCard,
+        players,
+        playSmallZole,
         moveCards,
         playTable,
-        playSmallZole,
         tableMode
       );
-
-      setupNextMove(dispatch, winningCard, players, playSmallZole);
     }
   }, [moveCards.length]);
 
@@ -300,8 +299,6 @@ const GameScreen = () => {
     if (computerPerformAction) {
       // Random decision time for computer (in miliseconds)
       const decisionTime = 1000 + Math.random() * 1000;
-      // Makes sure only one computer action performed (will it works...?)
-      // dispatch(setComputerPerformAction(false));
 
       // console.log(`Decision time: ${decisionTime}`);
 
@@ -334,8 +331,6 @@ const GameScreen = () => {
                 dispatch(setChooseBigTurn(chooseBigTurn + 1));
               }
             }
-
-            // dispatch(setComputerPerformAction(false));
           }, decisionTime);
         }
         // ---
@@ -356,8 +351,6 @@ const GameScreen = () => {
                 dispatch(removeCardFromHand(activePlayer.name, card.id));
               });
             }
-
-            // dispatch(setComputerPerformAction(false));
           }, decisionTime);
         }
         // ---
@@ -391,12 +384,8 @@ const GameScreen = () => {
                 dispatch(nextMoveTurn());
               }
             }
-
-            // dispatch(setComputerPerformAction(false));
           }, decisionTime);
         }
-
-        // dispatch(setComputerPerformAction(false));
       }
     }
   }, [activePlayer, computerPerformAction, currentPhase]);

@@ -5,7 +5,23 @@ import { addMoveCount, setCurrentSeat } from "../store/Round/Round.actions";
 import checkIfMovesLeft from "./checkIfMovesLeft";
 
 // Setup next move
-const setupNextMove = (dispatch, winningCard, players, playSmallZole) => {
+const setupNextMove = (
+  dispatch,
+  winningCard,
+  players,
+  playSmallZole,
+  moveCards,
+  playTable,
+  tableMode
+) => {
+  addWinningCardsToStack(
+    dispatch,
+    winningCard.owner,
+    moveCards,
+    playTable,
+    playSmallZole,
+    tableMode
+  );
   dispatch(resetMoveCards());
   dispatch(addMoveCount());
   dispatch(setAskingCard(null));
