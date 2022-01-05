@@ -227,7 +227,6 @@ const GameScreen = () => {
 
         setTimeout(() => {
           dispatch(setChoosingBigPhase(false));
-          dispatch(setMakingMovesPhase(true));
 
           if (normalMode) {
             dispatch(setRoundFinished(true));
@@ -239,6 +238,7 @@ const GameScreen = () => {
           }
 
           if (tableMode) {
+            dispatch(setMakingMovesPhase(true));
             dispatch(setPlayTable(true));
           }
         }, 1500);
@@ -285,26 +285,39 @@ const GameScreen = () => {
 
   //! COMPUTER PLAYER LOGIC
 
-  // Check if active player is computer => if yes, set computer perform action to true
+  // Check if active player is computer => if yes, set computer perform action to true, if not - false
   useEffect(() => {
     if (activePlayer.isComputer) {
       dispatch(setComputerPerformAction(true));
     }
-  }, [activePlayer, currentPhase]);
+    if (!activePlayer.isComputer) {
+      dispatch(setComputerPerformAction(false));
+    }
+  }, [activePlayer]);
 
   // Execute computer action
   useEffect(() => {
     if (computerPerformAction) {
       // Random decision time for computer (in miliseconds)
-      const decisionTime = 1000 + Math.random() * 1;
+      const decisionTime = 1000 + Math.random() * 1000;
+      // Makes sure only one computer action performed (will it works...?)
+      // dispatch(setComputerPerformAction(false));
+
+      // console.log(`Decision time: ${decisionTime}`);
 
       // If active player is computer
       if (activePlayer.isComputer) {
         // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
-
         if (choosingBigPhase) {
+          // console.log(`Current phase ${currentPhase}`);
+          // console.log(`Computer player ${activePlayer.name} choosing big`);
           setTimeout(() => {
             const becomeBig = decideBecomeBig(activePlayer.hand);
+            // console.log(
+            //   `${activePlayer.name} decided ${
+            //     becomeBig ? "to become big" : "to pass"
+            //   }`
+            // );
 
             if (becomeBig) {
               // Set big and add table to hand
@@ -322,13 +335,18 @@ const GameScreen = () => {
               }
             }
 
-            dispatch(setComputerPerformAction(false));
+            // dispatch(setComputerPerformAction(false));
           }, decisionTime);
         }
         // ---
 
         // If pick table, decide which cards to bury.
         if (buryingCardsPhase) {
+          // console.log(`Current phase ${currentPhase}`);
+          // if (activePlayer.big) {
+          //   console.log(`${activePlayer.name} choosing cards to bury`);
+          // }
+
           setTimeout(() => {
             if (activePlayer.big) {
               const buryCards = decideCardsToBury(activePlayer.hand);
@@ -339,13 +357,15 @@ const GameScreen = () => {
               });
             }
 
-            dispatch(setComputerPerformAction(false));
+            // dispatch(setComputerPerformAction(false));
           }, decisionTime);
         }
         // ---
 
         // If make moves phase =>
         if (makingMovesPhase) {
+          // console.log(`Current phase ${currentPhase}`);
+          // console.log(`${activePlayer.name} choosing move cards`);
           setTimeout(() => {
             //    - Get valid card choices
             //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
@@ -356,6 +376,8 @@ const GameScreen = () => {
               activePlayer
             );
 
+            // console.log(`${activePlayer.name} chose move card ${card.name}`);
+
             //    - Add card to move cards
             if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
               if (moveTurn === 1) {
@@ -364,17 +386,20 @@ const GameScreen = () => {
               dispatch(addMoveCard(card, activePlayer));
               dispatch(removeCardFromHand(activePlayer.name, card.id));
 
-              dispatch(nextSeat());
-              dispatch(nextMoveTurn());
+              if (moveTurn < 3) {
+                dispatch(nextSeat());
+                dispatch(nextMoveTurn());
+              }
             }
-            dispatch(setComputerPerformAction(false));
+
+            // dispatch(setComputerPerformAction(false));
           }, decisionTime);
         }
 
-        dispatch(setComputerPerformAction(false));
+        // dispatch(setComputerPerformAction(false));
       }
     }
-  }, [computerPerformAction]);
+  }, [activePlayer, computerPerformAction, currentPhase]);
 
   //=======================================================================================
 

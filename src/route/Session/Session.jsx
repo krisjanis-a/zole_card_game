@@ -47,6 +47,7 @@ import { resetBigStack } from "../../store/BigStack/BigStack.action";
 const Session = () => {
   const dispatch = useDispatch();
 
+  const activePlayer = useSelector((state) => state.ActivePlayer);
   const { startingSeat } = useSelector((state) => state.Session);
   const players = useSelector((state) => state.Players);
   const gamePhase = useSelector((state) => state.RoundPhase.currentPhase);
@@ -94,7 +95,7 @@ const Session = () => {
     dispatch(setCurrentSeatToStartingSeat(startingSeat));
     dispatch(setChooseBigTurn(null));
     dispatch(setBigWinsSmallZole(false));
-    dispatch(setComputerPerformAction(false));
+    dispatch(setComputerPerformAction(activePlayer.isComputer));
 
     // Reset round phase, score & type
     dispatch(resetRoundPhase());
