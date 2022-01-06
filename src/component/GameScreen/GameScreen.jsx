@@ -19,7 +19,11 @@ import GameResult from "../GameResult/GameResult";
 import { setActivePlayer } from "../../store/ActivePlayer/ActivePlayer.action";
 import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
 import { addCollectiveDue } from "../../store/DuesCollective/DuesCollective.action";
-import { nextMoveTurn, setAskingCard } from "../../store/Move/Move.action";
+import {
+  nextMoveTurn,
+  setAskingCard,
+  setMoveInProcess,
+} from "../../store/Move/Move.action";
 import { addMoveCard } from "../../store/MoveCards/MoveCards.action";
 import {
   addTableToPlayerHand,
@@ -93,7 +97,9 @@ const GameScreen = () => {
     computerPerformAction,
   } = useSelector((state) => state.Round);
   const players = useSelector((state) => state.Players);
-  const { askingCard, moveTurn } = useSelector((state) => state.Move);
+  const { askingCard, moveTurn, moveInProcess } = useSelector(
+    (state) => state.Move
+  );
   const moveCards = useSelector((state) => state.MoveCards);
   const bigStack = useSelector((state) => state.BigStack);
   const smallStack = useSelector((state) => state.SmallStack);
@@ -143,6 +149,9 @@ const GameScreen = () => {
     }
     if (makingMovesPhase) {
       dispatch(setRoundPhase("MAKING_MOVES"));
+      if (moveInProcess === false) {
+        dispatch(setMoveInProcess(true));
+      }
     }
     if (resultsPhase) {
       dispatch(setRoundPhase("RESULTS"));
@@ -196,30 +205,6 @@ const GameScreen = () => {
     }
   }, [currentSeat, roundRunning]);
 
-  // Finalize move
-  useEffect(() => {
-    if (moveCards.length === 3) {
-      const winningCard = getWinningCard(moveCards);
-
-      if (smallZoleMode && playSmallZole && winningCard.owner.big) {
-        dispatch(setMakingMovesPhase(false));
-        dispatch(setResultsPhase(true));
-      }
-
-      setTimeout(() => {
-        setupNextMove(
-          dispatch,
-          winningCard,
-          players,
-          playSmallZole,
-          moveCards,
-          playTable,
-          tableMode
-        );
-      }, 1500);
-    }
-  }, [moveCards.length]);
-
   // Check if all players passed in choosing big
   useEffect(() => {
     if (choosingBigPhase) {
@@ -246,6 +231,36 @@ const GameScreen = () => {
       }
     }
   }, [chooseBigTurn]);
+
+  // Finalize move
+  useEffect(() => {
+    if (moveTurn === 3 && moveCards.length === 3) {
+      dispatch(setMoveInProcess(false));
+      const winningCard = getWinningCard(moveCards);
+
+      console.log("Finalizing move");
+      console.log(
+        `Winner: ${winningCard.owner.name}, winning card: ${winningCard.card.name}`
+      );
+
+      if (smallZoleMode && playSmallZole && winningCard.owner.big) {
+        dispatch(setMakingMovesPhase(false));
+        dispatch(setResultsPhase(true));
+      }
+
+      setTimeout(() => {
+        setupNextMove(
+          dispatch,
+          winningCard,
+          players,
+          playSmallZole,
+          moveCards,
+          playTable,
+          tableMode
+        );
+      }, 1500);
+    }
+  }, [moveTurn, moveCards.length]);
 
   //=======================================================================================
 
@@ -383,31 +398,40 @@ const GameScreen = () => {
 
   // Execute computer action
   useEffect(() => {
-    if (computerPerformAction) {
+    // If active player is computer and should perform action
+    if (activePlayer.isComputer && computerPerformAction) {
       // Random decision time for computer (in miliseconds)
       const decisionTime = 1000 + Math.random() * 1000;
 
+      console.log("|=|=|=|=|=|=|=|=|=|=|=|");
       console.log(`Decision time: ${decisionTime}`);
+      console.log(`Move in process: ${moveInProcess}`);
+      console.log(
+        `Active player: ${activePlayer.name}, pc perform action: ${computerPerformAction}`
+      );
 
-      // If active player is computer
-      if (activePlayer.isComputer) {
-        // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
-        if (choosingBigPhase) {
-          computerChooseBig(decisionTime);
-        }
-        // ---
-        // If pick table, decide which cards to bury.
-        if (buryingCardsPhase) {
-          computerBuryCards(decisionTime);
-        }
-        // ---
-        // If make moves phase =>
-        if (makingMovesPhase) {
-          computerMakeMove(decisionTime);
-        }
+      // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
+      if (choosingBigPhase) {
+        computerChooseBig(decisionTime);
+      }
+      // ---
+      // If pick table, decide which cards to bury.
+      if (buryingCardsPhase) {
+        computerBuryCards(decisionTime);
+      }
+      // ---
+      // If make moves phase =>
+      if (makingMovesPhase && moveInProcess) {
+        computerMakeMove(decisionTime);
       }
     }
-  }, [activePlayer, computerPerformAction, currentPhase, moveTurn]);
+  }, [
+    activePlayer,
+    computerPerformAction,
+    currentPhase,
+    moveTurn,
+    moveInProcess,
+  ]);
 
   //=======================================================================================
 

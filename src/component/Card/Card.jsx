@@ -78,11 +78,10 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
 
     if (makingMovesPhase && active) {
       addCardToMoveCard();
-      dispatch(nextSeat());
-      dispatch(nextMoveTurn());
     }
   };
 
+  //TODO This should be turned into a separate function because it is used in computer logic as well (DRY)
   const addCardToMoveCard = () => {
     if (moveCards.every((moveCard) => moveCard.id !== cardId)) {
       if (moveTurn === 1) {
@@ -90,6 +89,11 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
       }
       dispatch(addMoveCard(card, owner));
       dispatch(removeCardFromHand(owner.name, cardId));
+
+      if (moveTurn < 3) {
+        dispatch(nextSeat());
+        dispatch(nextMoveTurn());
+      }
     }
   };
 

@@ -1,4 +1,8 @@
-import { nextMoveTurn, setAskingCard } from "../store/Move/Move.action";
+import {
+  nextMoveTurn,
+  setAskingCard,
+  setMoveInProcess,
+} from "../store/Move/Move.action";
 import { resetMoveCards } from "../store/MoveCards/MoveCards.action";
 import { addMoveCount, setCurrentSeat } from "../store/Round/Round.actions";
 import addWinningCardsToStack from "./addWinningCardsToStack";
@@ -25,9 +29,11 @@ const setupNextMove = (
   dispatch(resetMoveCards());
   dispatch(addMoveCount());
   dispatch(setAskingCard(null));
-  dispatch(setCurrentSeat(winningCard.owner.seatNumber));
-  dispatch(nextMoveTurn());
   checkIfMovesLeft(dispatch, players, playSmallZole);
+  dispatch(nextMoveTurn());
+  dispatch(setCurrentSeat(winningCard.owner.seatNumber));
+  dispatch(setMoveInProcess(true));
+  console.log("Next move setup");
 };
 
 export default setupNextMove;

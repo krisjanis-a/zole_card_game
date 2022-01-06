@@ -5,7 +5,7 @@
 Problems related to making moves phase (the following bugs might be inter-related => fixing one might fix another e.g.)
 
 - after all players have placed the move cards, the current seat or move turn jumps to next seat and breaks the flow of game 
-    => (wrong player is set to make move card decision and this lead to other problems)
+    => (wrong player is set to make move card decision and this leads to other problems)
 
 - next move begins executing before previous is finalized
     => probably related to action dispatching outside of NPC delay timeouts
@@ -14,3 +14,8 @@ Problems related to making moves phase (the following bugs might be inter-relate
 
 - in some cases player is skipped and NPC adds two cards to move cards in one move, setAskingCard gets executed
     => this happened when the player had to make a move, but game jumped to NPC making move instead
+
+- after real player picks up trick
+    => setupNextMove executes, then active player is set and computerPerformAction is set to false, but afterwards immediately asking card is set
+
+- after real player picks up trick, the move finalization lags (move cards are not removed), computer players start playing next move 
