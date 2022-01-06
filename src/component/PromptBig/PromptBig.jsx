@@ -75,10 +75,13 @@ const PromptBig = ({ setShowChooseBigPrompt }) => {
 
   // PASS
   const chooseBigTurnUpdate = () => {
-    if (chooseBigTurn < 4) {
+    if (chooseBigTurn < 3) {
+      dispatch(nextSeat());
       dispatch(setChooseBigTurn(chooseBigTurn + 1));
     }
-    dispatch(nextSeat());
+    if (chooseBigTurn === 3) {
+      dispatch(setChooseBigTurn(chooseBigTurn + 1));
+    }
   };
 
   return (

@@ -319,8 +319,11 @@ const GameScreen = () => {
       }
 
       if (!becomeBig) {
-        if (chooseBigTurn < 4) {
+        if (chooseBigTurn < 3) {
           dispatch(nextSeat());
+          dispatch(setChooseBigTurn(chooseBigTurn + 1));
+        }
+        if (chooseBigTurn === 3) {
           dispatch(setChooseBigTurn(chooseBigTurn + 1));
         }
       }
