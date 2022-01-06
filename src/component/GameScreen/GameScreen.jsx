@@ -296,6 +296,88 @@ const GameScreen = () => {
     }
   }, [activePlayer]);
 
+  // Computer choose big
+  const computerChooseBig = (decisionTime) => {
+    console.log(`Current phase ${currentPhase}`);
+    console.log(`Computer player ${activePlayer.name} choosing big`);
+
+    setTimeout(() => {
+      const becomeBig = decideBecomeBig(activePlayer.hand);
+      console.log(
+        `${activePlayer.name} decided ${
+          becomeBig ? "to become big" : "to pass"
+        }`
+      );
+
+      if (becomeBig) {
+        // Set big and add table to hand
+        dispatch(setBig(activePlayer.name, true));
+        dispatch(addTableToPlayerHand(activePlayer.name, table));
+        dispatch(clearTable());
+        dispatch(setChoosingBigPhase(false));
+        dispatch(setBuryingPhase(true));
+      }
+
+      if (!becomeBig) {
+        if (chooseBigTurn < 4) {
+          dispatch(nextSeat());
+          dispatch(setChooseBigTurn(chooseBigTurn + 1));
+        }
+      }
+    }, decisionTime);
+  };
+
+  // Computer bury cards
+  const computerBuryCards = (decisionTime) => {
+    console.log(`Current phase ${currentPhase}`);
+    if (activePlayer.big) {
+      console.log(`${activePlayer.name} choosing cards to bury`);
+    }
+
+    setTimeout(() => {
+      if (activePlayer.big) {
+        const buryCards = decideCardsToBury(activePlayer.hand);
+
+        buryCards.forEach((card) => {
+          dispatch(addCardToBigStack(card));
+          dispatch(removeCardFromHand(activePlayer.name, card.id));
+        });
+      }
+    }, decisionTime);
+  };
+
+  // Computer make move
+  const computerMakeMove = (decisionTime) => {
+    console.log(`Current phase ${currentPhase}`);
+    console.log(`${activePlayer.name} choosing move cards`);
+    setTimeout(() => {
+      //    - Get valid card choices
+      //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
+      const card = chooseMoveCard(
+        activePlayer.hand,
+        askingCard,
+        moveCards,
+        activePlayer
+      );
+
+      console.log(`${activePlayer.name} chose move card ${card.name}`);
+
+      //    - Add card to move cards
+      if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
+        if (moveTurn === 1) {
+          dispatch(setAskingCard(card));
+        }
+        dispatch(addMoveCard(card, activePlayer));
+        dispatch(removeCardFromHand(activePlayer.name, card.id));
+
+        if (moveTurn < 3) {
+          dispatch(nextSeat());
+          dispatch(nextMoveTurn());
+        }
+      }
+    }, decisionTime);
+  };
+
   // Execute computer action
   useEffect(() => {
     if (computerPerformAction) {
@@ -308,86 +390,17 @@ const GameScreen = () => {
       if (activePlayer.isComputer) {
         // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
         if (choosingBigPhase) {
-          console.log(`Current phase ${currentPhase}`);
-          console.log(`Computer player ${activePlayer.name} choosing big`);
-
-          setTimeout(() => {
-            const becomeBig = decideBecomeBig(activePlayer.hand);
-            console.log(
-              `${activePlayer.name} decided ${
-                becomeBig ? "to become big" : "to pass"
-              }`
-            );
-
-            if (becomeBig) {
-              // Set big and add table to hand
-              dispatch(setBig(activePlayer.name, true));
-              dispatch(addTableToPlayerHand(activePlayer.name, table));
-              dispatch(clearTable());
-              dispatch(setChoosingBigPhase(false));
-              dispatch(setBuryingPhase(true));
-            }
-
-            if (!becomeBig) {
-              if (chooseBigTurn < 4) {
-                dispatch(nextSeat());
-                dispatch(setChooseBigTurn(chooseBigTurn + 1));
-              }
-            }
-          }, decisionTime);
+          computerChooseBig(decisionTime);
         }
         // ---
-
         // If pick table, decide which cards to bury.
         if (buryingCardsPhase) {
-          console.log(`Current phase ${currentPhase}`);
-          if (activePlayer.big) {
-            console.log(`${activePlayer.name} choosing cards to bury`);
-          }
-
-          setTimeout(() => {
-            if (activePlayer.big) {
-              const buryCards = decideCardsToBury(activePlayer.hand);
-
-              buryCards.forEach((card) => {
-                dispatch(addCardToBigStack(card));
-                dispatch(removeCardFromHand(activePlayer.name, card.id));
-              });
-            }
-          }, decisionTime);
+          computerBuryCards(decisionTime);
         }
         // ---
-
         // If make moves phase =>
         if (makingMovesPhase) {
-          console.log(`Current phase ${currentPhase}`);
-          console.log(`${activePlayer.name} choosing move cards`);
-          setTimeout(() => {
-            //    - Get valid card choices
-            //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
-            const card = chooseMoveCard(
-              activePlayer.hand,
-              askingCard,
-              moveCards,
-              activePlayer
-            );
-
-            console.log(`${activePlayer.name} chose move card ${card.name}`);
-
-            //    - Add card to move cards
-            if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
-              if (moveTurn === 1) {
-                dispatch(setAskingCard(card));
-              }
-              dispatch(addMoveCard(card, activePlayer));
-              dispatch(removeCardFromHand(activePlayer.name, card.id));
-
-              if (moveTurn < 3) {
-                dispatch(nextSeat());
-                dispatch(nextMoveTurn());
-              }
-            }
-          }, decisionTime);
+          computerMakeMove(decisionTime);
         }
       }
     }
