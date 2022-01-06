@@ -35,6 +35,7 @@ import {
   setAllPlayersPassed,
   setChooseBigTurn,
   setComputerPerformAction,
+  setCurrentSeatToStartingSeat,
   setRoundFinished,
   setRoundRunning,
 } from "../../store/Round/Round.actions";
@@ -224,6 +225,7 @@ const GameScreen = () => {
           }
 
           if (tableMode) {
+            dispatch(setCurrentSeatToStartingSeat(startingSeat));
             dispatch(setMakingMovesPhase(true));
             dispatch(setPlayTable(true));
           }
@@ -238,6 +240,7 @@ const GameScreen = () => {
       dispatch(setMoveInProcess(false));
       const winningCard = getWinningCard(moveCards);
 
+      console.log("/|\\/|\\/|\\/|\\/|\\/|\\/|\\");
       console.log("Finalizing move");
       console.log(
         `Winner: ${winningCard.owner.name}, winning card: ${winningCard.card.name}`

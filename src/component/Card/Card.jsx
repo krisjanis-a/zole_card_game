@@ -20,7 +20,9 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
     currentPhase,
   } = useSelector((state) => state.RoundPhase);
 
-  const { askingCard, moveTurn } = useSelector((state) => state.Move);
+  const { askingCard, moveTurn, moveInProcess } = useSelector(
+    (state) => state.Move
+  );
   const { currentSeat } = useSelector((state) => state.Round);
 
   const card = cardIdToCard(cardId);
@@ -57,6 +59,12 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
           setActive(false);
           return;
         }
+
+        if (!moveInProcess) {
+          setActive(false);
+          return;
+        }
+
         owner.seatNumber !== currentSeat && setActive(false);
 
         const cardValid = checkIfCardValid(card, askingCard, owner);
@@ -69,7 +77,7 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
         return;
       }
     }
-  }, [currentPhase, currentSeat, askingCard]);
+  }, [currentPhase, currentSeat, askingCard, moveInProcess]);
 
   const handleClick = () => {
     if (buryingCardsPhase && active) {

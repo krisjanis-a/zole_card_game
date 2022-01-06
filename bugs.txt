@@ -19,3 +19,5 @@ Problems related to making moves phase (the following bugs might be inter-relate
     => setupNextMove executes, then active player is set and computerPerformAction is set to false, but afterwards immediately asking card is set
 
 - after real player picks up trick, the move finalization lags (move cards are not removed), computer players start playing next move 
+
+!!! The issues appear to be fixed => cause was card component updating move turn and current seat unconditionally !!!
