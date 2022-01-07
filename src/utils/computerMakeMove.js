@@ -14,8 +14,6 @@ const computerMakeMove = (
   moveCards,
   moveTurn
 ) => {
-  // console.log(`Current phase ${currentPhase}`);
-  // console.log(`${activePlayer.name} choosing move cards`);
   const delayComputerMakeMove = setTimeout(() => {
     //    - Get valid card choices
     //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
@@ -25,8 +23,6 @@ const computerMakeMove = (
       moveCards,
       activePlayer
     );
-
-    // console.log(`${activePlayer.name} chose move card ${card.name}`);
 
     //    - Add card to move cards
     if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
