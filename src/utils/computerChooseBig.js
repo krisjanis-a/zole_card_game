@@ -16,16 +16,8 @@ const computerChooseBig = (
   chooseBigTurn,
   table
 ) => {
-  // console.log(`Current phase ${currentPhase}`);
-  // console.log(`Computer player ${activePlayer.name} choosing big`);
-
   const delayComputerDecideBecomeBig = setTimeout(() => {
     const becomeBig = decideBecomeBig(activePlayer.hand);
-    // console.log(
-    //   `${activePlayer.name} decided ${
-    //     becomeBig ? "to become big" : "to pass"
-    //   }`
-    // );
 
     if (becomeBig) {
       // Set big and add table to hand
