@@ -33,7 +33,6 @@ const setupNextMove = (
   dispatch(nextMoveTurn());
   dispatch(setCurrentSeat(winningCard.owner.seatNumber));
   dispatch(setMoveInProcess(true));
-  console.log("Next move is setup");
 };
 
 export default setupNextMove;
