@@ -43,6 +43,7 @@ import { resetTrickCounts } from "../../store/Tricks/Tricks.action";
 import { resetMoveCards } from "../../store/MoveCards/MoveCards.action";
 import { resetScoreboard } from "../../store/Scoreboard/Scoreboard.action";
 import { resetBigStack } from "../../store/BigStack/BigStack.action";
+import { clearAllTimeouts } from "../../utils/timeoutsOperations";
 
 const Session = () => {
   const dispatch = useDispatch();
@@ -84,6 +85,8 @@ const Session = () => {
     dispatch(resetSmallStack());
     dispatch(resetTableStack());
     dispatch(resetTrickCounts());
+
+    clearAllTimeouts();
   };
 
   const restartRound = () => {
@@ -119,6 +122,8 @@ const Session = () => {
 
     // Initialize new round
     dispatch(setShouldInitializeRound(true));
+
+    clearAllTimeouts();
   };
 
   const toResultPhase = () => {

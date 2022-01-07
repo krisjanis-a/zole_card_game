@@ -63,11 +63,11 @@ import decideCardsToBury from "../../utils/decideCardsToBury";
 import decideBecomeBig from "../../utils/decideBecomeBig";
 import setupNextRound from "../../utils/setupNextRound";
 import resetRound from "../../utils/resetRoundGS";
-import addWinningCardsToStack from "../../utils/addWinningCardsToStack";
 import setupNextMove from "../../utils/setupNextMove";
 import performRoundInitialization from "../../utils/performRoundInitialization";
 import performSessionInitialization from "../../utils/performSessionInitialization";
 import getWinningCard from "../../utils/getWinningCard";
+import { addTimeoutToStorage } from "../../utils/timeoutsOperations";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -212,7 +212,7 @@ const GameScreen = () => {
       if (chooseBigTurn > 3) {
         dispatch(setAllPlayersPassed(true));
 
-        setTimeout(() => {
+        const delayFinalizeChoosingBig = setTimeout(() => {
           dispatch(setChoosingBigPhase(false));
 
           if (normalMode) {
@@ -230,6 +230,7 @@ const GameScreen = () => {
             dispatch(setPlayTable(true));
           }
         }, 1500);
+        addTimeoutToStorage(delayFinalizeChoosingBig);
       }
     }
   }, [chooseBigTurn]);
@@ -251,7 +252,7 @@ const GameScreen = () => {
         dispatch(setResultsPhase(true));
       }
 
-      setTimeout(() => {
+      const delaySetupNextMove = setTimeout(() => {
         setupNextMove(
           dispatch,
           winningCard,
@@ -262,6 +263,7 @@ const GameScreen = () => {
           tableMode
         );
       }, 1500);
+      addTimeoutToStorage(delaySetupNextMove);
     }
   }, [moveTurn, moveCards.length]);
 
@@ -294,9 +296,11 @@ const GameScreen = () => {
       );
       dispatch(updateScoreboard(score));
 
-      setTimeout(() => {
+      const delaySetupNextRound = setTimeout(() => {
         setupNextRound(dispatch, players, startingSeat);
       }, 2000);
+
+      addTimeoutToStorage(delaySetupNextRound);
     }
   }, [roundFinished]);
 
@@ -316,16 +320,16 @@ const GameScreen = () => {
 
   // Computer choose big
   const computerChooseBig = (decisionTime) => {
-    console.log(`Current phase ${currentPhase}`);
-    console.log(`Computer player ${activePlayer.name} choosing big`);
+    // console.log(`Current phase ${currentPhase}`);
+    // console.log(`Computer player ${activePlayer.name} choosing big`);
 
-    setTimeout(() => {
+    const delayComputerDecideBecomeBig = setTimeout(() => {
       const becomeBig = decideBecomeBig(activePlayer.hand);
-      console.log(
-        `${activePlayer.name} decided ${
-          becomeBig ? "to become big" : "to pass"
-        }`
-      );
+      // console.log(
+      //   `${activePlayer.name} decided ${
+      //     becomeBig ? "to become big" : "to pass"
+      //   }`
+      // );
 
       if (becomeBig) {
         // Set big and add table to hand
@@ -346,16 +350,18 @@ const GameScreen = () => {
         }
       }
     }, decisionTime);
+
+    addTimeoutToStorage(delayComputerDecideBecomeBig);
   };
 
   // Computer bury cards
   const computerBuryCards = (decisionTime) => {
-    console.log(`Current phase ${currentPhase}`);
-    if (activePlayer.big) {
-      console.log(`${activePlayer.name} choosing cards to bury`);
-    }
+    // console.log(`Current phase ${currentPhase}`);
+    // if (activePlayer.big) {
+    //   console.log(`${activePlayer.name} choosing cards to bury`);
+    // }
 
-    setTimeout(() => {
+    const delayComputerDecideBuryCards = setTimeout(() => {
       if (activePlayer.big) {
         const buryCards = decideCardsToBury(activePlayer.hand);
 
@@ -365,13 +371,15 @@ const GameScreen = () => {
         });
       }
     }, decisionTime);
+
+    addTimeoutToStorage(delayComputerDecideBuryCards);
   };
 
   // Computer make move
   const computerMakeMove = (decisionTime) => {
-    console.log(`Current phase ${currentPhase}`);
-    console.log(`${activePlayer.name} choosing move cards`);
-    setTimeout(() => {
+    // console.log(`Current phase ${currentPhase}`);
+    // console.log(`${activePlayer.name} choosing move cards`);
+    const delayComputerMakeMove = setTimeout(() => {
       //    - Get valid card choices
       //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
       const card = chooseMoveCard(
@@ -381,7 +389,7 @@ const GameScreen = () => {
         activePlayer
       );
 
-      console.log(`${activePlayer.name} chose move card ${card.name}`);
+      // console.log(`${activePlayer.name} chose move card ${card.name}`);
 
       //    - Add card to move cards
       if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
@@ -397,6 +405,8 @@ const GameScreen = () => {
         }
       }
     }, decisionTime);
+
+    addTimeoutToStorage(delayComputerMakeMove);
   };
 
   // Execute computer action
@@ -404,14 +414,14 @@ const GameScreen = () => {
     // If active player is computer and should perform action
     if (activePlayer.isComputer && computerPerformAction) {
       // Random decision time for computer (in miliseconds)
-      const decisionTime = 1000 + Math.random() * 1000;
+      const decisionTime = 1000 + Math.random() * 2000;
 
-      console.log("|=|=|=|=|=|=|=|=|=|=|=|");
-      console.log(`Decision time: ${decisionTime}`);
-      console.log(`Move in process: ${moveInProcess}`);
-      console.log(
-        `Active player: ${activePlayer.name}, pc perform action: ${computerPerformAction}`
-      );
+      // console.log("|=|=|=|=|=|=|=|=|=|=|=|");
+      // console.log(`Decision time: ${decisionTime}`);
+      // console.log(`Move in process: ${moveInProcess}`);
+      // console.log(
+      //   `Active player: ${activePlayer.name}, pc perform action: ${computerPerformAction}`
+      // );
 
       // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
       if (choosingBigPhase) {

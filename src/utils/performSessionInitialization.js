@@ -2,8 +2,12 @@ import Player from "../models/Player";
 import { addPlayer } from "../store/Players/Players.action";
 import { setShouldInitializeRound } from "../store/Round/Round.actions";
 import { setPlayerNames } from "../store/Session/Session.action";
+import { clearAllTimeouts } from "./timeoutsOperations";
 
 const performSessionInitialization = (dispatch, playerNames) => {
+  // Clear previous timeouts
+  clearAllTimeouts();
+
   // Initialize players
   const player1 = new Player();
   const player2 = new Player();
