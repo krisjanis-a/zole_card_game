@@ -17,30 +17,16 @@ import GameResult from "../GameResult/GameResult";
 
 // Actions
 import { setActivePlayer } from "../../store/ActivePlayer/ActivePlayer.action";
-import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
 import { addCollectiveDue } from "../../store/DuesCollective/DuesCollective.action";
+import { setMoveInProcess } from "../../store/Move/Move.action";
 import {
-  nextMoveTurn,
-  setAskingCard,
-  setMoveInProcess,
-} from "../../store/Move/Move.action";
-import { addMoveCard } from "../../store/MoveCards/MoveCards.action";
-import {
-  addTableToPlayerHand,
-  removeCardFromHand,
-  setBig,
-} from "../../store/Players/Players.action";
-import {
-  nextSeat,
   setAllPlayersPassed,
-  setChooseBigTurn,
   setComputerPerformAction,
   setCurrentSeatToStartingSeat,
   setRoundFinished,
   setRoundRunning,
 } from "../../store/Round/Round.actions";
 import {
-  setBuryingPhase,
   setChoosingBigPhase,
   setMakingMovesPhase,
   setResultsPhase,
@@ -53,14 +39,10 @@ import {
   addRoundPlayed,
   nextStartingSeat,
 } from "../../store/Session/Session.action";
-import { clearTable } from "../../store/TableCards/Table.action";
 
 // Util functions
 import getRoundResult from "../../utils/getRoundResults";
 import getPlayerScores from "../../utils/getPlayerScores";
-import chooseMoveCard from "../../utils/chooseMoveCard";
-import decideCardsToBury from "../../utils/decideCardsToBury";
-import decideBecomeBig from "../../utils/decideBecomeBig";
 import setupNextRound from "../../utils/setupNextRound";
 import resetRound from "../../utils/resetRoundGS";
 import setupNextMove from "../../utils/setupNextMove";
@@ -244,11 +226,11 @@ const GameScreen = () => {
       dispatch(setMoveInProcess(false));
       const winningCard = getWinningCard(moveCards);
 
-      console.log("/|\\/|\\/|\\/|\\/|\\/|\\/|\\");
-      console.log("Finalizing move");
-      console.log(
-        `Winner: ${winningCard.owner.name}, winning card: ${winningCard.card.name}`
-      );
+      // console.log("/|\\/|\\/|\\/|\\/|\\/|\\/|\\");
+      // console.log("Finalizing move");
+      // console.log(
+      //   `Winner: ${winningCard.owner.name}, winning card: ${winningCard.card.name}`
+      // );
 
       if (smallZoleMode && playSmallZole && winningCard.owner.big) {
         dispatch(setMakingMovesPhase(false));
@@ -339,11 +321,13 @@ const GameScreen = () => {
         );
       }
       // ---
+
       // If pick table, decide which cards to bury.
       if (buryingCardsPhase) {
         computerBuryCards(dispatch, decisionTime, activePlayer);
       }
       // ---
+
       // If make moves phase =>
       if (makingMovesPhase && moveInProcess) {
         computerMakeMove(
