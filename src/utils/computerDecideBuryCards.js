@@ -5,11 +5,6 @@ import { addTimeoutToStorage } from "./timeoutsOperations";
 
 // Computer bury cards
 const computerBuryCards = (dispatch, decisionTime, activePlayer) => {
-  // console.log(`Current phase ${currentPhase}`);
-  // if (activePlayer.big) {
-  //   console.log(`${activePlayer.name} choosing cards to bury`);
-  // }
-
   const delayComputerDecideBuryCards = setTimeout(() => {
     if (activePlayer.big) {
       const buryCards = decideCardsToBury(activePlayer.hand);
