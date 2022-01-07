@@ -55,6 +55,7 @@ import computerBuryCards from "../../utils/computerDecideBuryCards";
 import computerMakeMove from "../../utils/computerMakeMove";
 import selectActivePlayer from "../../utils/selectActivePlayer";
 import finalizeMove from "../../utils/finalizeMove";
+import finalizeChoosingBig from "../../utils/finalizeChoosingBig";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -187,31 +188,15 @@ const GameScreen = () => {
 
   // Check if all players passed in choosing big
   useEffect(() => {
-    if (choosingBigPhase) {
-      if (chooseBigTurn > 3) {
-        dispatch(setAllPlayersPassed(true));
-
-        const delayFinalizeChoosingBig = setTimeout(() => {
-          dispatch(setChoosingBigPhase(false));
-
-          if (normalMode) {
-            dispatch(setRoundFinished(true));
-            dispatch(addCollectiveDue());
-            dispatch(updateScoreboard("Collective Due"));
-            dispatch(addRoundPlayed());
-            dispatch(nextStartingSeat());
-            resetRound(dispatch, players, startingSeat);
-          }
-
-          if (tableMode) {
-            dispatch(setCurrentSeatToStartingSeat(startingSeat));
-            dispatch(setMakingMovesPhase(true));
-            dispatch(setPlayTable(true));
-          }
-        }, 1500);
-        addTimeoutToStorage(delayFinalizeChoosingBig);
-      }
-    }
+    finalizeChoosingBig(
+      dispatch,
+      choosingBigPhase,
+      chooseBigTurn,
+      normalMode,
+      players,
+      startingSeat,
+      tableMode
+    );
   }, [chooseBigTurn]);
 
   // Finalize move
