@@ -321,74 +321,12 @@ const GameScreen = () => {
     }
   }, [activePlayer]);
 
-  // // Computer bury cards
-  // const computerBuryCards = (decisionTime) => {
-  //   // console.log(`Current phase ${currentPhase}`);
-  //   // if (activePlayer.big) {
-  //   //   console.log(`${activePlayer.name} choosing cards to bury`);
-  //   // }
-
-  //   const delayComputerDecideBuryCards = setTimeout(() => {
-  //     if (activePlayer.big) {
-  //       const buryCards = decideCardsToBury(activePlayer.hand);
-
-  //       buryCards.forEach((card) => {
-  //         dispatch(addCardToBigStack(card));
-  //         dispatch(removeCardFromHand(activePlayer.name, card.id));
-  //       });
-  //     }
-  //   }, decisionTime);
-
-  //   addTimeoutToStorage(delayComputerDecideBuryCards);
-  // };
-
-  // // Computer make move
-  // const computerMakeMove = (decisionTime) => {
-  //   // console.log(`Current phase ${currentPhase}`);
-  //   // console.log(`${activePlayer.name} choosing move cards`);
-  //   const delayComputerMakeMove = setTimeout(() => {
-  //     //    - Get valid card choices
-  //     //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
-  //     const card = chooseMoveCard(
-  //       activePlayer.hand,
-  //       askingCard,
-  //       moveCards,
-  //       activePlayer
-  //     );
-
-  //     // console.log(`${activePlayer.name} chose move card ${card.name}`);
-
-  //     //    - Add card to move cards
-  //     if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
-  //       if (moveTurn === 1) {
-  //         dispatch(setAskingCard(card));
-  //       }
-  //       dispatch(addMoveCard(card, activePlayer));
-  //       dispatch(removeCardFromHand(activePlayer.name, card.id));
-
-  //       if (moveTurn < 3) {
-  //         dispatch(nextSeat());
-  //         dispatch(nextMoveTurn());
-  //       }
-  //     }
-  //   }, decisionTime);
-
-  //   addTimeoutToStorage(delayComputerMakeMove);
-  // };
-
   // Execute computer action
   useEffect(() => {
     // If active player is computer and should perform action
     if (activePlayer.isComputer && computerPerformAction) {
       // Random decision time for computer (in miliseconds)
       const decisionTime = 1000 + Math.random() * 2000;
-
-      // console.log("|=|=|=|=|=|=|=|=|=|=|=|");
-      // console.log(`Decision time: ${decisionTime}`);
-      // console.log(`Move in process: ${moveInProcess}`);
-      // console.log(
-      //   `Active player: ${activePlayer.name}, pc perform action: ${computerPerformAction}`
-      // );
 
       // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
       if (choosingBigPhase) {
