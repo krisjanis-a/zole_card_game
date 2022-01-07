@@ -69,6 +69,8 @@ import performSessionInitialization from "../../utils/performSessionInitializati
 import getWinningCard from "../../utils/getWinningCard";
 import { addTimeoutToStorage } from "../../utils/timeoutsOperations";
 import computerChooseBig from "../../utils/computerChooseBig";
+import computerBuryCards from "../../utils/computerDecideBuryCards";
+import computerMakeMove from "../../utils/computerMakeMove";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -319,60 +321,60 @@ const GameScreen = () => {
     }
   }, [activePlayer]);
 
-  // Computer bury cards
-  const computerBuryCards = (decisionTime) => {
-    // console.log(`Current phase ${currentPhase}`);
-    // if (activePlayer.big) {
-    //   console.log(`${activePlayer.name} choosing cards to bury`);
-    // }
+  // // Computer bury cards
+  // const computerBuryCards = (decisionTime) => {
+  //   // console.log(`Current phase ${currentPhase}`);
+  //   // if (activePlayer.big) {
+  //   //   console.log(`${activePlayer.name} choosing cards to bury`);
+  //   // }
 
-    const delayComputerDecideBuryCards = setTimeout(() => {
-      if (activePlayer.big) {
-        const buryCards = decideCardsToBury(activePlayer.hand);
+  //   const delayComputerDecideBuryCards = setTimeout(() => {
+  //     if (activePlayer.big) {
+  //       const buryCards = decideCardsToBury(activePlayer.hand);
 
-        buryCards.forEach((card) => {
-          dispatch(addCardToBigStack(card));
-          dispatch(removeCardFromHand(activePlayer.name, card.id));
-        });
-      }
-    }, decisionTime);
+  //       buryCards.forEach((card) => {
+  //         dispatch(addCardToBigStack(card));
+  //         dispatch(removeCardFromHand(activePlayer.name, card.id));
+  //       });
+  //     }
+  //   }, decisionTime);
 
-    addTimeoutToStorage(delayComputerDecideBuryCards);
-  };
+  //   addTimeoutToStorage(delayComputerDecideBuryCards);
+  // };
 
-  // Computer make move
-  const computerMakeMove = (decisionTime) => {
-    // console.log(`Current phase ${currentPhase}`);
-    // console.log(`${activePlayer.name} choosing move cards`);
-    const delayComputerMakeMove = setTimeout(() => {
-      //    - Get valid card choices
-      //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
-      const card = chooseMoveCard(
-        activePlayer.hand,
-        askingCard,
-        moveCards,
-        activePlayer
-      );
+  // // Computer make move
+  // const computerMakeMove = (decisionTime) => {
+  //   // console.log(`Current phase ${currentPhase}`);
+  //   // console.log(`${activePlayer.name} choosing move cards`);
+  //   const delayComputerMakeMove = setTimeout(() => {
+  //     //    - Get valid card choices
+  //     //    - Evaluate which card to use in the move (if multiple options => choose randomly for now)
+  //     const card = chooseMoveCard(
+  //       activePlayer.hand,
+  //       askingCard,
+  //       moveCards,
+  //       activePlayer
+  //     );
 
-      // console.log(`${activePlayer.name} chose move card ${card.name}`);
+  //     // console.log(`${activePlayer.name} chose move card ${card.name}`);
 
-      //    - Add card to move cards
-      if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
-        if (moveTurn === 1) {
-          dispatch(setAskingCard(card));
-        }
-        dispatch(addMoveCard(card, activePlayer));
-        dispatch(removeCardFromHand(activePlayer.name, card.id));
+  //     //    - Add card to move cards
+  //     if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
+  //       if (moveTurn === 1) {
+  //         dispatch(setAskingCard(card));
+  //       }
+  //       dispatch(addMoveCard(card, activePlayer));
+  //       dispatch(removeCardFromHand(activePlayer.name, card.id));
 
-        if (moveTurn < 3) {
-          dispatch(nextSeat());
-          dispatch(nextMoveTurn());
-        }
-      }
-    }, decisionTime);
+  //       if (moveTurn < 3) {
+  //         dispatch(nextSeat());
+  //         dispatch(nextMoveTurn());
+  //       }
+  //     }
+  //   }, decisionTime);
 
-    addTimeoutToStorage(delayComputerMakeMove);
-  };
+  //   addTimeoutToStorage(delayComputerMakeMove);
+  // };
 
   // Execute computer action
   useEffect(() => {
@@ -401,12 +403,19 @@ const GameScreen = () => {
       // ---
       // If pick table, decide which cards to bury.
       if (buryingCardsPhase) {
-        computerBuryCards(decisionTime);
+        computerBuryCards(dispatch, decisionTime, activePlayer);
       }
       // ---
       // If make moves phase =>
       if (makingMovesPhase && moveInProcess) {
-        computerMakeMove(decisionTime);
+        computerMakeMove(
+          dispatch,
+          decisionTime,
+          activePlayer,
+          askingCard,
+          moveCards,
+          moveTurn
+        );
       }
     }
   }, [
