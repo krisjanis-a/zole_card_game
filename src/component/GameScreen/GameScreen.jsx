@@ -226,12 +226,6 @@ const GameScreen = () => {
       dispatch(setMoveInProcess(false));
       const winningCard = getWinningCard(moveCards);
 
-      // console.log("/|\\/|\\/|\\/|\\/|\\/|\\/|\\");
-      // console.log("Finalizing move");
-      // console.log(
-      //   `Winner: ${winningCard.owner.name}, winning card: ${winningCard.card.name}`
-      // );
-
       if (smallZoleMode && playSmallZole && winningCard.owner.big) {
         dispatch(setMakingMovesPhase(false));
         dispatch(setResultsPhase(true));
