@@ -54,6 +54,7 @@ import computerChooseBig from "../../utils/computerChooseBig";
 import computerBuryCards from "../../utils/computerDecideBuryCards";
 import computerMakeMove from "../../utils/computerMakeMove";
 import selectActivePlayer from "../../utils/selectActivePlayer";
+import finalizeMove from "../../utils/finalizeMove";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -215,28 +216,16 @@ const GameScreen = () => {
 
   // Finalize move
   useEffect(() => {
-    if (moveTurn === 3 && moveCards.length === 3) {
-      dispatch(setMoveInProcess(false));
-      const winningCard = getWinningCard(moveCards);
-
-      if (smallZoleMode && playSmallZole && winningCard.owner.big) {
-        dispatch(setMakingMovesPhase(false));
-        dispatch(setResultsPhase(true));
-      }
-
-      const delaySetupNextMove = setTimeout(() => {
-        setupNextMove(
-          dispatch,
-          winningCard,
-          players,
-          playSmallZole,
-          moveCards,
-          playTable,
-          tableMode
-        );
-      }, 1500);
-      addTimeoutToStorage(delaySetupNextMove);
-    }
+    finalizeMove(
+      dispatch,
+      moveTurn,
+      moveCards,
+      smallZoleMode,
+      playSmallZole,
+      players,
+      playTable,
+      tableMode
+    );
   }, [moveTurn, moveCards.length]);
 
   //=======================================================================================
