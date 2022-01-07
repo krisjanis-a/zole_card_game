@@ -53,6 +53,7 @@ import { addTimeoutToStorage } from "../../utils/timeoutsOperations";
 import computerChooseBig from "../../utils/computerChooseBig";
 import computerBuryCards from "../../utils/computerDecideBuryCards";
 import computerMakeMove from "../../utils/computerMakeMove";
+import selectActivePlayer from "../../utils/selectActivePlayer";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -176,18 +177,10 @@ const GameScreen = () => {
 
   //! MANAGE MOVES & TURNS
 
-  // Active player (depending on current seat)
-  const selectActivePlayer = () => {
-    const player = Object.values(players).filter(
-      (player) => player.seatNumber === currentSeat
-    )[0];
-
-    dispatch(setActivePlayer(player));
-  };
-
+  // Select active player
   useEffect(() => {
     if (roundRunning) {
-      selectActivePlayer();
+      selectActivePlayer(dispatch, players, currentSeat);
     }
   }, [currentSeat, roundRunning]);
 
