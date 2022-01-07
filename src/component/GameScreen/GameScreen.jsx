@@ -68,6 +68,7 @@ import performRoundInitialization from "../../utils/performRoundInitialization";
 import performSessionInitialization from "../../utils/performSessionInitialization";
 import getWinningCard from "../../utils/getWinningCard";
 import { addTimeoutToStorage } from "../../utils/timeoutsOperations";
+import computerChooseBig from "../../utils/computerChooseBig";
 
 const GameScreen = () => {
   const dispatch = useDispatch();
@@ -318,42 +319,6 @@ const GameScreen = () => {
     }
   }, [activePlayer]);
 
-  // Computer choose big
-  const computerChooseBig = (decisionTime) => {
-    // console.log(`Current phase ${currentPhase}`);
-    // console.log(`Computer player ${activePlayer.name} choosing big`);
-
-    const delayComputerDecideBecomeBig = setTimeout(() => {
-      const becomeBig = decideBecomeBig(activePlayer.hand);
-      // console.log(
-      //   `${activePlayer.name} decided ${
-      //     becomeBig ? "to become big" : "to pass"
-      //   }`
-      // );
-
-      if (becomeBig) {
-        // Set big and add table to hand
-        dispatch(setBig(activePlayer.name, true));
-        dispatch(addTableToPlayerHand(activePlayer.name, table));
-        dispatch(clearTable());
-        dispatch(setChoosingBigPhase(false));
-        dispatch(setBuryingPhase(true));
-      }
-
-      if (!becomeBig) {
-        if (chooseBigTurn < 3) {
-          dispatch(nextSeat());
-          dispatch(setChooseBigTurn(chooseBigTurn + 1));
-        }
-        if (chooseBigTurn === 3) {
-          dispatch(setChooseBigTurn(chooseBigTurn + 1));
-        }
-      }
-    }, decisionTime);
-
-    addTimeoutToStorage(delayComputerDecideBecomeBig);
-  };
-
   // Computer bury cards
   const computerBuryCards = (decisionTime) => {
     // console.log(`Current phase ${currentPhase}`);
@@ -425,7 +390,13 @@ const GameScreen = () => {
 
       // If choose big phase => evaluate cards on hand and decide whether to pick table, play zole or small zole
       if (choosingBigPhase) {
-        computerChooseBig(decisionTime);
+        computerChooseBig(
+          dispatch,
+          decisionTime,
+          activePlayer,
+          chooseBigTurn,
+          table
+        );
       }
       // ---
       // If pick table, decide which cards to bury.

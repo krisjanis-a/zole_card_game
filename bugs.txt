@@ -4,20 +4,20 @@
 
 Problems related to making moves phase (the following bugs might be inter-related => fixing one might fix another e.g.)
 
-- after all players have placed the move cards, the current seat or move turn jumps to next seat and breaks the flow of game 
-    => (wrong player is set to make move card decision and this leads to other problems)
+    - after all players have placed the move cards, the current seat or move turn jumps to next seat and breaks the flow of game 
+        => (wrong player is set to make move card decision and this leads to other problems)
 
-- next move begins executing before previous is finalized
-    => probably related to action dispatching outside of NPC delay timeouts
+    - next move begins executing before previous is finalized
+        => probably related to action dispatching outside of NPC delay timeouts
 
-- if NPC player made last move and had winning card then it doesn't perform next move action & gets stuck
+    - if NPC player made last move and had winning card then it doesn't perform next move action & gets stuck
 
-- in some cases player is skipped and NPC adds two cards to move cards in one move, setAskingCard gets executed
-    => this happened when the player had to make a move, but game jumped to NPC making move instead
+    - in some cases player is skipped and NPC adds two cards to move cards in one move, setAskingCard gets executed
+        => this happened when the player had to make a move, but game jumped to NPC making move instead
 
-- after real player picks up trick
-    => setupNextMove executes, then active player is set and computerPerformAction is set to false, but afterwards immediately asking card is set
+    - after real player picks up trick
+        => setupNextMove executes, then active player is set and computerPerformAction is set to false, but afterwards immediately asking card is set
 
-- after real player picks up trick, the move finalization lags (move cards are not removed), computer players start playing next move 
+    - after real player picks up trick, the move finalization lags (move cards are not removed), computer players start playing next move 
 
 !!! The issues appear to be fixed => cause was card component updating move turn and current seat unconditionally !!!
