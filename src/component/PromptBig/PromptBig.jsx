@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./PromptBig.scss";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../Button/Button";
