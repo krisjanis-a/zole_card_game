@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./MoveCards.scss";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import Card from "../Card/Card";
 
 const MoveCards = () => {
