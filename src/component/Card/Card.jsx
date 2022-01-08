@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import cardIdToCard from "../../utils/cardIdToCard";
 import { addCardToBigStack } from "../../store/BigStack/BigStack.action";
-import { nextMoveTurn, setAskingCard } from "../../store/Move/Move.action";
-import { addMoveCard } from "../../store/MoveCards/MoveCards.action";
 import { removeCardFromHand } from "../../store/Players/Players.action";
-import { nextSeat } from "../../store/Round/Round.actions";
 import checkIfCardValid from "../../utils/checkIfCardValid";
 import "./Card.scss";
 import addCardToMoveCard from "../../utils/addCardToMoveCard";
@@ -13,13 +10,9 @@ import addCardToMoveCard from "../../utils/addCardToMoveCard";
 const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
   const dispatch = useDispatch();
   const moveCards = useSelector((state) => state.MoveCards);
-  const {
-    choosingBigPhase,
-    buryingCardsPhase,
-    makingMovesPhase,
-    resultsPhase,
-    currentPhase,
-  } = useSelector((state) => state.RoundPhase);
+  const { buryingCardsPhase, makingMovesPhase, currentPhase } = useSelector(
+    (state) => state.RoundPhase
+  );
 
   const { askingCard, moveTurn, moveInProcess } = useSelector(
     (state) => state.Move
