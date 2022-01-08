@@ -36,10 +36,6 @@ ________________________________________________
 	--> LeaderBoards & Database
 
 	--> Score keeping
-
-	--> 
-
-	...
 ________________________________________________
 
 -- Game Visuals / Graphics
@@ -51,8 +47,6 @@ ________________________________________________
 	--> Connecting logic with 3D models
 
 	--> Create visualizations & sync them together cohesively
-
-	...
 ________________________________________________
 
 -- Random questions / problems / ideas

@@ -1,0 +1,60 @@
+
+Data which game needs while running:
+
+    - player names
+    - player hands
+    - player scores
+    - current move cards
+    - which player is the big one
+
+    - which seat each player has taken
+
+___
+
+I don't know... maybe should add redux and state management since it will probably be needed in future
+
+Tas atvieglotu darbības komponentēs un loģikas savienošanu ar vizuālo/grafisko reprezentāciju
+
+Kad redux store ir gatavs tad jāizdomā kā realizēt game loop
+
+    - Viens variants ir glabāt spēles sesijas stāvokli redux, visu kas ārpus spēles ...?
+
+
+Data
+
+    - Data for game
+    - Data for whole session
+
+    - Player's private data / history somewhere in database
+
+____
+
+Actions
+
+- make move => take card from hand and add to move cards
+- add table to hand of big one
+- get winner of move
+- assign next move
+- computer make move
+- 
+
+//============================================================
+
+- To card component => add action-on-click property, which determines what happens to the card onClick
+
+        => card click action will be determined by 
+            1) knowing current seat => from that can get necessary info about player (read "Add owner property..." below)
+            2) game phase => allows to determine what happens when a card is clicked
+
+*Add owner property to each card => owner property lets you know if it is card owner's turn to make an action, if not => card cannot be clicked
+    => this in turn will make it easier to operate on card logics and visuals
+
+
+GAME PHASES
+
+    - session initialization
+    - game initialization
+    - choosing big phase
+    - burying cards phase
+    - making move phase
+    - show results phase

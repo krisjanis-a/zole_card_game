@@ -1,0 +1,48 @@
+//================================
+
+TODO for 8.01.22
+
+Things I could do: 
+
+    - implement AI
+        - refine current simple AI version
+        - using Monte Carlo method from science article
+
+    - create online version of game
+        - setup server
+        - setup database
+        - create rest API / GraphQL
+        - live playing: web sockets, IO
+
+    - create 3d using babylon.js or WebGL
+        - create all card models
+        - create scene model
+        - create objects like table, chairs, accessories, chips, money, coins etc.
+
+        - add objects in canvas / game world coordinates
+        - create animations
+        - connect react/redux with 3d engine
+
+    - upgrade UI quality
+        - create all necessary paths for UX
+        - create UI with all necessary buttons
+        - create color schemes
+        - mobile responsiveness
+
+    - upgrade UX quality
+        - global leaderboards
+        - games played
+        - game history
+        - in-game currency for online sessions
+        - tutorials
+        - instructions
+        - description
+
+        - game screen updates:
+            - loaders
+            - big / small badges
+            - seat number
+            - active player
+            - player name
+            - scoreboard
+            - stacks with badges / names
