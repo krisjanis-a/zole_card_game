@@ -8,6 +8,7 @@ import { removeCardFromHand } from "../../store/Players/Players.action";
 import { nextSeat } from "../../store/Round/Round.actions";
 import checkIfCardValid from "../../utils/checkIfCardValid";
 import "./Card.scss";
+import addCardToMoveCard from "../../utils/addCardToMoveCard";
 
 const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
   const dispatch = useDispatch();
@@ -85,23 +86,7 @@ const Card = ({ cardId, path, owner = "none", stackIndex = "" }) => {
     }
 
     if (makingMovesPhase && active) {
-      addCardToMoveCard();
-    }
-  };
-
-  //TODO This should be turned into a separate function because it is used in computer logic as well (DRY)
-  const addCardToMoveCard = () => {
-    if (moveCards.every((moveCard) => moveCard.id !== cardId)) {
-      if (moveTurn === 1) {
-        dispatch(setAskingCard(card));
-      }
-      dispatch(addMoveCard(card, owner));
-      dispatch(removeCardFromHand(owner.name, cardId));
-
-      if (moveTurn < 3) {
-        dispatch(nextSeat());
-        dispatch(nextMoveTurn());
-      }
+      addCardToMoveCard(dispatch, moveCards, moveTurn, card, owner);
     }
   };
 

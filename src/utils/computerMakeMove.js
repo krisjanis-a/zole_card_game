@@ -2,6 +2,7 @@ import { nextMoveTurn, setAskingCard } from "../store/Move/Move.action";
 import { addMoveCard } from "../store/MoveCards/MoveCards.action";
 import { removeCardFromHand } from "../store/Players/Players.action";
 import { nextSeat } from "../store/Round/Round.actions";
+import addCardToMoveCard from "./addCardToMoveCard";
 import chooseMoveCard from "./chooseMoveCard";
 import { addTimeoutToStorage } from "./timeoutsOperations";
 
@@ -25,18 +26,7 @@ const computerMakeMove = (
     );
 
     //    - Add card to move cards
-    if (moveCards.every((moveCard) => moveCard.id !== card.id)) {
-      if (moveTurn === 1) {
-        dispatch(setAskingCard(card));
-      }
-      dispatch(addMoveCard(card, activePlayer));
-      dispatch(removeCardFromHand(activePlayer.name, card.id));
-
-      if (moveTurn < 3) {
-        dispatch(nextSeat());
-        dispatch(nextMoveTurn());
-      }
-    }
+    addCardToMoveCard(dispatch, moveCards, moveTurn, card, activePlayer);
   }, decisionTime);
 
   addTimeoutToStorage(delayComputerMakeMove);
